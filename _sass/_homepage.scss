@@ -1,0 +1,23 @@
+.home {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.left-greeting {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-around;
+    width: 70%;
+    height: 100%;
+}
+
+.right-navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-around;
+    width: 30%;
+}
