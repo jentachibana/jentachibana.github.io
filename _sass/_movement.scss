@@ -1,0 +1,130 @@
+.movement {
+  color: #2d3a2d;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #e8f0e8;
+  font-family: "Karla", sans-serif;
+  padding: 2rem 3rem;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Libre Baskerville", serif;
+  }
+}
+
+.movement-back {
+  display: inline-block;
+  color: rgba(45, 58, 45, 0.4);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+
+  &:hover {
+    color: #2d3a2d;
+  }
+}
+
+.movement-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.movement-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.movement-toggle {
+  background: rgba(45, 58, 45, 0.08);
+  border: 1px solid rgba(45, 58, 45, 0.15);
+  border-radius: 2rem;
+  padding: 0.4rem 1.2rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #2d3a2d;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(45, 58, 45, 0.15);
+  }
+
+  &.active {
+    background: #2d3a2d;
+    color: #e8f0e8;
+    border-color: #2d3a2d;
+  }
+
+  &.sub {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.9rem;
+  }
+}
+
+.dance-subnav {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.movement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.movement-card {
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(45, 58, 45, 0.05);
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+
+  &.featured {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  &.filtered-out {
+    display: none;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+.movement-card.featured .movement-placeholder {
+  aspect-ratio: 1;
+  font-size: 1.2rem;
+}
+
+.movement-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(45, 58, 45, 0.04);
+  border: 1px dashed rgba(45, 58, 45, 0.15);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+  color: rgba(45, 58, 45, 0.5);
+}

@@ -1,0 +1,45 @@
+---
+layout: base
+---
+
+<div class="movement">
+  <a class="movement-back" href="/">back to sloppy popsicle</a>
+
+  <nav class="movement-nav">
+    <button class="movement-toggle active" data-activity="all">all</button>
+    <div class="movement-toggle-group">
+      <button class="movement-toggle" data-activity="dance">dance</button>
+      <div class="dance-subnav" hidden>
+        <button class="movement-toggle sub" data-activity="lindy-hop">lindy hop</button>
+        <button class="movement-toggle sub" data-activity="fusion">fusion</button>
+      </div>
+    </div>
+    <button class="movement-toggle" data-activity="acro-yoga">acro yoga</button>
+    <button class="movement-toggle" data-activity="rollerskating">rollerskating</button>
+    <button class="movement-toggle" data-activity="swimming">swimming</button>
+    <button class="movement-toggle" data-activity="gym">gym</button>
+    <button class="movement-toggle" data-activity="tennis">tennis</button>
+    <button class="movement-toggle" data-activity="hiking">hiking</button>
+  </nav>
+
+  <div class="movement-grid">
+    {% assign activities = "lindy-hop,fusion,acro-yoga,rollerskating,swimming,gym,tennis,hiking" | split: "," %}
+    {% assign labels = "lindy hop,fusion,acro yoga,rollerskating,swimming,gym,tennis,hiking" | split: "," %}
+    {% assign parents = "dance,dance,acro-yoga,rollerskating,swimming,gym,tennis,hiking" | split: "," %}
+
+    {% for activity in activities %}
+      {% assign idx = forloop.index0 %}
+      <div class="movement-card {% if idx == 0 or idx == 4 %}featured{% endif %}" data-activity="{{ activity }}" data-parent="{{ parents[idx] }}">
+        <div class="movement-placeholder">{{ labels[idx] }}</div>
+      </div>
+      <div class="movement-card" data-activity="{{ activity }}" data-parent="{{ parents[idx] }}">
+        <div class="movement-placeholder">{{ labels[idx] }}</div>
+      </div>
+      <div class="movement-card" data-activity="{{ activity }}" data-parent="{{ parents[idx] }}">
+        <div class="movement-placeholder">{{ labels[idx] }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script src="/assets/js/movement.js"></script>
