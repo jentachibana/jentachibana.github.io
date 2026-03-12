@@ -4,63 +4,99 @@ layout: base
 
 <div class="cooking">
   <div class="cooking-sidebar">
-    <h2 class="cooking-sidebar-title">recipes</h2>
-    <ul class="recipe-list">
-      {% for recipe in site.recipes %}
-      <li data-ingredients="{{ recipe.ingredients | join: ',' }}">
-        <a class="recipe-link" href="#" data-recipe="{{ recipe.slug }}">
-          {{ recipe.title | downcase }}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
+    <a class="cooking-back" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span class="cooking-back-text">sloppy popsicle</span>
+    </a>
 
-    <div class="ingredient-filter">
-      <h3 class="ingredient-filter-title">filter by ingredient</h3>
-      {% for group in site.data.ingredient_groups %}
-      <div class="ingredient-group">
-        <button class="ingredient-group-toggle" aria-expanded="false">
-          {{ group.name }}
-          <span class="ingredient-group-count" data-group="{{ group.name }}"></span>
-        </button>
-        <div class="ingredient-group-items" hidden>
-          {% for ing in group.ingredients %}
-          <button class="ingredient-tag" data-ingredient="{{ ing }}">{{ ing }}</button>
-          {% endfor %}
+    <div class="cooking-view-toggle">
+      <button class="view-toggle active" data-view="recipes">home cooking</button>
+      <button class="view-toggle" data-view="restaurants">out on the town</button>
+    </div>
+
+    <div class="cooking-view" data-view-panel="recipes">
+      <ul class="recipe-list">
+        {% for recipe in site.recipes %}
+        <li data-ingredients="{{ recipe.ingredients | join: ',' }}">
+          <a class="recipe-link" href="#" data-recipe="{{ recipe.slug }}">
+            {{ recipe.title | downcase }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="ingredient-filter">
+        <h3 class="ingredient-filter-title">filter by ingredient</h3>
+        {% for group in site.data.ingredient_groups %}
+        <div class="ingredient-group">
+          <button class="ingredient-group-toggle" aria-expanded="false">
+            {{ group.name }}
+            <span class="ingredient-group-count" data-group="{{ group.name }}"></span>
+          </button>
+          <div class="ingredient-group-items" hidden>
+            {% for ing in group.ingredients %}
+            <button class="ingredient-tag" data-ingredient="{{ ing }}">{{ ing }}</button>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="cooking-view" data-view-panel="restaurants" hidden>
+      <ul class="restaurant-list">
+        {% for restaurant in site.data.restaurants %}
+        <li>
+          <a class="restaurant-link" href="#" data-restaurant="{{ restaurant.name | slugify }}">
+            {{ restaurant.name | downcase }}
+          </a>
+          <span class="restaurant-cuisine">{{ restaurant.cuisine }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="cooking-main">
+    <div class="cooking-main-view" data-main-panel="recipes">
+      <div class="photo-grid">
+        {% for recipe in site.recipes %}
+        <div class="photo-card" data-recipe="{{ recipe.slug }}" data-ingredients="{{ recipe.ingredients | join: ',' }}">
+          {% if recipe.image != "" %}
+          <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+          {% else %}
+          <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
+          {% endif %}
+          <span class="photo-label">{{ recipe.title | downcase }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      {% for recipe in site.recipes %}
+      <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
+        <button class="recipe-close" aria-label="Close">&times;</button>
+        <h2>{{ recipe.title | downcase }}</h2>
+        {% if recipe.image != "" %}
+        <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+        {% endif %}
+        <div class="recipe-content">
+          {{ recipe.content | markdownify }}
         </div>
       </div>
       {% endfor %}
     </div>
 
-    <a class="cooking-back" href="/">back to sloppy popsicle</a>
-  </div>
-
-  <div class="cooking-main">
-    <div class="photo-grid">
-      {% for recipe in site.recipes %}
-      <div class="photo-card" data-recipe="{{ recipe.slug }}" data-ingredients="{{ recipe.ingredients | join: ',' }}">
-        {% if recipe.image != "" %}
-        <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-        {% else %}
-        <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
-        {% endif %}
-        <span class="photo-label">{{ recipe.title | downcase }}</span>
-      </div>
-      {% endfor %}
-    </div>
-
-    {% for recipe in site.recipes %}
-    <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
-      <button class="recipe-close" aria-label="Close">&times;</button>
-      <h2>{{ recipe.title | downcase }}</h2>
-      {% if recipe.image != "" %}
-      <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-      {% endif %}
-      <div class="recipe-content">
-        {{ recipe.content | markdownify }}
+    <div class="cooking-main-view" data-main-panel="restaurants" hidden>
+      <div class="restaurant-grid">
+        {% for restaurant in site.data.restaurants %}
+        <div class="restaurant-card">
+          <div class="photo-placeholder">{{ restaurant.name | downcase }}</div>
+          <span class="photo-label">{{ restaurant.cuisine }}</span>
+        </div>
+        {% endfor %}
       </div>
     </div>
-    {% endfor %}
   </div>
 </div>
 

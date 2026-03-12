@@ -1,0 +1,17 @@
+- name: Placeholder Ramen
+  cuisine: japanese
+
+- name: Placeholder Taqueria
+  cuisine: mexican
+
+- name: Placeholder Bistro
+  cuisine: french
+
+- name: Placeholder Dim Sum
+  cuisine: chinese
+
+- name: Placeholder Pizzeria
+  cuisine: italian
+
+- name: Placeholder Pho
+  cuisine: vietnamese

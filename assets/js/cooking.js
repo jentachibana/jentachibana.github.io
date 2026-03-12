@@ -4,6 +4,22 @@ document.addEventListener("DOMContentLoaded", function () {
   var cards = document.querySelectorAll(".photo-card");
   var links = document.querySelectorAll(".recipe-link");
 
+  // View toggle (recipes / out on the town)
+  var viewToggles = document.querySelectorAll(".view-toggle");
+  var viewPanels = document.querySelectorAll(".cooking-view");
+  var mainPanels = document.querySelectorAll(".cooking-main-view");
+
+  viewToggles.forEach(function (toggle) {
+    toggle.addEventListener("click", function () {
+      var view = this.dataset.view;
+      viewToggles.forEach(function (t) { t.classList.remove("active"); });
+      this.classList.add("active");
+      viewPanels.forEach(function (p) { p.hidden = p.dataset.viewPanel !== view; });
+      mainPanels.forEach(function (p) { p.hidden = p.dataset.mainPanel !== view; });
+      if (view === "recipes") { showGrid(); }
+    });
+  });
+
   function showRecipe(slug) {
     grid.hidden = true;
     details.forEach(function (d) {
