@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VAULT_PATH="${1:-$HOME/Sync/Recipes}"
+SITE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+RECIPES_DIR="$SITE_DIR/_recipes"
+IMAGES_DIR="$SITE_DIR/assets/images/recipes"
+
+mkdir -p "$RECIPES_DIR" "$IMAGES_DIR"
+
+# Clean old synced recipes
+rm -f "$RECIPES_DIR"/*.md
+
+for file in "$VAULT_PATH/recipes/"*.md; do
+  [ -f "$file" ] || continue
+
+  filename="$(basename "$file" .md)"
+  slug="$filename"
+
+  # Extract title from first H1, fall back to filename
+  title="$(grep -m1 '^# ' "$file" | sed 's/^# //' || true)"
+  if [ -z "$title" ]; then
+    title="$filename"
+  fi
+
+  # Extract image filename from markdown or Obsidian embed syntax
+  # Standard: ![alt](../assets/image.jpg)
+  # Obsidian: ![[image.jpg|size]]
+  image="$(sed -n 's/.*!\[.*\](\.\.\/assets\/\(.*\))/\1/p' "$file" | head -1)"
+  if [ -z "$image" ]; then
+    image="$(sed -n 's/.*!\[\[\(.*\)\]\]/\1/p' "$file" | sed 's/|.*//' | head -1)"
+  fi
+
+  # Copy image if it exists
+  if [ -n "$image" ] && [ -f "$VAULT_PATH/assets/$image" ]; then
+    cp "$VAULT_PATH/assets/$image" "$IMAGES_DIR/$image"
+  fi
+
+  # Extract ingredients (lines between ## Ingredients and next ##)
+  ingredients="$(awk '/^## Ingredients/{flag=1; next} /^## /{flag=0} flag' "$file")"
+
+  # Extract instructions (lines after ## Instructions)
+  instructions="$(awk '/^## Instructions/{flag=1; next} flag' "$file")"
+
+  cat > "$RECIPES_DIR/$slug.md" <<FRONTMATTER
+---
+title: "$title"
+slug: "$slug"
+image: "$image"
+---
+
+## Ingredients
+
+$ingredients
+
+## Instructions
+
+$instructions
+FRONTMATTER
+
+  echo "Synced: $title"
+done
+
+echo "Done. $(ls "$RECIPES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ') recipes synced."

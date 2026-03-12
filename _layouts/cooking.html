@@ -1,0 +1,67 @@
+---
+layout: base
+---
+
+<div class="cooking">
+  <div class="cooking-sidebar">
+    <h2 class="cooking-sidebar-title">recipes</h2>
+    <ul class="recipe-list">
+      {% for recipe in site.recipes %}
+      <li data-ingredients="{{ recipe.ingredients | join: ',' }}">
+        <a class="recipe-link" href="#" data-recipe="{{ recipe.slug }}">
+          {{ recipe.title | downcase }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="ingredient-filter">
+      <h3 class="ingredient-filter-title">filter by ingredient</h3>
+      {% for group in site.data.ingredient_groups %}
+      <div class="ingredient-group">
+        <button class="ingredient-group-toggle" aria-expanded="false">
+          {{ group.name }}
+          <span class="ingredient-group-count" data-group="{{ group.name }}"></span>
+        </button>
+        <div class="ingredient-group-items" hidden>
+          {% for ing in group.ingredients %}
+          <button class="ingredient-tag" data-ingredient="{{ ing }}">{{ ing }}</button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <a class="cooking-back" href="/">back to sloppy popsicle</a>
+  </div>
+
+  <div class="cooking-main">
+    <div class="photo-grid">
+      {% for recipe in site.recipes %}
+      <div class="photo-card" data-recipe="{{ recipe.slug }}" data-ingredients="{{ recipe.ingredients | join: ',' }}">
+        {% if recipe.image != "" %}
+        <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+        {% else %}
+        <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
+        {% endif %}
+        <span class="photo-label">{{ recipe.title | downcase }}</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% for recipe in site.recipes %}
+    <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
+      <button class="recipe-close" aria-label="Close">&times;</button>
+      <h2>{{ recipe.title | downcase }}</h2>
+      {% if recipe.image != "" %}
+      <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+      {% endif %}
+      <div class="recipe-content">
+        {{ recipe.content | markdownify }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script src="/assets/js/cooking.js"></script>

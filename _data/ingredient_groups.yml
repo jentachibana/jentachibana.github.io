@@ -1,0 +1,71 @@
+- name: proteins
+  ingredients:
+    - chicken thigh
+    - shrimp
+    - ground pork
+    - beef
+    - salmon
+    - silken tofu
+    - egg
+
+- name: noodles & grains
+  ingredients:
+    - rigatoni
+    - rice noodles
+    - lo mein noodles
+    - short grain rice
+    - jasmine rice
+    - gyoza wrappers
+
+- name: vegetables
+  ingredients:
+    - cabbage
+    - spinach
+    - carrot
+    - zucchini
+    - bell pepper
+    - bamboo shoots
+    - bean sprouts
+    - cucumber
+    - green onion
+
+- name: herbs
+  ingredients:
+    - garlic
+    - ginger
+    - basil
+    - thai basil
+    - cilantro
+
+- name: dairy
+  ingredients:
+    - ricotta
+    - parmesan
+    - coconut milk
+
+- name: sauces & oils
+  ingredients:
+    - fish sauce
+    - soy sauce
+    - olive oil
+    - sesame oil
+    - rice vinegar
+    - miso paste
+    - mirin
+    - doubanjiang
+    - gochujang
+    - green curry paste
+    - tamarind paste
+    - peanut butter
+    - sriracha
+
+- name: citrus
+  ingredients:
+    - lemon
+    - lime
+
+- name: pantry
+  ingredients:
+    - peanuts
+    - red pepper flakes
+    - sichuan peppercorn

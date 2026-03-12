@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v fswatch &>/dev/null; then
+  echo "[watch-recipes] fswatch not found. Install with: brew install fswatch" >&2
+  exit 1
+fi
+
+VAULT_PATH="${1:-$HOME/Sync/Recipes}"
+SYNC_SCRIPT="$(dirname "$0")/sync-recipes"
+
+echo "[watch-recipes] Watching $VAULT_PATH for changes..."
+
+fswatch -o --latency 2 "$VAULT_PATH" | while read -r _; do
+  echo "[watch-recipes] Change detected, syncing..."
+  "$SYNC_SCRIPT" "$VAULT_PATH"
+done

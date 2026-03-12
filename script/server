@@ -1,3 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -euo pipefail
 
-bundle exec jekyll serve
+DIR="$(dirname "$0")"
+
+"$DIR/sync-recipes"
+
+if command -v fswatch &>/dev/null; then
+  "$DIR/watch-recipes" &
+  WATCHER_PID=$!
+  trap 'kill "$WATCHER_PID" 2>/dev/null' EXIT
+else
+  echo "[server] fswatch not found — recipe auto-sync disabled (brew install fswatch)"
+fi
+
+bundle exec jekyll serve --livereload
