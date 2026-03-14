@@ -1,17 +1,21 @@
-- name: Placeholder Ramen
+- name: South Side Station
+  cuisine: american
+  location: Berkeley, CA
+  address: 2504 Shattuck Ave, Berkeley, CA
+  description: placeholder — what we ordered
+  website: https://www.eatsouthsidestation.com/
+
+- name: Kiraku
   cuisine: japanese
+  location: Berkeley, CA
+  address: 2566B Telegraph Ave, Berkeley, CA 94704
+  description: placeholder — what we ordered
+  website: https://kirakuberkeley.com/
 
-- name: Placeholder Taqueria
-  cuisine: mexican
-
-- name: Placeholder Bistro
-  cuisine: french
-
-- name: Placeholder Dim Sum
-  cuisine: chinese
-
-- name: Placeholder Pizzeria
-  cuisine: italian
-
-- name: Placeholder Pho
-  cuisine: vietnamese
+- name: Liholiho Yacht Club
+  cuisine: hawaiian
+  location: San Francisco, CA
+  address: 871 Sutter St, San Francisco, CA 94109
+  description: placeholder — what we ordered
+  website: https://lycsf.com/
+  menu: https://lycsf.com/pages/menu

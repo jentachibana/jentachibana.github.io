@@ -63,6 +63,10 @@
   display: none;
 }
 
+.cooking-main-view {
+  width: 100%;
+}
+
 .cooking-main-view[hidden] {
   display: none;
 }
@@ -92,23 +96,6 @@
   color: rgba(0, 0, 0, 0.4);
 }
 
-.restaurant-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  width: 100%;
-}
-
-.restaurant-card {
-  border-radius: 8px;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.05);
-  transition: transform 0.15s ease;
-
-  &:hover {
-    transform: scale(1.03);
-  }
-}
 
 .recipe-list {
   list-style: none;
@@ -221,8 +208,134 @@
 }
 
 .recipe-list li.filtered-out,
-.photo-card.filtered-out {
+.photo-card.filtered-out,
+.restaurant-list li.filtered-out,
+.restaurant-card.filtered-out {
   display: none;
+}
+
+.cuisine-filter {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.cuisine-filter-title {
+  font-size: 0.85rem;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.cuisine-filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  justify-content: center;
+}
+
+.cuisine-tag {
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &.active {
+    background: #333;
+    color: #f5f0e8;
+    border-color: #333;
+  }
+}
+
+.restaurant-location {
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.4);
+  padding-top: 0;
+}
+
+.restaurant-detail {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.restaurant-detail-cuisine {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.restaurant-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.restaurant-description {
+  margin-bottom: 1rem;
+
+  p {
+    margin: 0;
+  }
+}
+
+.restaurant-links {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  a {
+    color: #333;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.restaurant-map {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+
+  iframe {
+    display: block;
+    width: 100%;
+  }
+}
+
+.restaurant-link {
+  &.active {
+    font-weight: bold;
+    text-decoration: underline;
+  }
 }
 
 .cooking-back {
