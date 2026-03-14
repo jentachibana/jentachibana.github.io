@@ -3,17 +3,19 @@ layout: base
 ---
 
 <div class="cooking">
-  <div class="cooking-sidebar">
+  <div class="cooking-header">
     <a class="cooking-back" href="/">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      <span class="cooking-back-text">sloppy popsicle</span>
     </a>
 
     <div class="cooking-view-toggle">
       <button class="view-toggle active" data-view="recipes">home cooking</button>
       <button class="view-toggle" data-view="restaurants">out on the town</button>
     </div>
+  </div>
 
+  <div class="cooking-content">
+  <div class="cooking-sidebar">
     <div class="cooking-view" data-view-panel="recipes">
       <ul class="recipe-list">
         {% for recipe in site.recipes %}
@@ -101,7 +103,11 @@ layout: base
       <div class="photo-grid restaurant-grid">
         {% for restaurant in site.data.restaurants %}
         <div class="photo-card restaurant-card" data-cuisine="{{ restaurant.cuisine }}" data-restaurant="{{ restaurant.name | slugify }}">
+          {% if restaurant.image %}
+          <img src="/assets/images/restaurants/{{ restaurant.image }}" alt="{{ restaurant.name }}">
+          {% else %}
           <div class="photo-placeholder">{{ restaurant.name | downcase }}</div>
+          {% endif %}
           <span class="photo-label">{{ restaurant.cuisine }}</span>
           <span class="photo-label restaurant-location">{{ restaurant.location }}</span>
         </div>
@@ -112,15 +118,17 @@ layout: base
       <div class="restaurant-detail" id="restaurant-{{ restaurant.name | slugify }}" hidden>
         <button class="restaurant-close" aria-label="Close">&times;</button>
         <h2>{{ restaurant.name | downcase }}</h2>
-        <p class="restaurant-detail-cuisine">{{ restaurant.cuisine }} &middot; {{ restaurant.location }}</p>
-        <div class="restaurant-description">
-          <p>{{ restaurant.description }}</p>
-        </div>
         <div class="restaurant-links">
           <a href="{{ restaurant.website }}" target="_blank" rel="noopener">website</a>
           {% if restaurant.menu %}
           <a href="{{ restaurant.menu }}" target="_blank" rel="noopener">menu</a>
           {% endif %}
+          {% if restaurant.price %}
+          <span class="restaurant-price">{{ restaurant.price }}</span>
+          {% endif %}
+        </div>
+        <div class="restaurant-description">
+          <p>{{ restaurant.description }}</p>
         </div>
         <div class="restaurant-map">
           <iframe
@@ -136,6 +144,7 @@ layout: base
       </div>
       {% endfor %}
     </div>
+  </div>
   </div>
 </div>
 

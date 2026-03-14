@@ -5,6 +5,7 @@ body {
     height: 100vh;
 }
 
+
 .home {
     color: white;
     display: flex;
@@ -16,6 +17,7 @@ body {
     height: 100%;
     background: rgb(41,77,74) url('/assets/images/hero-bg.jpg') center/cover no-repeat;
     font-family: 'DM Sans', sans-serif;
+
 }
 
 .left-greeting {
@@ -28,10 +30,14 @@ body {
 .site-title {
     font-size: 3em;
     margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
 }
 
 .site-description {
     margin: 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
 }
 
 .right-navbar {
@@ -39,7 +45,7 @@ body {
     flex-direction: row;
     gap: 32px;
     position: absolute;
-    bottom: 48px;
+    top: 48px;
 }
 
 .navlink {
@@ -48,6 +54,7 @@ body {
     text-decoration: none;
     font-size: 1.1em;
     opacity: 0.8;
+    font-family: 'Cormorant Garamond', serif;
 }
 
 .navlink:hover {

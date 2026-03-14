@@ -34,19 +34,15 @@
   }
 }
 
-.home-videos-back-text {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: max-width 0.3s ease, margin 0.3s ease;
-  margin-left: 0;
-  font-size: 0.8rem;
-
-  .home-videos-back:hover & {
-    max-width: 160px;
-    margin-left: 6px;
-  }
+.home-videos-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.8rem;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
 }
+
 
 
 .video-grid {
@@ -87,5 +83,6 @@
   font-size: 0.85rem;
   padding: 0.6rem 0;
   letter-spacing: 0.05em;
-  font-family: "Karla", sans-serif;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
 }

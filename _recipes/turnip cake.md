@@ -2,7 +2,6 @@
 title: "turnip cake"
 slug: "turnip cake"
 image: "turnip cake.jpeg"
-ingredients: []
 ---
 
 ## Ingredients

@@ -1,6 +1,7 @@
 .cooking {
   color: #333;
   display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 100vh;
   background-color: #f5f0e8;
@@ -11,15 +12,28 @@
   }
 }
 
+.cooking-header {
+  display: flex;
+  align-items: center;
+  padding: 2rem 3rem 1rem;
+  flex-shrink: 0;
+}
+
+.cooking-content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
 .cooking-sidebar {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   width: 30%;
-  height: 100vh;
-  padding: 30px;
-  padding-top: 2rem;
+  height: calc(100vh - 5rem);
+  padding: 0 30px 30px;
   flex-shrink: 0;
   overflow-y: auto;
   position: sticky;
@@ -29,7 +43,8 @@
 .cooking-view-toggle {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  flex: 1;
+  justify-content: center;
 }
 
 .view-toggle {
@@ -266,17 +281,13 @@
   width: 100%;
   max-width: 600px;
   position: relative;
+  align-self: flex-start;
+  padding-top: 0;
 
   h2 {
     margin-top: 0;
+    margin-bottom: 0.25rem;
   }
-}
-
-.restaurant-detail-cuisine {
-  font-size: 0.85rem;
-  color: rgba(0, 0, 0, 0.5);
-  margin-top: -0.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .restaurant-close {
@@ -320,6 +331,11 @@
   }
 }
 
+.restaurant-price {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
 .restaurant-map {
   width: 100%;
   border-radius: 8px;
@@ -346,8 +362,7 @@
   text-decoration: none;
   font-size: 0.85rem;
   overflow: hidden;
-  align-self: flex-start;
-  margin-bottom: 1rem;
+  flex-shrink: 0;
 
   svg {
     width: 18px;
@@ -361,19 +376,6 @@
   }
 }
 
-.cooking-back-text {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: max-width 0.3s ease, margin 0.3s ease;
-  margin-left: 0;
-  font-size: 0.8rem;
-
-  .cooking-back:hover & {
-    max-width: 160px;
-    margin-left: 6px;
-  }
-}
 
 .cooking-main {
   flex: 1;
@@ -436,6 +438,8 @@
   width: 100%;
   max-width: 600px;
   position: relative;
+  align-self: flex-start;
+  padding-top: 0;
 
   h2 {
     margin-top: 0;

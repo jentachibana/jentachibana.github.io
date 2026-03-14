@@ -45,19 +45,6 @@
   }
 }
 
-.movement-back-text {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: max-width 0.3s ease, margin 0.3s ease;
-  margin-left: 0;
-  font-size: 0.8rem;
-
-  .movement-back:hover & {
-    max-width: 160px;
-    margin-left: 6px;
-  }
-}
 
 .movement-banner {
   display: flex;

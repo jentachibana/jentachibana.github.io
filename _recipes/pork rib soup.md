@@ -2,7 +2,6 @@
 title: "pork rib soup"
 slug: "pork rib soup"
 image: "pork rib soup.jpeg"
-ingredients: []
 ---
 
 ## Ingredients
