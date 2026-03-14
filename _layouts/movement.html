@@ -29,11 +29,12 @@ layout: base
     {% assign activities = "lindy-hop,fusion,acro-yoga,rollerskating,swimming,gym,tennis,hiking" | split: "," %}
     {% assign labels = "lindy hop,fusion,acro yoga,rollerskating,swimming,gym,tennis,hiking" | split: "," %}
     {% assign parents = "dance,dance,acro-yoga,rollerskating,swimming,gym,tennis,hiking" | split: "," %}
+    {% assign colors = "#7a9e7e,#b8a9c9,#e8c47a,#8bb8d0,#6ba5a5,#d4927a,#c4cc7a,#8fae6e" | split: "," %}
 
     {% for activity in activities %}
       {% assign idx = forloop.index0 %}
-      <div class="movement-card" data-activity="{{ activity }}" data-parent="{{ parents[idx] }}">
-        <div class="movement-placeholder">{{ labels[idx] }}</div>
+      <div class="movement-card" data-activity="{{ activity }}" data-parent="{{ parents[idx] }}" style="background: {{ colors[idx] }};">
+        <span class="movement-card-label">{{ labels[idx] }}</span>
       </div>
     {% endfor %}
   </div>
