@@ -2,6 +2,17 @@
 title: "Spicy Peanut Noodles"
 slug: "spicy-peanut-noodles"
 image: "spicy-peanut-noodles.jpg"
+ingredients:
+  - lo mein noodles
+  - peanut butter
+  - soy sauce
+  - sriracha
+  - rice vinegar
+  - sesame oil
+  - garlic
+  - cucumber
+  - peanuts
+  - cilantro
 ---
 
 ## Ingredients

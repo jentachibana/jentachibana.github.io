@@ -2,6 +2,15 @@
 title: "Miso Glazed Salmon"
 slug: "miso-glazed-salmon"
 image: "miso-glazed-salmon.jpg"
+ingredients:
+  - salmon
+  - miso paste
+  - mirin
+  - soy sauce
+  - rice vinegar
+  - sesame oil
+  - ginger
+  - green onion
 ---
 
 ## Ingredients

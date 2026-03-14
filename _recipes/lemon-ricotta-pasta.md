@@ -2,6 +2,14 @@
 title: "Lemon Ricotta Pasta"
 slug: "lemon-ricotta-pasta"
 image: "lemon-ricotta-pasta.jpg"
+ingredients:
+  - rigatoni
+  - ricotta
+  - parmesan
+  - garlic
+  - olive oil
+  - basil
+  - red pepper flakes
 ---
 
 ## Ingredients
