@@ -48,6 +48,7 @@
   }
 }
 
+
 .video-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -69,17 +70,22 @@
 
   iframe {
     position: absolute;
-    top: 0;
+    top: -25%;
     left: 0;
     width: 100%;
-    height: 100%;
-    border-radius: 8px;
+    height: 150%;
+    border: none;
+    pointer-events: none;
   }
+
 }
 
-.video-label {
+.video-title {
   display: block;
-  padding: 0.6rem 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5);
+  padding: 0.6rem 0;
+  letter-spacing: 0.05em;
+  font-family: "Karla", sans-serif;
 }

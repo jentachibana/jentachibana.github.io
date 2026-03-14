@@ -13,7 +13,7 @@ layout: base
     <div class="video-card">
       <div class="video-embed">
         <iframe
-          src="https://www.youtube-nocookie.com/embed/{{ video.youtube_id }}?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&loop=1&playlist={{ video.youtube_id }}"
+          src="https://www.youtube-nocookie.com/embed/{{ video.youtube_id }}?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&loop=1&playlist={{ video.youtube_id }}&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1&origin={{ site.url }}"
           title="{{ video.title }}"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -21,9 +21,46 @@ layout: base
         </iframe>
       </div>
       {% if video.title != "untitled" %}
-      <span class="video-label">{{ video.title }}</span>
+      <span class="video-title">{{ video.title }}</span>
       {% endif %}
     </div>
     {% endfor %}
   </div>
 </div>
+
+<script>
+var grid = document.querySelector('.video-grid');
+var cards = Array.from(grid.children);
+for (var i = cards.length - 1; i > 0; i--) {
+  var j = Math.floor(Math.random() * (i + 1));
+  grid.appendChild(cards[j]);
+  cards.splice(j, 1);
+}
+
+var tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+
+function onYouTubeIframeAPIReady() {
+  var iframes = document.querySelectorAll('.video-embed iframe');
+  iframes.forEach(function(iframe) {
+    new YT.Player(iframe, {
+      events: {
+        onReady: function(event) {
+          var duration = event.target.getDuration();
+          if (duration > 0) {
+            event.target.seekTo(Math.floor(Math.random() * duration), true);
+          }
+          event.target.playVideo();
+        },
+        onStateChange: function(event) {
+          if (event.data === YT.PlayerState.ENDED) {
+            event.target.seekTo(0, true);
+            event.target.playVideo();
+          }
+        }
+      }
+    });
+  });
+}
+</script>
