@@ -1,0 +1,85 @@
+.home-videos {
+  color: #2a2a2a;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: #000;
+  font-family: "Karla", sans-serif;
+  padding: 2rem 3rem;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Libre Baskerville", serif;
+  }
+}
+
+.home-videos-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  color: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  font-size: 0.85rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+  }
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.home-videos-back-text {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.3s ease, margin 0.3s ease;
+  margin-left: 0;
+  font-size: 0.8rem;
+
+  .home-videos-back:hover & {
+    max-width: 160px;
+    margin-left: 6px;
+  }
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+.video-card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+}
+
+.video-label {
+  display: block;
+  padding: 0.6rem 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}

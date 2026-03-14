@@ -1,0 +1,29 @@
+---
+layout: base
+---
+
+<div class="home-videos">
+  <a class="home-videos-back" href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span class="home-videos-back-text">sloppy popsicle</span>
+  </a>
+
+  <div class="video-grid">
+    {% for video in site.data.videos %}
+    <div class="video-card">
+      <div class="video-embed">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/{{ video.youtube_id }}?autoplay=1&mute=1&controls=0&modestbranding=1&showinfo=0&rel=0&loop=1&playlist={{ video.youtube_id }}"
+          title="{{ video.title }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      {% if video.title != "untitled" %}
+      <span class="video-label">{{ video.title }}</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
