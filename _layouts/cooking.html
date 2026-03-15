@@ -15,54 +15,112 @@ layout: base
   </div>
 
   <div class="cooking-content">
-  <div class="cooking-sidebar">
-    <div class="cooking-view" data-view-panel="recipes">
-      <ul class="recipe-list">
-        {% for recipe in site.recipes %}
-        <li data-ingredients="{{ recipe.ingredients | join: ',' }}">
-          <a class="recipe-link" href="#" data-recipe="{{ recipe.slug }}">
-            {{ recipe.title | downcase }}
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
 
-      <div class="ingredient-filter">
-        <h3 class="ingredient-filter-title">filter by ingredient</h3>
-        {% for group in site.data.ingredient_groups %}
-        <div class="ingredient-group">
-          <button class="ingredient-group-toggle" aria-expanded="false">
-            {{ group.name }}
-            <span class="ingredient-group-count" data-group="{{ group.name }}"></span>
-          </button>
-          <div class="ingredient-group-items" hidden>
-            {% for ing in group.ingredients %}
-            <button class="ingredient-tag" data-ingredient="{{ ing }}">{{ ing }}</button>
-            {% endfor %}
-          </div>
+  <!-- Browse nav bar (recipes view only) -->
+  <div class="cooking-browse-nav" data-view-panel="recipes">
+    <div class="cooking-browse-label">
+      <span class="browse-label-top">HOME COOKING:</span>
+      <span class="browse-label-bottom">all recipes!</span>
+    </div>
+    <div class="cooking-browse-nav-box">
+      <div class="cooking-dropdown">
+        <button class="cooking-nav-btn" data-dropdown="category">
+          BY CATEGORY
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="cooking-dropdown-menu" hidden>
+          {% assign categories = site.recipes | map: "collections" | compact %}
+          <a href="#">All Categories</a>
         </div>
-        {% endfor %}
+      </div>
+
+      <div class="cooking-dropdown">
+        <button class="cooking-nav-btn" data-dropdown="course">
+          BY COURSE
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="cooking-dropdown-menu" hidden>
+          <a href="#">Appetizer</a>
+          <a href="#">Main</a>
+          <a href="#">Dessert</a>
+        </div>
       </div>
     </div>
 
-    <div class="cooking-view" data-view-panel="restaurants" hidden>
-      <ul class="restaurant-list">
-        {% for restaurant in site.data.restaurants %}
-        <li data-cuisine="{{ restaurant.cuisine }}">
-          <a class="restaurant-link" href="#" data-restaurant="{{ restaurant.name | slugify }}">
-            {{ restaurant.name | downcase }}
-          </a>
-          <span class="restaurant-cuisine">{{ restaurant.cuisine }}</span>
-        </li>
-        {% endfor %}
-      </ul>
+  </div>
 
-      <div class="cuisine-filter">
-        <h3 class="cuisine-filter-title">filter by cuisine</h3>
-        <div class="cuisine-filter-tags">
+  <!-- Recipe gallery view -->
+  <div class="cooking-recipes-view" data-view-panel="recipes">
+    <div class="recipe-grid">
+      {% for recipe in site.recipes %}
+      <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}">
+        {% if recipe.image != "" %}
+        <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+        {% else %}
+        <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
+        {% endif %}
+        <span class="photo-label">{{ recipe.title | downcase }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Recipe detail views -->
+  <div class="cooking-recipe-details" data-view-panel="recipes">
+    {% for recipe in site.recipes %}
+    <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
+      <button class="recipe-close" aria-label="Close">&times;</button>
+      <h2>{{ recipe.title | downcase }}</h2>
+      {% if recipe.image != "" %}
+      <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+      {% endif %}
+      <div class="recipe-content">
+        {{ recipe.content | markdownify }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Restaurant browse nav bar -->
+  <div class="cooking-browse-nav" data-view-panel="restaurants" hidden>
+    <div class="cooking-browse-label">
+      <span class="browse-label-top">OUT ON THE TOWN:</span>
+      <span class="browse-label-bottom">all restaurants!</span>
+    </div>
+    <div class="cooking-browse-nav-box">
+      <div class="cooking-dropdown">
+        <button class="cooking-nav-btn" data-dropdown="cuisine">
+          BY CUISINE
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="cooking-dropdown-menu" hidden>
           {% assign cuisines = site.data.restaurants | map: "cuisine" | uniq | sort %}
           {% for cuisine in cuisines %}
-          <button class="cuisine-tag" data-cuisine="{{ cuisine }}">{{ cuisine }}</button>
+          <a href="#" data-cuisine-link="{{ cuisine }}">{{ cuisine }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="cooking-dropdown">
+        <button class="cooking-nav-btn" data-dropdown="location">
+          BY LOCATION
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="cooking-dropdown-menu" hidden>
+          {% assign locations = site.data.restaurants | map: "location" | uniq | sort %}
+          {% for location in locations %}
+          <a href="#" data-location-link="{{ location }}">{{ location }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="cooking-dropdown">
+        <button class="cooking-nav-btn" data-dropdown="price">
+          BY PRICE
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="cooking-dropdown-menu" hidden>
+          {% assign prices = site.data.restaurants | map: "price" | uniq | sort %}
+          {% for price in prices %}
+          <a href="#" data-price-link="{{ price }}">{{ price }}</a>
           {% endfor %}
         </div>
       </div>
@@ -70,81 +128,56 @@ layout: base
 
   </div>
 
-  <div class="cooking-main">
-    <div class="cooking-main-view" data-main-panel="recipes">
-      <div class="photo-grid">
-        {% for recipe in site.recipes %}
-        <div class="photo-card" data-recipe="{{ recipe.slug }}" data-ingredients="{{ recipe.ingredients | join: ',' }}">
-          {% if recipe.image != "" %}
-          <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-          {% else %}
-          <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
-          {% endif %}
-          <span class="photo-label">{{ recipe.title | downcase }}</span>
-        </div>
-        {% endfor %}
-      </div>
-
-      {% for recipe in site.recipes %}
-      <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
-        <button class="recipe-close" aria-label="Close">&times;</button>
-        <h2>{{ recipe.title | downcase }}</h2>
-        {% if recipe.image != "" %}
-        <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-        {% endif %}
-        <div class="recipe-content">
-          {{ recipe.content | markdownify }}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-
-    <div class="cooking-main-view" data-main-panel="restaurants" hidden>
-      <div class="photo-grid restaurant-grid">
-        {% for restaurant in site.data.restaurants %}
-        <div class="photo-card restaurant-card" data-cuisine="{{ restaurant.cuisine }}" data-restaurant="{{ restaurant.name | slugify }}">
-          {% if restaurant.image %}
-          <img src="/assets/images/restaurants/{{ restaurant.image }}" alt="{{ restaurant.name }}">
-          {% else %}
-          <div class="photo-placeholder">{{ restaurant.name | downcase }}</div>
-          {% endif %}
-          <span class="photo-label">{{ restaurant.cuisine }}</span>
-          <span class="photo-label restaurant-location">{{ restaurant.location }}</span>
-        </div>
-        {% endfor %}
-      </div>
-
+  <!-- Restaurant gallery view -->
+  <div class="cooking-restaurants-view" data-view-panel="restaurants" hidden>
+    <div class="recipe-grid restaurant-grid">
       {% for restaurant in site.data.restaurants %}
-      <div class="restaurant-detail" id="restaurant-{{ restaurant.name | slugify }}" hidden>
-        <button class="restaurant-close" aria-label="Close">&times;</button>
-        <h2>{{ restaurant.name | downcase }}</h2>
-        <div class="restaurant-links">
-          <a href="{{ restaurant.website }}" target="_blank" rel="noopener">website</a>
-          {% if restaurant.menu %}
-          <a href="{{ restaurant.menu }}" target="_blank" rel="noopener">menu</a>
-          {% endif %}
-          {% if restaurant.price %}
-          <span class="restaurant-price">{{ restaurant.price }}</span>
-          {% endif %}
-        </div>
-        <div class="restaurant-description">
-          <p>{{ restaurant.description }}</p>
-        </div>
-        <div class="restaurant-map">
-          <iframe
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{ restaurant.address | url_encode }}"
-            width="100%"
-            height="300"
-            style="border:0; border-radius: 8px;"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
+      <div class="photo-card restaurant-card" data-cuisine="{{ restaurant.cuisine }}" data-price="{{ restaurant.price }}" data-restaurant="{{ restaurant.name | slugify }}">
+        {% if restaurant.image %}
+        <img src="/assets/images/restaurants/{{ restaurant.image }}" alt="{{ restaurant.name }}">
+        {% else %}
+        <div class="photo-placeholder">{{ restaurant.name | downcase }}</div>
+        {% endif %}
+        <span class="photo-label">{{ restaurant.name | downcase }}</span>
+        <span class="photo-label restaurant-location">{{ restaurant.location }}</span>
       </div>
       {% endfor %}
     </div>
   </div>
+
+  <!-- Restaurant detail views -->
+  <div class="cooking-restaurant-details" data-view-panel="restaurants" hidden>
+    {% for restaurant in site.data.restaurants %}
+    <div class="restaurant-detail" id="restaurant-{{ restaurant.name | slugify }}" hidden>
+      <button class="restaurant-close" aria-label="Close">&times;</button>
+      <h2>{{ restaurant.name | downcase }}</h2>
+      <div class="restaurant-links">
+        <a href="{{ restaurant.website }}" target="_blank" rel="noopener">website</a>
+        {% if restaurant.menu %}
+        <a href="{{ restaurant.menu }}" target="_blank" rel="noopener">menu</a>
+        {% endif %}
+        {% if restaurant.price %}
+        <span class="restaurant-price">{{ restaurant.price }}</span>
+        {% endif %}
+      </div>
+      <div class="restaurant-description">
+        <p>{{ restaurant.description }}</p>
+      </div>
+      <div class="restaurant-map">
+        <iframe
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{ restaurant.address | url_encode }}"
+          width="100%"
+          height="300"
+          style="border:0; border-radius: 8px;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
   </div>
 </div>
 

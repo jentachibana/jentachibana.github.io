@@ -1,149 +1,109 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var grid = document.querySelector(".photo-grid");
-  var details = document.querySelectorAll(".recipe-detail");
-  var cards = document.querySelectorAll(".photo-card");
-  var links = document.querySelectorAll(".recipe-link");
-
   // View toggle (recipes / out on the town)
   var viewToggles = document.querySelectorAll(".view-toggle");
-  var viewPanels = document.querySelectorAll(".cooking-view");
-  var mainPanels = document.querySelectorAll(".cooking-main-view");
+  var viewPanels = document.querySelectorAll("[data-view-panel]");
+
+  // Recipe gallery elements
+  var recipesView = document.querySelector(".cooking-recipes-view");
+  var browseNav = document.querySelector(".cooking-browse-nav");
+  var recipeGalleryCards = document.querySelectorAll(".recipe-gallery-card");
+  var details = document.querySelectorAll(".recipe-detail");
 
   viewToggles.forEach(function (toggle) {
     toggle.addEventListener("click", function () {
       var view = this.dataset.view;
       viewToggles.forEach(function (t) { t.classList.remove("active"); });
       this.classList.add("active");
-      viewPanels.forEach(function (p) { p.hidden = p.dataset.viewPanel !== view; });
-      mainPanels.forEach(function (p) { p.hidden = p.dataset.mainPanel !== view; });
-      if (view === "recipes") { showGrid(); }
-      if (view === "restaurants") { showRestaurantGrid(); }
+
+      viewPanels.forEach(function (p) {
+        p.hidden = p.dataset.viewPanel !== view;
+      });
+
+      if (view === "recipes") {
+        showRecipeGallery();
+      }
+      if (view === "restaurants") {
+        showRestaurantGrid();
+      }
     });
   });
 
-  function showRecipe(slug) {
-    grid.hidden = true;
+  // Show recipe gallery (default recipes view)
+  function showRecipeGallery() {
+    if (recipesView) recipesView.hidden = false;
+    if (browseNav) browseNav.hidden = false;
+    details.forEach(function (d) { d.hidden = true; });
+  }
+
+  // Show recipe detail
+  function showRecipeDetail(slug) {
+    if (recipesView) recipesView.hidden = true;
+    if (browseNav) browseNav.hidden = true;
     details.forEach(function (d) {
       d.hidden = d.id !== "recipe-" + slug;
     });
-    links.forEach(function (l) {
-      l.classList.toggle("active", l.dataset.recipe === slug);
-    });
   }
 
-  function showGrid() {
-    grid.hidden = false;
-    details.forEach(function (d) {
-      d.hidden = true;
-    });
-    links.forEach(function (l) {
-      l.classList.remove("active");
-    });
-  }
-
-  cards.forEach(function (card) {
+  // Recipe gallery card clicks
+  recipeGalleryCards.forEach(function (card) {
     card.addEventListener("click", function () {
-      showRecipe(card.dataset.recipe);
+      showRecipeDetail(card.dataset.recipe);
     });
   });
 
-  links.forEach(function (link) {
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      showRecipe(link.dataset.recipe);
-    });
-  });
-
+  // Recipe close buttons
   document.querySelectorAll(".recipe-close").forEach(function (btn) {
-    btn.addEventListener("click", showGrid);
+    btn.addEventListener("click", showRecipeGallery);
   });
 
-  // Ingredient group toggles
-  document.querySelectorAll(".ingredient-group-toggle").forEach(function (toggle) {
-    toggle.addEventListener("click", function () {
-      var expanded = toggle.getAttribute("aria-expanded") === "true";
-      var items = toggle.nextElementSibling;
-      toggle.setAttribute("aria-expanded", !expanded);
-      items.hidden = expanded;
-    });
-  });
+  // Dropdown toggle behavior
+  var dropdownBtns = document.querySelectorAll(".cooking-nav-btn");
+  dropdownBtns.forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var menu = btn.nextElementSibling;
+      var wasOpen = !menu.hidden;
 
-  // Ingredient filtering
-  var activeIngredients = [];
-  var recipeItems = document.querySelectorAll(".recipe-list li");
-  var ingredientTags = document.querySelectorAll(".ingredient-tag");
-
-  function applyFilter() {
-    if (activeIngredients.length === 0) {
-      recipeItems.forEach(function (li) { li.classList.remove("filtered-out"); });
-      cards.forEach(function (c) { c.classList.remove("filtered-out"); });
-      return;
-    }
-
-    recipeItems.forEach(function (li) {
-      var ingredients = (li.dataset.ingredients || "").split(",");
-      var match = activeIngredients.every(function (ing) {
-        return ingredients.indexOf(ing) !== -1;
+      // Close all dropdowns first
+      document.querySelectorAll(".cooking-dropdown-menu").forEach(function (m) {
+        m.hidden = true;
       });
-      li.classList.toggle("filtered-out", !match);
-    });
+      dropdownBtns.forEach(function (b) { b.classList.remove("open"); });
 
-    cards.forEach(function (card) {
-      var ingredients = (card.dataset.ingredients || "").split(",");
-      var match = activeIngredients.every(function (ing) {
-        return ingredients.indexOf(ing) !== -1;
-      });
-      card.classList.toggle("filtered-out", !match);
-    });
-  }
-
-  function updateGroupCounts() {
-    document.querySelectorAll(".ingredient-group-count").forEach(function (span) {
-      var group = span.closest(".ingredient-group");
-      var count = group.querySelectorAll(".ingredient-tag.active").length;
-      span.textContent = count > 0 ? "(" + count + ")" : "";
-    });
-  }
-
-  ingredientTags.forEach(function (tag) {
-    tag.addEventListener("click", function () {
-      var ing = tag.dataset.ingredient;
-      var idx = activeIngredients.indexOf(ing);
-      if (idx === -1) {
-        activeIngredients.push(ing);
-        tag.classList.add("active");
-      } else {
-        activeIngredients.splice(idx, 1);
-        tag.classList.remove("active");
+      if (!wasOpen) {
+        menu.hidden = false;
+        btn.classList.add("open");
       }
-      applyFilter();
-      updateGroupCounts();
     });
   });
 
-  // Restaurant detail view
-  var restaurantGrid = document.querySelector(".restaurant-grid");
+  // Close dropdowns on outside click
+  document.addEventListener("click", function () {
+    document.querySelectorAll(".cooking-dropdown-menu").forEach(function (m) {
+      m.hidden = true;
+    });
+    dropdownBtns.forEach(function (b) { b.classList.remove("open"); });
+  });
+
+  // Restaurant gallery elements
+  var restaurantsView = document.querySelector(".cooking-restaurants-view");
+  var restaurantBrowseNavs = document.querySelectorAll('.cooking-browse-nav[data-view-panel="restaurants"]');
   var restaurantDetails = document.querySelectorAll(".restaurant-detail");
   var restaurantCardElements = document.querySelectorAll(".restaurant-card");
-  var restaurantLinks = document.querySelectorAll(".restaurant-link");
 
   function showRestaurant(slug) {
-    if (restaurantGrid) restaurantGrid.hidden = true;
+    if (restaurantsView) restaurantsView.hidden = true;
+    restaurantBrowseNavs.forEach(function (n) { n.hidden = true; });
     restaurantDetails.forEach(function (d) {
       d.hidden = d.id !== "restaurant-" + slug;
-    });
-    restaurantLinks.forEach(function (l) {
-      l.classList.toggle("active", l.dataset.restaurant === slug);
     });
   }
 
   function showRestaurantGrid() {
-    if (restaurantGrid) restaurantGrid.hidden = false;
+    if (restaurantsView) restaurantsView.hidden = false;
+    restaurantBrowseNavs.forEach(function (n) { n.hidden = false; });
     restaurantDetails.forEach(function (d) {
       d.hidden = true;
-    });
-    restaurantLinks.forEach(function (l) {
-      l.classList.remove("active");
     });
   }
 
@@ -153,55 +113,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  restaurantLinks.forEach(function (link) {
-    link.addEventListener("click", function (e) {
-      e.preventDefault();
-      showRestaurant(link.dataset.restaurant);
-    });
-  });
-
   document.querySelectorAll(".restaurant-close").forEach(function (btn) {
     btn.addEventListener("click", showRestaurantGrid);
   });
 
-  // Cuisine filtering
-  var activeCuisines = [];
-  var restaurantItems = document.querySelectorAll(".restaurant-list li");
-  var restaurantCards = document.querySelectorAll(".restaurant-card");
-  var cuisineTags = document.querySelectorAll(".cuisine-tag");
-
-  function applyCuisineFilter() {
-    if (activeCuisines.length === 0) {
-      restaurantItems.forEach(function (li) { li.classList.remove("filtered-out"); });
-      restaurantCards.forEach(function (c) { c.classList.remove("filtered-out"); });
-      return;
-    }
-
-    restaurantItems.forEach(function (li) {
-      var cuisine = li.dataset.cuisine;
-      var match = activeCuisines.indexOf(cuisine) !== -1;
-      li.classList.toggle("filtered-out", !match);
-    });
-
-    restaurantCards.forEach(function (card) {
-      var cuisine = card.dataset.cuisine;
-      var match = activeCuisines.indexOf(cuisine) !== -1;
-      card.classList.toggle("filtered-out", !match);
-    });
-  }
-
-  cuisineTags.forEach(function (tag) {
-    tag.addEventListener("click", function () {
-      var cuisine = tag.dataset.cuisine;
-      var idx = activeCuisines.indexOf(cuisine);
-      if (idx === -1) {
-        activeCuisines.push(cuisine);
-        tag.classList.add("active");
-      } else {
-        activeCuisines.splice(idx, 1);
-        tag.classList.remove("active");
-      }
-      applyCuisineFilter();
+  // Price filter via dropdown
+  document.querySelectorAll("[data-price-link]").forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      var price = link.dataset.priceLink;
+      restaurantCardElements.forEach(function (card) {
+        card.classList.toggle("filtered-out", card.dataset.price !== price);
+      });
+      // Close dropdown
+      document.querySelectorAll(".cooking-dropdown-menu").forEach(function (m) {
+        m.hidden = true;
+      });
+      dropdownBtns.forEach(function (b) { b.classList.remove("open"); });
     });
   });
 });

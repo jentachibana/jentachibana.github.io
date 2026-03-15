@@ -2,6 +2,8 @@
 title: "Lemon Ricotta Pasta"
 slug: "lemon-ricotta-pasta"
 image: "lemon-ricotta-pasta.jpg"
+collections:
+  - quick-and-easy
 ---
 
 ## Ingredients

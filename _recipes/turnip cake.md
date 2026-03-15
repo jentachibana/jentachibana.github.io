@@ -2,6 +2,10 @@
 title: "turnip cake"
 slug: "turnip cake"
 image: "turnip cake.jpeg"
+collections:
+  - dim-sum
+  - chinese-bakery
+  - steamed-dishes
 ---
 
 ## Ingredients
