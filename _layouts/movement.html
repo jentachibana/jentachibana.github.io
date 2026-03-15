@@ -8,35 +8,17 @@ layout: base
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     </a>
 
-    <nav class="movement-banner">
-      <a class="movement-banner-link{% if page.category == 'dance' %} active{% endif %}" data-category="dance" href="/movement/dance">dance</a>
-      <a class="movement-banner-link{% if page.category == 'exercise' %} active{% endif %}" data-category="exercise" href="/movement/exercise">exercise</a>
-      <a class="movement-banner-link{% if page.category == 'sports' %} active{% endif %}" data-category="sports" href="/movement/sports">sports</a>
-    </nav>
   </div>
 
-  {% if page.category == "dance" %}
-    {% assign activities = "lindy-hop,fusion" | split: "," %}
-    {% assign labels = "lindy hop,fusion" | split: "," %}
-    {% assign colors = "#7a9e7e,#b8a9c9" | split: "," %}
-    {% assign sidebar_color = "#722f37" %}
-  {% elsif page.category == "exercise" %}
-    {% assign activities = "gym,swimming,hiking" | split: "," %}
-    {% assign labels = "gym,swimming,hiking" | split: "," %}
-    {% assign colors = "#d4927a,#6ba5a5,#8fae6e" | split: "," %}
-    {% assign sidebar_color = "#4b6b41" %}
-  {% elsif page.category == "sports" %}
-    {% assign activities = "acro-yoga,rollerskating,tennis" | split: "," %}
-    {% assign labels = "acro yoga,rollerskating,tennis" | split: "," %}
-    {% assign colors = "#e8c47a,#8bb8d0,#c4cc7a" | split: "," %}
-    {% assign sidebar_color = "#b5892a" %}
-  {% endif %}
+  {% assign activities = "lindy-hop,fusion,gym,swimming,hiking,acro-yoga,rollerskating,tennis" | split: "," %}
+  {% assign labels = "lindy hop,fusion,gym,swimming,hiking,acro yoga,rollerskating,tennis" | split: "," %}
+  {% assign colors = "#7a9e7e,#b8a9c9,#d4927a,#6ba5a5,#8fae6e,#e8c47a,#8bb8d0,#c4cc7a" | split: "," %}
 
   <div class="movement-body">
-    <aside class="movement-sidebar" style="border-color: {{ sidebar_color }};">
+    <aside class="movement-sidebar">
       {% for activity in activities %}
         {% assign idx = forloop.index0 %}
-        <a class="movement-sidebar-item" href="#" style="color: {{ sidebar_color }};">{{ labels[idx] }}</a>
+        <a class="movement-sidebar-item" href="#">{{ labels[idx] }}</a>
       {% endfor %}
     </aside>
 
@@ -49,10 +31,8 @@ layout: base
       {% endfor %}
     </div>
 
-    {% if page.category == "dance" %}
     <div class="movement-calendar">
       <iframe src="https://calendar.google.com/calendar/embed?src=e76a09906cdbfaa596af29dcd84fdfbc0658958be70a68d558d52d5606353350%40group.calendar.google.com&ctz=America%2FLos_Angeles&mode=WEEK" frameborder="0" scrolling="no"></iframe>
     </div>
-    {% endif %}
   </div>
 </div>

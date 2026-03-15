@@ -2,10 +2,6 @@
 title: "Spicy Peanut Noodles"
 slug: "spicy-peanut-noodles"
 image: "spicy-peanut-noodles.jpg"
-collections:
-  - quick-and-easy
-  - chinese-takeout
-  - vegan-vegetarian
 ---
 
 ## Ingredients

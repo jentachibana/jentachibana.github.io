@@ -46,47 +46,6 @@
 }
 
 
-.movement-banner {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  flex: 1;
-  justify-content: center;
-}
-
-.movement-banner-link {
-  background: rgba(45, 58, 45, 0.03);
-  border: 1px solid rgba(45, 58, 45, 0.08);
-  border-radius: 2rem;
-  padding: 0.4rem 1.2rem;
-  font-family: "Libre Baskerville", serif;
-  font-size: 1.1rem;
-  color: #2d3a2d;
-  text-decoration: none;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background: rgba(45, 58, 45, 0.08);
-  }
-
-  &.active[data-category="dance"] {
-    background: #722f37;
-    color: #fff;
-    border-color: #722f37;
-  }
-
-  &.active[data-category="exercise"] {
-    background: #4b6b41;
-    color: #fff;
-    border-color: #4b6b41;
-  }
-
-  &.active[data-category="sports"] {
-    background: #b5892a;
-    color: #fff;
-    border-color: #b5892a;
-  }
-}
 
 .movement-body {
   display: flex;

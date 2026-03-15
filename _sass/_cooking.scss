@@ -6,6 +6,7 @@
   min-height: 100vh;
   background-color: #f5f0e8;
   font-family: "Karla", sans-serif;
+  box-sizing: border-box;
 
   h1, h2, h3, h4, h5, h6 {
     font-family: "Libre Baskerville", serif;
@@ -26,7 +27,91 @@
   min-height: 0;
 }
 
-// Browse nav bar
+// Recipes layout: sidebar + grid
+.cooking-recipes-layout {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 4rem 2rem;
+  gap: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Browse sidebar
+.cooking-browse-sidebar {
+  flex-shrink: 0;
+  width: 160px;
+}
+
+// Sidebar version (recipes)
+.cooking-browse-sidebar .cooking-browse-nav-box {
+  text-align: center;
+}
+
+// Horizontal version (restaurants)
+.cooking-browse-nav .cooking-browse-nav-box {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid #d4834e;
+  border-radius: 4px;
+  overflow: visible;
+}
+
+.cooking-filter-group {
+  & + & {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(212, 131, 78, 0.3);
+  }
+}
+
+.cooking-filter-heading {
+  font-family: "Karla", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.35rem;
+  color: #333;
+  text-align: center;
+}
+
+.cooking-filter-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin: 0;
+  }
+
+  a {
+    display: block;
+    padding: 0.2rem 0;
+    color: rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-family: "Karla", sans-serif;
+    text-align: center;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: #333;
+    }
+
+    &.active {
+      color: #333;
+      font-weight: 700;
+    }
+  }
+}
+
+// Browse nav bar (restaurants - kept as horizontal)
 .cooking-browse-nav {
   display: flex;
   align-items: center;
@@ -58,15 +143,6 @@
     font-style: italic;
     font-size: 1.4rem;
   }
-}
-
-.cooking-browse-nav-box {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  border: 2px solid #d4834e;
-  border-radius: 4px;
-  overflow: visible;
 }
 
 .cooking-dropdown {
@@ -105,7 +181,6 @@
   }
 }
 
-
 .cooking-dropdown:last-child .cooking-nav-btn {
   border-right: none;
 }
@@ -143,18 +218,16 @@
 
 // Recipe gallery grid
 .cooking-recipes-view {
-  padding: 0 6rem 2rem;
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   padding: 0;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -165,9 +238,14 @@
   }
 }
 
-// Recipe detail (kept from original)
+// Recipe detail container (inside sidebar layout)
 .cooking-recipe-details {
-  padding: 0 6rem;
+  flex: 1;
+  min-width: 0;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 // Restaurant gallery view
@@ -342,7 +420,7 @@
 
   img {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
     border-radius: 10px;
@@ -365,7 +443,7 @@
 .photo-label {
   display: block;
   padding: 0.75rem 0.5rem;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -374,10 +452,11 @@
 
 .recipe-detail {
   width: 100%;
-  max-width: 600px;
   position: relative;
   align-self: flex-start;
-  padding-top: 0;
+  padding: 2rem;
+  border: 1px solid #333;
+  border-radius: 6px;
 
   h2 {
     margin-top: 0;
@@ -390,8 +469,8 @@
 
 .recipe-close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1rem;
+  right: 1.5rem;
   background: none;
   border: none;
   color: #333;
@@ -404,12 +483,18 @@
   }
 }
 
+.recipe-body {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
 .recipe-hero {
-  width: 100%;
-  max-height: 300px;
+  width: 250px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 1rem;
+  flex-shrink: 0;
 }
 
 .recipe-content {
@@ -430,4 +515,13 @@
 .photo-card.filtered-out,
 .restaurant-card.filtered-out {
   display: none;
+}
+
+@keyframes cookingFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cooking-fade-in {
+  animation: cookingFadeIn 0.3s ease both;
 }

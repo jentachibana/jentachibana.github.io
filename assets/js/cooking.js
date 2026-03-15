@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Recipe gallery elements
   var recipesView = document.querySelector(".cooking-recipes-view");
-  var browseNav = document.querySelector(".cooking-browse-nav");
+  var recipeDetailsContainer = document.querySelector(".cooking-recipe-details");
   var recipeGalleryCards = document.querySelectorAll(".recipe-gallery-card");
   var details = document.querySelectorAll(".recipe-detail");
 
@@ -28,17 +28,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  function fadeIn(el) {
+    if (!el) return;
+    el.classList.remove("cooking-fade-in");
+    void el.offsetWidth; // reflow to restart animation
+    el.classList.add("cooking-fade-in");
+  }
+
   // Show recipe gallery (default recipes view)
   function showRecipeGallery() {
-    if (recipesView) recipesView.hidden = false;
-    if (browseNav) browseNav.hidden = false;
+    if (recipesView) { recipesView.hidden = false; fadeIn(recipesView); }
+    if (recipeDetailsContainer) recipeDetailsContainer.hidden = true;
     details.forEach(function (d) { d.hidden = true; });
   }
 
   // Show recipe detail
   function showRecipeDetail(slug) {
     if (recipesView) recipesView.hidden = true;
-    if (browseNav) browseNav.hidden = true;
+    if (recipeDetailsContainer) { recipeDetailsContainer.hidden = false; fadeIn(recipeDetailsContainer); }
     details.forEach(function (d) {
       d.hidden = d.id !== "recipe-" + slug;
     });
@@ -54,6 +61,32 @@ document.addEventListener("DOMContentLoaded", function () {
   // Recipe close buttons
   document.querySelectorAll(".recipe-close").forEach(function (btn) {
     btn.addEventListener("click", showRecipeGallery);
+  });
+
+  // Sidebar filter links
+  var activeFilters = { category: "all", course: "all" };
+
+  document.querySelectorAll("[data-filter]").forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      var filterType = link.dataset.filter;
+      var filterValue = link.dataset.value;
+
+      activeFilters[filterType] = filterValue;
+
+      // Update active state within this filter group
+      link.closest(".cooking-filter-list").querySelectorAll("a").forEach(function (a) {
+        a.classList.remove("active");
+      });
+      link.classList.add("active");
+
+      // Apply filters
+      recipeGalleryCards.forEach(function (card) {
+        var catMatch = activeFilters.category === "all" || card.dataset.category === activeFilters.category;
+        var courseMatch = activeFilters.course === "all" || card.dataset.course === activeFilters.course;
+        card.classList.toggle("filtered-out", !(catMatch && courseMatch));
+      });
+    });
   });
 
   // Dropdown toggle behavior
@@ -95,12 +128,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (restaurantsView) restaurantsView.hidden = true;
     restaurantBrowseNavs.forEach(function (n) { n.hidden = true; });
     restaurantDetails.forEach(function (d) {
-      d.hidden = d.id !== "restaurant-" + slug;
+      var show = d.id === "restaurant-" + slug;
+      d.hidden = !show;
+      if (show) fadeIn(d);
     });
   }
 
   function showRestaurantGrid() {
-    if (restaurantsView) restaurantsView.hidden = false;
+    if (restaurantsView) { restaurantsView.hidden = false; fadeIn(restaurantsView); }
     restaurantBrowseNavs.forEach(function (n) { n.hidden = false; });
     restaurantDetails.forEach(function (d) {
       d.hidden = true;

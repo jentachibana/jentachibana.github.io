@@ -16,69 +16,77 @@ layout: base
 
   <div class="cooking-content">
 
-  <!-- Browse nav bar (recipes view only) -->
-  <div class="cooking-browse-nav" data-view-panel="recipes">
+  <!-- Recipes browse label -->
+  <div class="cooking-browse-nav cooking-recipes-label" data-view-panel="recipes">
     <div class="cooking-browse-label">
-      <span class="browse-label-top">HOME COOKING:</span>
+      <span class="browse-label-top">COOKING WITH JEN:</span>
       <span class="browse-label-bottom">all recipes!</span>
     </div>
-    <div class="cooking-browse-nav-box">
-      <div class="cooking-dropdown">
-        <button class="cooking-nav-btn" data-dropdown="category">
-          BY CATEGORY
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="cooking-dropdown-menu" hidden>
-          {% assign categories = site.recipes | map: "collections" | compact %}
-          <a href="#">All Categories</a>
-        </div>
-      </div>
+  </div>
 
-      <div class="cooking-dropdown">
-        <button class="cooking-nav-btn" data-dropdown="course">
-          BY COURSE
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="cooking-dropdown-menu" hidden>
-          <a href="#">Appetizer</a>
-          <a href="#">Main</a>
-          <a href="#">Dessert</a>
+  <!-- Recipes: sidebar + grid layout -->
+  <div class="cooking-recipes-layout" data-view-panel="recipes">
+
+    <!-- Sidebar filter nav -->
+    <div class="cooking-browse-sidebar">
+      <div class="cooking-browse-nav-box">
+        <div class="cooking-filter-group">
+          <h4 class="cooking-filter-heading">BY CATEGORY</h4>
+          <ul class="cooking-filter-list">
+            <li><a href="#" data-filter="category" data-value="all" class="active">All</a></li>
+            {% assign categories = site.recipes | map: "category" | compact | uniq | sort %}
+            {% for cat in categories %}
+            <li><a href="#" data-filter="category" data-value="{{ cat }}">{{ cat }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="cooking-filter-group">
+          <h4 class="cooking-filter-heading">BY COURSE</h4>
+          <ul class="cooking-filter-list">
+            <li><a href="#" data-filter="course" data-value="all" class="active">All</a></li>
+            {% assign courses = site.recipes | map: "course" | compact | uniq | sort %}
+            {% for course in courses %}
+            <li><a href="#" data-filter="course" data-value="{{ course }}">{{ course }}</a></li>
+            {% endfor %}
+          </ul>
         </div>
       </div>
     </div>
 
-  </div>
+    <!-- Recipe gallery view -->
+    <div class="cooking-recipes-view">
+      <div class="recipe-grid">
+        {% for recipe in site.recipes %}
+        <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-course="{{ recipe.course }}">
+          {% if recipe.image != "" %}
+          <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+          {% else %}
+          <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
+          {% endif %}
+          <span class="photo-label">{{ recipe.title | downcase }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
 
-  <!-- Recipe gallery view -->
-  <div class="cooking-recipes-view" data-view-panel="recipes">
-    <div class="recipe-grid">
+    <!-- Recipe detail views (inside layout, replaces grid) -->
+    <div class="cooking-recipe-details" hidden>
       {% for recipe in site.recipes %}
-      <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}">
-        {% if recipe.image != "" %}
-        <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-        {% else %}
-        <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
-        {% endif %}
-        <span class="photo-label">{{ recipe.title | downcase }}</span>
+      <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
+        <button class="recipe-close" aria-label="Close">&times;</button>
+        <h2>{{ recipe.title | downcase }}</h2>
+        <div class="recipe-body">
+          {% if recipe.image != "" %}
+          <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+          {% endif %}
+          <div class="recipe-content">
+            {{ recipe.content | markdownify }}
+          </div>
+        </div>
       </div>
       {% endfor %}
     </div>
-  </div>
 
-  <!-- Recipe detail views -->
-  <div class="cooking-recipe-details" data-view-panel="recipes">
-    {% for recipe in site.recipes %}
-    <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
-      <button class="recipe-close" aria-label="Close">&times;</button>
-      <h2>{{ recipe.title | downcase }}</h2>
-      {% if recipe.image != "" %}
-      <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-      {% endif %}
-      <div class="recipe-content">
-        {{ recipe.content | markdownify }}
-      </div>
-    </div>
-    {% endfor %}
   </div>
 
   <!-- Restaurant browse nav bar -->

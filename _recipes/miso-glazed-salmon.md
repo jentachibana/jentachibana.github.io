@@ -2,9 +2,6 @@
 title: "Miso Glazed Salmon"
 slug: "miso-glazed-salmon"
 image: "miso-glazed-salmon.jpg"
-collections:
-  - quick-and-easy
-  - gluten-free
 ---
 
 ## Ingredients
