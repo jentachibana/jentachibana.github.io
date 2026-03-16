@@ -27,190 +27,112 @@
   min-height: 0;
 }
 
-// Recipes layout: sidebar + grid
-.cooking-recipes-layout {
-  display: flex;
-  align-items: flex-start;
-  padding: 1rem 4rem 2rem;
-  gap: 2rem;
-  width: 100%;
-  box-sizing: border-box;
+// Recipes header (title + category pills)
+.cooking-recipes-header {
+  padding: 1rem 4rem 0;
 
   &[hidden] {
     display: none;
   }
 }
 
-// Browse sidebar
-.cooking-browse-sidebar {
-  flex-shrink: 0;
-  width: 160px;
-}
-
-// Sidebar version (recipes)
-.cooking-browse-sidebar .cooking-browse-nav-box {
-  text-align: center;
-}
-
-// Horizontal version (restaurants)
-.cooking-browse-nav .cooking-browse-nav-box {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  border: 2px solid #d4834e;
-  border-radius: 4px;
-  overflow: visible;
-}
-
-.cooking-filter-group {
-  & + & {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(212, 131, 78, 0.3);
-  }
-}
-
-.cooking-filter-heading {
-  font-family: "Karla", sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 0.35rem;
+.cooking-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin: 0 0 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px dotted #ccc;
   color: #333;
-  text-align: center;
-}
 
-.cooking-filter-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    margin: 0;
-  }
-
-  a {
-    display: block;
-    padding: 0.2rem 0;
-    color: rgba(0, 0, 0, 0.5);
-    text-decoration: none;
-    font-size: 0.75rem;
-    font-family: "Karla", sans-serif;
-    text-align: center;
-    transition: color 0.15s ease;
-
-    &:hover {
-      color: #333;
-    }
-
-    &.active {
-      color: #333;
-      font-weight: 700;
-    }
-  }
-}
-
-// Browse nav bar (restaurants - kept as horizontal)
-.cooking-browse-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 6rem;
-  gap: 1.5rem;
-
-  &[hidden] {
-    display: none;
-  }
-}
-
-.cooking-browse-label {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  flex-shrink: 0;
-
-  .browse-label-top {
-    font-family: "Karla", sans-serif;
-    font-weight: 700;
-    font-size: 1.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .browse-label-bottom {
-    font-family: "Libre Baskerville", serif;
+  em {
     font-style: italic;
-    font-size: 1.4rem;
   }
 }
 
-.cooking-dropdown {
-  position: relative;
+.cooking-category-bar {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
 }
 
-.cooking-nav-btn {
-  background: none;
-  border: none;
-  border-right: 2px solid #d4834e;
-  font-family: "Karla", sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.6rem 1rem;
-  cursor: pointer;
+.cooking-category-label {
+  display: block;
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
   color: #333;
+}
+
+.cooking-category-pills {
   display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: background 0.15s ease;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+
+}
+
+.category-pill {
+  font-family: "Karla", sans-serif;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.2rem;
+  border: 1.5px solid #333;
+  border-radius: 12px;
+  background: none;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.15s ease;
 
   &:hover {
     background: rgba(0, 0, 0, 0.05);
   }
 
-  .chevron {
-    width: 14px;
-    height: 14px;
-    transition: transform 0.2s ease;
+  &.active {
+    background: #d4a843;
+    border-color: #d4a843;
+    color: #fff;
+    font-weight: 700;
   }
 
-  &.open .chevron {
-    transform: rotate(180deg);
+  &.cuisine-pill.active {
+    background: #c2622d;
+    border-color: #c2622d;
   }
 }
 
-.cooking-dropdown:last-child .cooking-nav-btn {
-  border-right: none;
-}
-
-.cooking-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 180px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  padding: 0.5rem 0;
+// Recipes layout: grid
+.cooking-recipes-layout {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.5rem 4rem 2rem;
+  gap: 2rem;
+  overflow: hidden;
 
   &[hidden] {
     display: none;
   }
+}
 
-  a {
-    display: block;
-    padding: 0.5rem 1rem;
-    color: #333;
-    text-decoration: none;
-    font-size: 0.85rem;
+// Restaurants header (title + cuisine pills)
+.cooking-restaurants-header {
+  padding: 1rem 4rem 0;
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.05);
-    }
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Restaurants layout: grid
+.cooking-restaurants-layout {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.5rem 4rem 2rem;
+  gap: 2rem;
+  overflow: hidden;
+
+  &[hidden] {
+    display: none;
   }
 }
 
@@ -242,6 +164,7 @@
 .cooking-recipe-details {
   flex: 1;
   min-width: 0;
+  max-width: 100%;
 
   &[hidden] {
     display: none;
@@ -250,15 +173,15 @@
 
 // Restaurant gallery view
 .cooking-restaurants-view {
-  padding: 0 6rem 2rem;
-
-  &[hidden] {
-    display: none;
-  }
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .cooking-restaurant-details {
-  padding: 0 6rem;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
 
   &[hidden] {
     display: none;
@@ -304,44 +227,9 @@
   font-size: 0.75rem;
   color: rgba(0, 0, 0, 0.4);
   padding-top: 0;
+  margin-top: -1.25rem;
 }
 
-.restaurant-detail {
-  width: 100%;
-  max-width: 600px;
-  position: relative;
-  align-self: flex-start;
-  padding-top: 0;
-
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0.25rem;
-  }
-}
-
-.restaurant-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  color: #333;
-  font-size: 2rem;
-  cursor: pointer;
-  line-height: 1;
-
-  &:hover {
-    opacity: 0.7;
-  }
-}
-
-.restaurant-description {
-  margin-bottom: 1rem;
-
-  p {
-    margin: 0;
-  }
-}
 
 .restaurant-links {
   display: flex;
@@ -413,6 +301,10 @@
   cursor: pointer;
   overflow: hidden;
   transition: transform 0.15s ease;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 0.5rem;
 
   &:hover {
     transform: scale(1.02);
@@ -423,7 +315,7 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
-    border-radius: 10px;
+    border-radius: 12px;
   }
 }
 
@@ -452,19 +344,30 @@
 
 .recipe-detail {
   width: 100%;
+  box-sizing: border-box;
   position: relative;
   align-self: flex-start;
   padding: 2rem;
-  border: 1px solid #333;
-  border-radius: 6px;
-
-  h2 {
-    margin-top: 0;
-  }
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
 
   &[hidden] {
     display: none;
   }
+}
+
+.recipe-detail-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.recipe-divider {
+  border: none;
+  border-top: 2px dashed #ccc;
+  margin: 1rem 0;
 }
 
 .recipe-close {
@@ -525,3 +428,4 @@
 .cooking-fade-in {
   animation: cookingFadeIn 0.3s ease both;
 }
+
