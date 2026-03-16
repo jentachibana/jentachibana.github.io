@@ -3,7 +3,7 @@
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #e8f0e8;
+  background-color: #f5f0e8;
   font-family: "Karla", sans-serif;
   padding: 2rem 3rem;
   display: flex;
@@ -54,29 +54,6 @@
   gap: 2rem;
 }
 
-.movement-sidebar {
-  width: 180px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  border-right: 1px solid;
-  padding-right: 2rem;
-  overflow-y: auto;
-}
-
-.movement-sidebar-item {
-  text-decoration: none;
-  font-family: "Libre Baskerville", serif;
-  font-size: 0.9rem;
-  opacity: 0.6;
-  transition: opacity 0.15s ease;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
 // Base grid
 .movement-grid {
   width: 100%;
@@ -116,15 +93,354 @@
   box-sizing: border-box;
 }
 
-.movement-calendar {
+.movement-weekly-calendar {
   width: 100%;
   margin-top: 1.5rem;
+  text-transform: lowercase;
 
-  iframe {
-    width: 100%;
-    height: 350px;
-    border: none;
-    border-radius: 12px;
+  h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+    opacity: 0.7;
+  }
+
+  // Show/hide views based on data-active
+  .poster-grid { display: none; }
+  .agenda-list { display: none; }
+  .hybrid-grid { display: none; }
+
+  &[data-active="poster"] {
+    .weekly-grid { display: none; }
+    .poster-grid { display: grid; }
+  }
+
+  &[data-active="agenda"] {
+    .weekly-grid { display: none; }
+    .agenda-list { display: flex; }
+  }
+
+  &[data-active="hybrid"] {
+    .weekly-grid { display: none; }
+    .hybrid-grid { display: grid; }
+  }
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.calendar-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(45, 58, 45, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.calendar-toggle-btn {
+  background: transparent;
+  border: none;
+  padding: 0.25rem 0.6rem;
+  font-family: "Karla", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: rgba(45, 58, 45, 0.5);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  & + & {
+    border-left: 1px solid rgba(45, 58, 45, 0.25);
+  }
+
+  &.active {
+    background: rgba(45, 58, 45, 0.12);
+    color: #2d3a2d;
+    font-weight: 600;
+  }
+
+  &:hover:not(.active) {
+    background: rgba(45, 58, 45, 0.06);
+  }
+}
+
+// Poster grid
+.poster-grid {
+  grid-template-columns: repeat(7, 1fr);
+  border: 1.5px solid #1a1a1a;
+  background: #fff;
+}
+
+.poster-day {
+  border-right: 1.5px solid #1a1a1a;
+  padding: 0;
+  min-height: 120px;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.poster-day-header {
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+  text-align: center;
+  padding: 0.5rem 0.4rem;
+  border-bottom: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+  background: #f0f0f0;
+}
+
+.poster-event {
+  padding: 0.6rem 0.5rem;
+  color: #1a1a1a;
+}
+
+.poster-event-separator {
+  border-top: 1px dotted #1a1a1a;
+  margin: 0;
+}
+
+.poster-event-venue {
+  display: block;
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  filter: brightness(0.65);
+}
+
+.poster-event-time {
+  display: block;
+  font-size: 0.65rem;
+  margin-top: 0.2rem;
+  color: #444;
+}
+
+.poster-event-style {
+  display: block;
+  font-size: 0.65rem;
+  color: #666;
+  font-style: italic;
+}
+
+.poster-event--monthly {
+  border: 1.5px dotted #1a1a1a;
+  border-left: 3px solid;
+  margin: 0.3rem;
+  border-radius: 0;
+}
+
+.weekly-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.weekly-day-header {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.5;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(45, 58, 45, 0.15);
+  margin-bottom: 0.5rem;
+}
+
+.weekly-event {
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.4rem;
+
+  &--monthly {
+    border: 2px dotted rgba(255, 255, 255, 0.6);
+  }
+}
+
+.weekly-event-venue {
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.weekly-event-time {
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+.weekly-event-style {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+// Hybrid grid — colored cards in a structured bordered grid
+.hybrid-grid {
+  grid-template-columns: repeat(7, 1fr);
+  border: 1.5px solid rgba(45, 58, 45, 0.2);
+  background: #fff;
+}
+
+.hybrid-day {
+  border-right: 1.5px solid rgba(45, 58, 45, 0.2);
+  padding: 0;
+  min-height: 120px;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.hybrid-day-header {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.5rem 0.4rem;
+  border-bottom: 1.5px solid rgba(45, 58, 45, 0.2);
+  color: #1a1a1a;
+  background: rgba(45, 58, 45, 0.04);
+}
+
+.hybrid-event {
+  margin: 0.4rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  &--monthly {
+    border: 2px dotted rgba(255, 255, 255, 0.5);
+  }
+}
+
+.hybrid-event-venue {
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.hybrid-event-time {
+  font-size: 0.65rem;
+  opacity: 0.85;
+}
+
+.hybrid-event-style {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+// Agenda list
+.agenda-list {
+  flex-direction: column;
+  gap: 0;
+}
+
+.agenda-day {
+  display: flex;
+  border-bottom: 1px solid rgba(45, 58, 45, 0.12);
+  padding: 1rem 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.agenda-day-label {
+  width: 120px;
+  flex-shrink: 0;
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: lowercase;
+  padding-top: 0.35rem;
+  color: #2d3a2d;
+}
+
+.agenda-day-events {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.agenda-event {
+  padding: 0.4rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+
+  &--monthly {
+    border-style: dotted;
+  }
+}
+
+.agenda-event-venue {
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  filter: brightness(0.75);
+}
+
+.agenda-event-details {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .weekly-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .poster-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .poster-day {
+    border-right: none;
+    border-bottom: 1.5px solid #1a1a1a;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .hybrid-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hybrid-day {
+    border-right: none;
+    border-bottom: 1.5px solid rgba(45, 58, 45, 0.2);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .agenda-day {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .agenda-day-label {
+    width: auto;
   }
 }
 

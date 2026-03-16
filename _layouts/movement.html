@@ -15,13 +15,6 @@ layout: base
   {% assign colors = "#7a9e7e,#b8a9c9,#d4927a,#6ba5a5,#8fae6e,#e8c47a,#8bb8d0,#c4cc7a" | split: "," %}
 
   <div class="movement-body">
-    <aside class="movement-sidebar">
-      {% for activity in activities %}
-        {% assign idx = forloop.index0 %}
-        <a class="movement-sidebar-item" href="#">{{ labels[idx] }}</a>
-      {% endfor %}
-    </aside>
-
     <div class="movement-grid">
       {% for activity in activities %}
         {% assign idx = forloop.index0 %}
@@ -31,8 +24,107 @@ layout: base
       {% endfor %}
     </div>
 
-    <div class="movement-calendar">
-      <iframe src="https://calendar.google.com/calendar/embed?src=e76a09906cdbfaa596af29dcd84fdfbc0658958be70a68d558d52d5606353350%40group.calendar.google.com&ctz=America%2FLos_Angeles&mode=WEEK" frameborder="0" scrolling="no"></iframe>
+    <div class="movement-weekly-calendar" data-active="minimal">
+      <div class="calendar-header">
+        <h2>Dance Socials</h2>
+        <div class="calendar-toggle">
+          <button class="calendar-toggle-btn active" data-view="minimal">minimal</button>
+          <button class="calendar-toggle-btn" data-view="poster">poster</button>
+          <button class="calendar-toggle-btn" data-view="agenda">agenda</button>
+          <button class="calendar-toggle-btn" data-view="hybrid">hybrid</button>
+        </div>
+      </div>
+      {% assign days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" | split: "," %}
+      {% assign day_abbrevs = "MON,TUE,WED,THU,FRI,SAT,SUN" | split: "," %}
+      <div class="weekly-grid">
+        {% for day in days %}
+          {% assign idx = forloop.index0 %}
+          <div class="weekly-day">
+            <div class="weekly-day-header">{{ day_abbrevs[idx] }}</div>
+            {% for social in site.data.dance_socials %}
+              {% if social.day == day %}
+                <div class="weekly-event{% if social.frequency == 'monthly' %} weekly-event--monthly{% endif %}" style="background: {{ social.color }};">
+                  <span class="weekly-event-venue">{{ social.venue }}</span>
+                  <span class="weekly-event-time">{{ social.time_start }} - {{ social.time_end }}{% if social.note %} &middot; {{ social.note }}{% endif %}</span>
+                  <span class="weekly-event-style">{{ social.style }}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="poster-grid">
+        {% for day in days %}
+          {% assign idx = forloop.index0 %}
+          <div class="poster-day">
+            <div class="poster-day-header">{{ day_abbrevs[idx] }}</div>
+            {% assign day_has_events = false %}
+            {% for social in site.data.dance_socials %}
+              {% if social.day == day %}
+                {% if day_has_events %}<div class="poster-event-separator"></div>{% endif %}
+                {% assign day_has_events = true %}
+                <div class="poster-event{% if social.frequency == 'monthly' %} poster-event--monthly{% endif %}" style="border-left: 4px solid {{ social.color }};">
+                  <span class="poster-event-venue" style="color: {{ social.color }};">{{ social.venue }}</span>
+                  <span class="poster-event-time">{{ social.time_start }}&ndash;{{ social.time_end }}</span>
+                  <span class="poster-event-style">{{ social.style }}{% if social.note %} &middot; {{ social.note }}{% endif %}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="agenda-list">
+        {% for day in days %}
+          {% assign has_events = false %}
+          {% for social in site.data.dance_socials %}
+            {% if social.day == day %}{% assign has_events = true %}{% endif %}
+          {% endfor %}
+          {% if has_events %}
+            <div class="agenda-day">
+              <div class="agenda-day-label">{{ day }}</div>
+              <div class="agenda-day-events">
+                {% for social in site.data.dance_socials %}
+                  {% if social.day == day %}
+                    <div class="agenda-event{% if social.frequency == 'monthly' %} agenda-event--monthly{% endif %}" style="border-left: 4px solid {{ social.color }};">
+                      <span class="agenda-event-venue" style="color: {{ social.color }};">{{ social.venue }}</span>
+                      <span class="agenda-event-details">{{ social.style }} &middot; {{ social.time_start }}&ndash;{{ social.time_end }}{% if social.note %} &middot; {{ social.note }}{% endif %}</span>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="hybrid-grid">
+        {% for day in days %}
+          {% assign idx = forloop.index0 %}
+          <div class="hybrid-day">
+            <div class="hybrid-day-header">{{ day_abbrevs[idx] }}</div>
+            {% for social in site.data.dance_socials %}
+              {% if social.day == day %}
+                <div class="hybrid-event{% if social.frequency == 'monthly' %} hybrid-event--monthly{% endif %}" style="background: {{ social.color }}; border-left: 4px solid {{ social.color }};">
+                  <span class="hybrid-event-venue">{{ social.venue }}</span>
+                  <span class="hybrid-event-time">{{ social.time_start }}&ndash;{{ social.time_end }}{% if social.note %} &middot; {{ social.note }}{% endif %}</span>
+                  <span class="hybrid-event-style">{{ social.style }}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
     </div>
+
+    <script>
+      document.querySelector('.calendar-toggle').addEventListener('click', function(e) {
+        var btn = e.target.closest('.calendar-toggle-btn');
+        if (!btn) return;
+        var view = btn.dataset.view;
+        document.querySelector('.movement-weekly-calendar').dataset.active = view;
+        document.querySelectorAll('.calendar-toggle-btn').forEach(function(b) {
+          b.classList.toggle('active', b === btn);
+        });
+      });
+    </script>
   </div>
 </div>

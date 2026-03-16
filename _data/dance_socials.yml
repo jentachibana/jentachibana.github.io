@@ -1,0 +1,43 @@
+- venue: Verdi Club
+  style: Lindy Hop
+  day: Tuesday
+  time_start: "8:00 PM"
+  time_end: "11:00 PM"
+  color: "#b5890a"
+
+- venue: East Bay Fusion
+  style: Fusion
+  day: Tuesday
+  time_start: "8:00 PM"
+  time_end: "11:00 PM"
+  color: "#8c3a3a"
+
+- venue: Shades
+  style: Fusion
+  day: Monday
+  time_start: "8:00 PM"
+  time_end: "11:00 PM"
+  color: "#8c3a3a"
+
+- venue: Alchemy Springs
+  style: Acro Yoga
+  day: Tuesday
+  time_start: "7:00 PM"
+  time_end: "10:00 PM"
+  color: "#5a7a52"
+
+- venue: The Breakaway
+  style: Lindy Hop
+  day: Thursday
+  time_start: "8:00 PM"
+  time_end: "10:00 PM"
+  color: "#b5890a"
+
+- venue: Starry Plough
+  style: Blues
+  day: Friday
+  time_start: "8:00 PM"
+  time_end: "10:00 PM"
+  color: "#456b8a"
+  note: Every 2nd Friday
+  frequency: monthly
