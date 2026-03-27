@@ -141,4 +141,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var activeCuisinePill = document.querySelector(".cuisine-pill.active");
   if (activeCuisinePill) applyCuisineFilter(activeCuisinePill.dataset.value);
+
 });

@@ -3,41 +3,57 @@
   day: Tuesday
   time_start: "8:00 PM"
   time_end: "11:00 PM"
-  color: "#b5890a"
+  color: "#d4944a"
 
 - venue: East Bay Fusion
   style: Fusion
   day: Tuesday
   time_start: "8:00 PM"
   time_end: "11:00 PM"
-  color: "#8c3a3a"
+  color: "#a8503a"
 
 - venue: Shades
   style: Fusion
   day: Monday
   time_start: "8:00 PM"
   time_end: "11:00 PM"
-  color: "#8c3a3a"
+  color: "#a8503a"
 
 - venue: Alchemy Springs
   style: Acro Yoga
   day: Tuesday
   time_start: "7:00 PM"
   time_end: "10:00 PM"
-  color: "#5a7a52"
+  color: "#7a8a4a"
 
 - venue: The Breakaway
   style: Lindy Hop
   day: Thursday
   time_start: "8:00 PM"
   time_end: "10:00 PM"
-  color: "#b5890a"
+  color: "#d4944a"
 
 - venue: Starry Plough
   style: Blues
   day: Friday
   time_start: "8:00 PM"
   time_end: "10:00 PM"
-  color: "#456b8a"
+  color: "#8a5a3a"
   note: Every 2nd Friday
   frequency: monthly
+
+- venue: Mission Fusion
+  style: Fusion
+  day: Saturday
+  time_start: "8:00 PM"
+  time_end: "12:00 AM"
+  color: "#a8503a"
+  note: Every 1st & 3rd Saturday
+  frequency: monthly
+
+- venue: Dolores Park
+  style: Acro Yoga
+  day: Sunday
+  time_start: "1:00 PM"
+  time_end: "5:00 PM"
+  color: "#7a8a4a"
