@@ -2,19 +2,20 @@
 title: "palak paneer"
 slug: "palak paneer"
 image: "palak paneer.jpeg"
+cuisine: "indian"
 ---
 
 ## Ingredients
 
-spinach
-cashew
-paneer
-canned tomato
-garam masala 
+- spinach
+- cashew
+- paneer
+- canned tomato
+- garam masala
 
 ## Instructions
 
-cook spinach
-blend with nuts
-cook spinach-nut blend with tomato
-toss in paneer
+1. cook spinach
+2. blend with nuts
+3. cook spinach-nut blend with tomato
+4. toss in paneer

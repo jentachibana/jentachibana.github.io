@@ -59,14 +59,20 @@ layout: base
           <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
           {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}</span>{% endif %}
         </div>
-        <hr class="recipe-divider">
-        <div class="recipe-body">
-          {% if recipe.image != "" %}
-          <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-          {% endif %}
-          <div class="recipe-content">
-            {{ recipe.content | markdownify }}
+        {% if recipe.image != "" %}
+        <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+        {% endif %}
+        {% assign parts = recipe.content | split: '<h2 id="instructions">Instructions</h2>' %}
+        <div class="recipe-panels">
+          <div class="recipe-panel recipe-panel-ingredients">
+            {{ parts[0] | markdownify }}
           </div>
+          {% if parts[1] %}
+          <div class="recipe-panel recipe-panel-instructions">
+            <h2>Instructions</h2>
+            {{ parts[1] | markdownify }}
+          </div>
+          {% endif %}
         </div>
       </div>
       {% endfor %}
@@ -76,7 +82,7 @@ layout: base
 
   <!-- Restaurants browse label + filters -->
   <div class="cooking-restaurants-header" data-view-panel="restaurants" hidden>
-    <h2 class="cooking-title">out on the town: <em>all restaurants!</em></h2>
+    <h2 class="cooking-title">out on the town: <em>yummy food i didnt make</em></h2>
 
     <div class="cooking-category-bar">
       <div class="cooking-category-pills">
@@ -87,6 +93,7 @@ layout: base
         {% endfor %}
       </div>
     </div>
+
   </div>
 
   <!-- Restaurants: grid layout -->
@@ -102,8 +109,10 @@ layout: base
           {% else %}
           <div class="photo-placeholder">{{ restaurant.name | downcase }}</div>
           {% endif %}
-          <span class="photo-label">{{ restaurant.name | downcase }}</span>
-          <span class="photo-label restaurant-location">{{ restaurant.location }}{% if restaurant.price %} · {{ restaurant.price }}{% endif %}</span>
+          <div class="restaurant-info">
+            <span class="restaurant-name">{{ restaurant.name | downcase }}</span>
+            <span class="restaurant-location">{{ restaurant.location }}{% if restaurant.price %} · {{ restaurant.price }}{% endif %}</span>
+          </div>
         </div>
         {% endfor %}
       </div>
