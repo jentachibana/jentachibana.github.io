@@ -58,7 +58,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0;
-  color: rgba(232, 221, 212, 0.35);
+  color: rgba(120, 100, 80, 0.5);
   text-decoration: none;
   font-size: 0.85rem;
   flex-shrink: 0;
@@ -72,7 +72,7 @@
   }
 
   &:hover {
-    color: #e8ddd4;
+    color: rgba(120, 100, 80, 0.8);
   }
 }
 
