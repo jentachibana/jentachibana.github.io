@@ -67,19 +67,19 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", showRecipeGallery);
   });
 
-  // Category pill filters
-  var categoryPills = document.querySelectorAll(".category-pill");
+  // Recipe cuisine pill filters
+  var recipePills = document.querySelectorAll(".cooking-recipes-header .category-pill");
 
   function applyFilter(filterValue) {
     recipeGalleryCards.forEach(function (card) {
-      var match = filterValue === "all" || card.dataset.category === filterValue;
+      var match = filterValue === "all" || card.dataset.cuisine === filterValue;
       card.classList.toggle("filtered-out", !match);
     });
   }
 
-  categoryPills.forEach(function (pill) {
+  recipePills.forEach(function (pill) {
     pill.addEventListener("click", function () {
-      categoryPills.forEach(function (p) { p.classList.remove("active"); });
+      recipePills.forEach(function (p) { p.classList.remove("active"); });
       pill.classList.add("active");
       applyFilter(pill.dataset.value);
       showRecipeGallery();
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Apply initial filter from the default active pill
-  var activePill = document.querySelector(".category-pill.active");
+  var activePill = document.querySelector(".cooking-recipes-header .category-pill.active");
   if (activePill) applyFilter(activePill.dataset.value);
 
   // Restaurant gallery elements

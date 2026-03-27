@@ -374,11 +374,23 @@
   }
 }
 
+.recipe-detail-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
 .recipe-detail-title {
   font-family: "Libre Baskerville", serif;
   font-size: 1.6rem;
   font-weight: 400;
   margin: 0;
+}
+
+.recipe-cuisine {
+  font-family: "Karla", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .recipe-divider {
@@ -397,6 +409,7 @@
   font-size: 2rem;
   cursor: pointer;
   line-height: 1;
+  padding: 0;
 
   &:hover {
     opacity: 0.7;

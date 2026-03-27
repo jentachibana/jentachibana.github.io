@@ -22,11 +22,11 @@ layout: base
 
     <div class="cooking-category-bar">
       <div class="cooking-category-pills">
-        <button class="category-pill active" data-filter="category" data-value="all">all</button>
-        <button class="category-pill" data-filter="category" data-value="on rotation">on rotation</button>
-        <button class="category-pill" data-filter="category" data-value="breakfast">breakfast</button>
-        <button class="category-pill" data-filter="category" data-value="dunch">dunch</button>
-        <button class="category-pill" data-filter="category" data-value="snacks">snacks</button>
+        <button class="category-pill active" data-filter="cuisine" data-value="all">all</button>
+        {% assign cuisines = site.recipes | map: "cuisine" | compact | uniq | sort %}
+        {% for cuisine in cuisines %}
+        <button class="category-pill" data-filter="cuisine" data-value="{{ cuisine }}">{{ cuisine | downcase }}</button>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@ layout: base
     <div class="cooking-recipes-view">
       <div class="recipe-grid">
         {% for recipe in site.recipes %}
-        <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-course="{{ recipe.course }}">
+        <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-cuisine="{{ recipe.cuisine }}" data-course="{{ recipe.course }}">
           {% if recipe.image != "" %}
           <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
           {% else %}
@@ -55,7 +55,10 @@ layout: base
       {% for recipe in site.recipes %}
       <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
         <button class="recipe-close" aria-label="Close">&times;</button>
-        <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
+        <div class="recipe-detail-header">
+          <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
+          {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}</span>{% endif %}
+        </div>
         <hr class="recipe-divider">
         <div class="recipe-body">
           {% if recipe.image != "" %}
