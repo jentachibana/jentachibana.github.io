@@ -2,7 +2,6 @@
 title: "butter chicken"
 slug: "butter chicken"
 image: "butter chicken.jpeg"
-cuisine: "indian"
 ---
 
 ## Ingredients

@@ -2,7 +2,6 @@
 title: "bolognese"
 slug: "bolognese"
 image: "bolognese.jpeg"
-cuisine: "italian"
 ---
 
 ## Ingredients

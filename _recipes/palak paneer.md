@@ -2,7 +2,6 @@
 title: "palak paneer"
 slug: "palak paneer"
 image: "palak paneer.jpeg"
-cuisine: "indian"
 ---
 
 ## Ingredients
