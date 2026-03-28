@@ -40,7 +40,7 @@ layout: base
         {% for recipe in site.recipes %}
         <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-cuisine="{{ recipe.cuisine }}" data-course="{{ recipe.course }}">
           {% if recipe.image != "" %}
-          <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+          <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}"{% if recipe.image_position or recipe.image_scale %} style="{% if recipe.image_position %}object-position: {{ recipe.image_position }};{% endif %}{% if recipe.image_scale %}transform: scale({{ recipe.image_scale }});{% endif %}"{% endif %}>
           {% else %}
           <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
           {% endif %}

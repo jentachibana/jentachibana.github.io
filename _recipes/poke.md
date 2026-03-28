@@ -3,6 +3,8 @@ title: "poke"
 slug: "poke"
 image: "poke.jpeg"
 cuisine: "hawaiian"
+image_position: "center 67%"
+image_scale: "1.18"
 ---
 
 ## Ingredients

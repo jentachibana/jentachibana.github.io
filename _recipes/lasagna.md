@@ -3,6 +3,8 @@ title: "lasagna"
 slug: "lasagna"
 image: "lasagna.jpeg"
 cuisine: "italian"
+image_position: ""
+image_scale: ""
 ---
 
 ## Ingredients

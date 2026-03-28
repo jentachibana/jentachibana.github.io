@@ -3,6 +3,8 @@ title: "bolognese"
 slug: "bolognese"
 image: "bolognese.jpeg"
 cuisine: "italian"
+image_position: ""
+image_scale: ""
 ---
 
 ## Ingredients

@@ -3,6 +3,8 @@ title: "strawberry cake"
 slug: "strawberry cake"
 image: "strawberry cake.jpeg"
 cuisine: "snack"
+image_position: ""
+image_scale: ""
 ---
 
 ## Ingredients

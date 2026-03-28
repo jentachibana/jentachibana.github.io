@@ -3,6 +3,8 @@ title: "tau yu bak (braised pork belly)"
 slug: "tau yu bak (braised pork belly)"
 image: "tau yu bak (braised pork belly).jpeg"
 cuisine: "chinese"
+image_position: "center 65%"
+image_scale: "1.2"
 ---
 
 ## Ingredients
