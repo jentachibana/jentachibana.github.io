@@ -2,7 +2,7 @@
 title: "orange chiffon cake"
 slug: "orange chiffon cake"
 image: "orange chiffon cake.jpeg"
-cuisine: "snacks"
+cuisine: "snack"
 ---
 
 ## Ingredients

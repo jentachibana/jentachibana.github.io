@@ -147,7 +147,8 @@
 
 .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 260px));
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  justify-content: center;
   gap: 1.5rem;
   padding: 0;
 

@@ -2,7 +2,7 @@
 title: "squash soup"
 slug: "squash soup"
 image: "squash soup.jpeg"
-cuisine: "white"
+cuisine: "californian"
 ---
 
 ## Ingredients
