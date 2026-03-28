@@ -9,6 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
   var recipeGalleryCards = document.querySelectorAll(".recipe-gallery-card");
   var details = document.querySelectorAll(".recipe-detail");
 
+  // Shuffle recipe grid on page load
+  var recipeGrid = document.querySelector(".recipe-grid");
+  if (recipeGrid) {
+    var cards = Array.from(recipeGrid.children);
+    for (var i = cards.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      recipeGrid.appendChild(cards[j]);
+      cards.splice(j, 1, cards[i]);
+    }
+  }
+
   viewToggles.forEach(function (toggle) {
     toggle.addEventListener("click", function () {
       var view = this.dataset.view;

@@ -11,7 +11,7 @@ cuisine: "indian"
 - cashew
 - paneer
 - canned tomato
-- garam masala
+- garam masala 
 
 ## Instructions
 

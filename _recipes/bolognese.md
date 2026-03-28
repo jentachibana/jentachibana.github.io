@@ -7,7 +7,7 @@ cuisine: "italian"
 
 ## Ingredients
 
-- canned tomato
+- canned tomato 
 - bay leaf
 - onions
 - carrots

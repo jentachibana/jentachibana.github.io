@@ -7,7 +7,8 @@ cuisine: "indian"
 
 ## Ingredients
 
-- canned tomatoes
+
+- canned tomatoes 
 - chicken chunks
 - nuts
 - onion
@@ -16,7 +17,7 @@ cuisine: "indian"
 ## Instructions
 
 1. cook onions
-2. add canned tomatoes
+2. add canned tomatoes 
 3. stew with spices and blended nuts
 4. add chicken
 5. stew
