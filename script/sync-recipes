@@ -36,17 +36,29 @@ for file in "$VAULT_PATH/recipes/"*.md; do
     cp "$VAULT_PATH/assets/$image" "$IMAGES_DIR/$image"
   fi
 
-  # Extract ingredients (lines between ## Ingredients and next ##)
-  ingredients="$(awk '/^## Ingredients/{flag=1; next} /^## /{flag=0} flag' "$file")"
+  # Extract cuisine (first non-empty line between ## Cuisine and next ##)
+  cuisine="$(awk '/^## Cuisine/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
 
-  # Extract instructions (lines after ## Instructions)
-  instructions="$(awk '/^## Instructions/{flag=1; next} flag' "$file")"
+  # Extract image position (first non-empty line between ## Image Position and next ##)
+  image_position="$(awk '/^## Image Position/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+
+  # Extract image scale (first non-empty line between ## Image Scale and next ##)
+  image_scale="$(awk '/^## Image Scale/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+
+  # Extract ingredients (lines between ## Ingredients and next ##), formatted as bullet list
+  ingredients="$(awk '/^## Ingredients/{flag=1; next} /^## /{flag=0} flag' "$file" | awk 'NF{print "- "$0} !NF{print}')"
+
+  # Extract instructions (lines after ## Instructions), formatted as numbered list
+  instructions="$(awk '/^## Instructions/{flag=1; next} flag' "$file" | awk 'NF{n++; print n". "$0} !NF{print}')"
 
   cat > "$RECIPES_DIR/$slug.md" <<FRONTMATTER
 ---
 title: "$title"
 slug: "$slug"
 image: "$image"
+cuisine: "$cuisine"
+image_position: "$image_position"
+image_scale: "$image_scale"
 ---
 
 ## Ingredients

@@ -1,9 +1,9 @@
 .movement {
-  color: #2d3a2d;
+  color: #3a2a1a;
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #e8f0e8;
+  background-color: #e8ddd0;
   font-family: "Karla", sans-serif;
   padding: 2rem 3rem;
   display: flex;
@@ -23,11 +23,42 @@
   flex-shrink: 0;
 }
 
+.palette-toggle {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0;
+  color: inherit;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.palette-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.palette-name {
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+}
+
 .movement-back {
   display: inline-flex;
   align-items: center;
   gap: 0;
-  color: rgba(45, 58, 45, 0.35);
+  color: rgba(120, 100, 80, 0.5);
   text-decoration: none;
   font-size: 0.85rem;
   flex-shrink: 0;
@@ -41,81 +72,17 @@
   }
 
   &:hover {
-    color: #2d3a2d;
+    color: rgba(120, 100, 80, 0.8);
   }
 }
 
 
-.movement-banner {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  flex: 1;
-  justify-content: center;
-}
-
-.movement-banner-link {
-  background: rgba(45, 58, 45, 0.03);
-  border: 1px solid rgba(45, 58, 45, 0.08);
-  border-radius: 2rem;
-  padding: 0.4rem 1.2rem;
-  font-family: "Libre Baskerville", serif;
-  font-size: 1.1rem;
-  color: #2d3a2d;
-  text-decoration: none;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background: rgba(45, 58, 45, 0.08);
-  }
-
-  &.active[data-category="dance"] {
-    background: #722f37;
-    color: #fff;
-    border-color: #722f37;
-  }
-
-  &.active[data-category="exercise"] {
-    background: #4b6b41;
-    color: #fff;
-    border-color: #4b6b41;
-  }
-
-  &.active[data-category="sports"] {
-    background: #b5892a;
-    color: #fff;
-    border-color: #b5892a;
-  }
-}
 
 .movement-body {
   display: flex;
   flex: 1;
   min-height: 0;
   gap: 2rem;
-}
-
-.movement-sidebar {
-  width: 180px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  border-right: 1px solid;
-  padding-right: 2rem;
-  overflow-y: auto;
-}
-
-.movement-sidebar-item {
-  text-decoration: none;
-  font-family: "Libre Baskerville", serif;
-  font-size: 0.9rem;
-  opacity: 0.6;
-  transition: opacity 0.15s ease;
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 // Base grid
@@ -130,7 +97,7 @@
 .movement-card {
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(45, 58, 45, 0.05);
+  background: rgba(232, 221, 212, 0.08);
   transition: transform 0.15s ease;
 
   &:hover {
@@ -157,15 +124,93 @@
   box-sizing: border-box;
 }
 
-.movement-calendar {
+.movement-weekly-calendar {
   width: 100%;
   margin-top: 1.5rem;
+  text-transform: lowercase;
+}
 
-  iframe {
-    width: 100%;
-    height: 350px;
-    border: none;
-    border-radius: 12px;
+.movement h2.calendar-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 400;
+  margin: 0 0 0.75rem;
+  opacity: 0.8;
+  text-transform: lowercase;
+}
+
+.weekly-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.weekly-day-header {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  opacity: 0.5;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(232, 221, 212, 0.15);
+  margin-bottom: 0.5rem;
+}
+
+.weekly-event {
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.4rem;
+
+  &--monthly {
+    border: 2px dotted rgba(255, 255, 255, 0.6);
+  }
+}
+
+.weekly-event-venue {
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.weekly-event-time {
+  font-size: 0.7rem;
+  opacity: 0.85;
+}
+
+.weekly-event-style {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .weekly-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .weekly-day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .weekly-day-header {
+    width: 3rem;
+    flex-shrink: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+    line-height: 1.8;
+  }
+
+  .weekly-event {
+    margin-bottom: 0;
   }
 }
 

@@ -1,0 +1,31 @@
+- name: "Quick & Easy"
+  slug: "quick-and-easy"
+  image: "lemon-ricotta-pasta.jpg"
+
+- name: "Chinese Takeout"
+  slug: "chinese-takeout"
+  image: "mapo-tofu.jpg"
+
+- name: "Vegan/Vegetarian"
+  slug: "vegan-vegetarian"
+  image: "spicy-peanut-noodles.jpg"
+
+- name: "Gluten-Free"
+  slug: "gluten-free"
+  image: "miso-glazed-salmon.jpg"
+
+- name: "Chinese Bakery"
+  slug: "chinese-bakery"
+  image: "turnip cake.jpeg"
+
+- name: "Dim Sum"
+  slug: "dim-sum"
+  image: "japanese-gyoza.jpg"
+
+- name: "Steamed Dishes"
+  slug: "steamed-dishes"
+  image: "pork rib soup.jpeg"
+
+- name: "Party Food"
+  slug: "party-food"
+  image: "pad-thai.jpg"

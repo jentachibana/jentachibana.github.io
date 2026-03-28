@@ -28,3 +28,12 @@
   price: "$$$"
   color: "#5a8e7a"
   image: liholiho-yacht-club.svg
+
+- name: Mensho Piedmont
+  cuisine: japanese
+  location: Oakland, CA
+  address: 4104 Piedmont Ave, Oakland, CA 94611
+  description: "Enoki Chips (9/10, glorious crispy mushrooms), Hotate Butter Shoyu (8/10, delicious), Signature Smoked Toripaitan (9/10, best ramen ive had, classic), Garlic Knock Out (8.5/10, really delicious but u gotta be ready for a heavy meal)"
+  website: https://www.menshosf.com/
+  price: "$$"
+  color: "#8a6e5a"

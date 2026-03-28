@@ -6,6 +6,7 @@
   min-height: 100vh;
   background-color: #f5f0e8;
   font-family: "Karla", sans-serif;
+  box-sizing: border-box;
 
   h1, h2, h3, h4, h5, h6 {
     font-family: "Libre Baskerville", serif;
@@ -15,29 +16,177 @@
 .cooking-header {
   display: flex;
   align-items: center;
-  padding: 2rem 3rem 1rem;
+  padding: 2rem 6rem 1rem;
   flex-shrink: 0;
 }
 
 .cooking-content {
   display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
 }
 
-.cooking-sidebar {
+// Recipes header (title + category pills)
+.cooking-recipes-header {
+  padding: 1rem 4rem 0;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.cooking-title {
+  font-family: "Libre Baskerville", serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin: 0 0 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px dotted #ccc;
+  color: #333;
+
+  em {
+    font-style: italic;
+  }
+}
+
+.cooking-category-bar {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.cooking-category-label {
+  display: block;
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.cooking-category-pills {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
-  text-align: center;
-  width: 30%;
-  height: calc(100vh - 5rem);
-  padding: 0 30px 30px;
-  flex-shrink: 0;
-  overflow-y: auto;
-  position: sticky;
-  top: 0;
+
+}
+
+.category-pill {
+  font-family: "Karla", sans-serif;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.2rem;
+  border: 1.5px solid #333;
+  border-radius: 12px;
+  background: none;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &.active {
+    background: #d4a843;
+    border-color: #d4a843;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  &.cuisine-pill.active {
+    background: #c2622d;
+    border-color: #c2622d;
+  }
+}
+
+// Recipes layout: grid
+.cooking-recipes-layout {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.5rem 4rem 2rem;
+  gap: 2rem;
+  overflow: hidden;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Restaurants header (title + cuisine pills)
+.cooking-restaurants-header {
+  padding: 1rem 4rem 0;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Restaurants layout: grid
+.cooking-restaurants-layout {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.5rem 4rem 2rem;
+  gap: 2rem;
+  overflow: hidden;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+
+
+// Recipe gallery grid
+.cooking-recipes-view {
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Recipe detail container (inside sidebar layout)
+.cooking-recipe-details {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Restaurant gallery view
+.cooking-restaurants-view {
+  flex: 1 1 0%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cooking-restaurant-details {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .cooking-view-toggle {
@@ -74,244 +223,30 @@
   }
 }
 
-.cooking-view[hidden] {
-  display: none;
-}
 
-.cooking-main-view {
-  width: 100%;
-}
-
-.cooking-main-view[hidden] {
-  display: none;
-}
-
-.restaurant-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 2rem 0;
-}
-
-.restaurant-list li {
-  margin: 0.6rem 0;
-}
-
-.restaurant-link {
-  color: #333;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.restaurant-cuisine {
-  display: block;
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.4);
-}
-
-
-.recipe-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 2rem 0;
-}
-
-.recipe-list li {
-  margin: 0.4rem 0;
-}
-
-.recipe-link {
-  color: #333;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &.active {
-    font-weight: bold;
-    text-decoration: underline;
-  }
-}
-
-.ingredient-filter {
-  margin-bottom: 1.5rem;
-  width: 100%;
-}
-
-.ingredient-filter-title {
-  font-size: 0.85rem;
-  text-transform: lowercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.ingredient-group {
-  margin-bottom: 0.1rem;
-  width: 100%;
-}
-
-.ingredient-group-toggle {
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 0.8rem;
-  cursor: pointer;
-  color: #555;
-  padding: 0.15rem 0;
-  width: 100%;
+.restaurant-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  transition: color 0.15s ease;
-
-  &:hover {
-    color: #333;
-  }
-
-  &[aria-expanded="true"] {
-    color: #333;
-    font-weight: bold;
-  }
+  padding: 0.5rem 0.25rem;
+  gap: 0.1rem;
 }
 
-.ingredient-group-count {
-  font-size: 0.7rem;
-  color: rgba(0, 0, 0, 0.35);
-}
-
-.ingredient-group-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  justify-content: center;
-  padding: 0.3rem 0 0.5rem;
-
-  &[hidden] {
-    display: none;
-  }
-}
-
-.ingredient-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  justify-content: center;
-}
-
-.ingredient-tag {
-  background: rgba(0, 0, 0, 0.06);
-  border: 1px solid transparent;
-  border-radius: 1rem;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.75rem;
-  font-family: inherit;
-  cursor: pointer;
-  color: #555;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  &.active {
-    background: #333;
-    color: #f5f0e8;
-    border-color: #333;
-  }
-}
-
-.recipe-list li.filtered-out,
-.photo-card.filtered-out,
-.restaurant-list li.filtered-out,
-.restaurant-card.filtered-out {
-  display: none;
-}
-
-.cuisine-filter {
-  margin-bottom: 1.5rem;
-  width: 100%;
-}
-
-.cuisine-filter-title {
-  font-size: 0.85rem;
-  text-transform: lowercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.cuisine-filter-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  justify-content: center;
-}
-
-.cuisine-tag {
-  background: rgba(0, 0, 0, 0.06);
-  border: 1px solid transparent;
-  border-radius: 1rem;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.75rem;
-  font-family: inherit;
-  cursor: pointer;
-  color: #555;
-  transition: all 0.15s ease;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  &.active {
-    background: #333;
-    color: #f5f0e8;
-    border-color: #333;
-  }
+.restaurant-name {
+  font-family: "Libre Baskerville", serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .restaurant-location {
+  font-family: "Space Mono", monospace;
   font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.4);
-  padding-top: 0;
-}
-
-.restaurant-detail {
-  width: 100%;
-  max-width: 600px;
-  position: relative;
-  align-self: flex-start;
-  padding-top: 0;
-
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0.25rem;
-  }
-}
-
-.restaurant-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  color: #333;
-  font-size: 2rem;
-  cursor: pointer;
-  line-height: 1;
-
-  &:hover {
-    opacity: 0.7;
-  }
-}
-
-.restaurant-description {
-  margin-bottom: 1rem;
-
-  p {
-    margin: 0;
-  }
+  color: rgba(0, 0, 0, 0.45);
+  font-weight: 400;
 }
 
 .restaurant-links {
@@ -347,13 +282,6 @@
   }
 }
 
-.restaurant-link {
-  &.active {
-    font-weight: bold;
-    text-decoration: underline;
-  }
-}
-
 .cooking-back {
   display: inline-flex;
   align-items: center;
@@ -376,19 +304,10 @@
   }
 }
 
-
-.cooking-main {
-  flex: 1;
-  padding: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .photo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
   width: 100%;
 
   &[hidden] {
@@ -398,64 +317,134 @@
 
 .photo-card {
   cursor: pointer;
-  border-radius: 8px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.05);
   transition: transform 0.15s ease;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.02);
   }
 
   img {
     width: 100%;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
+    border-radius: 12px;
   }
 }
 
 .photo-placeholder {
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
   font-size: 0.9rem;
   text-align: center;
   padding: 1rem;
 }
 
 .photo-label {
-  display: block;
-  padding: 0.5rem;
+  font-family: "Libre Baskerville", serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 0.85rem;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  padding: 0.5rem;
+}
+
+.photo-card:hover .photo-label {
+  opacity: 1;
 }
 
 .recipe-detail {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
   position: relative;
   align-self: flex-start;
-  padding-top: 0;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
 
-  h2 {
-    margin-top: 0;
+  &[hidden] {
+    display: none;
   }
+}
+
+.recipe-detail-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 2px;
+    background: #d4a843;
+    margin-top: 0.75rem;
+    border-radius: 1px;
+  }
+}
+
+.recipe-detail-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  font-style: italic;
+  font-weight: 400;
+  margin: 0;
+}
+
+.recipe-cuisine {
+  font-family: "Karla", sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(0, 0, 0, 0.35);
+}
+
+.recipe-divider {
+  border: none;
+  border-top: 2px dashed #ccc;
+  margin: 1rem 0;
 }
 
 .recipe-close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1rem;
+  right: 1.5rem;
   background: none;
   border: none;
   color: #333;
   font-size: 2rem;
   cursor: pointer;
   line-height: 1;
+  padding: 0;
 
   &:hover {
     opacity: 0.7;
@@ -464,23 +453,76 @@
 
 .recipe-hero {
   width: 100%;
-  max-height: 300px;
+  max-height: 280px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.recipe-content {
+.recipe-panels {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.recipe-panel {
+  flex: 1;
+  min-width: 0;
+
   h2 {
-    font-size: 1.2rem;
-    margin-top: 1.5rem;
+    font-family: "Playfair Display", serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0;
+    color: #333;
+    margin: 0 0 0.75rem;
   }
 
   ul, ol {
     padding-left: 1.2rem;
+    margin: 0;
   }
 
   li {
-    margin: 0.3rem 0;
+    margin: 0.4rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 }
+
+.recipe-panel-ingredients {
+  border-right: 1px solid #e0d5c7;
+  padding-right: 2rem;
+}
+
+@media (max-width: 600px) {
+  .recipe-panels {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .recipe-panel-ingredients {
+    border-right: none;
+    border-bottom: 1px solid #e0d5c7;
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+  }
+}
+
+.photo-card.filtered-out,
+.restaurant-card.filtered-out {
+  display: none;
+}
+
+@keyframes cookingFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cooking-fade-in {
+  animation: cookingFadeIn 0.3s ease both;
+}
+
+
+

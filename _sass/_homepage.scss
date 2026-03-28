@@ -38,12 +38,13 @@ body {
     margin: 10px;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
+    font-size: 1.3em;
 }
 
 .right-navbar {
     display: flex;
     flex-direction: row;
-    gap: 32px;
+    gap: 56px;
     position: absolute;
     top: 48px;
 }
@@ -52,13 +53,14 @@ body {
     margin: 5px 0px;
     color: white;
     text-decoration: none;
-    font-size: 1.1em;
+    font-size: 1.35em;
     opacity: 0.8;
     font-family: 'Cormorant Garamond', serif;
 }
 
 .navlink:hover {
     opacity: 1;
+    font-weight: 700;
     transform: scale(1.05);
     transition: 0.11s ease;
 }
