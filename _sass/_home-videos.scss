@@ -76,6 +76,12 @@
 
 }
 
+@media (max-width: 768px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .video-title {
   display: block;
   text-align: center;

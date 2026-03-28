@@ -188,7 +188,29 @@
 
 @media (max-width: 768px) {
   .weekly-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .weekly-day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .weekly-day-header {
+    width: 3rem;
+    flex-shrink: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+    line-height: 1.8;
+  }
+
+  .weekly-event {
+    margin-bottom: 0;
   }
 }
 

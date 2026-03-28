@@ -4,7 +4,7 @@ slug: "squash soup"
 image: "squash soup.jpeg"
 cuisine: "californian"
 image_position: ""
-image_scale: ""
+image_scale: "1.2"
 ---
 
 ## Ingredients
