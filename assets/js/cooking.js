@@ -4,13 +4,37 @@ document.addEventListener("DOMContentLoaded", function () {
   var viewPanels = document.querySelectorAll("[data-view-panel]");
 
   // Recipe gallery elements
-  var recipesView = document.querySelector(".cooking-recipes-view");
-  var recipeDetailsContainer = document.querySelector(".cooking-recipe-details");
+  var detailInline = document.getElementById("recipe-detail-inline");
   var recipeGalleryCards = document.querySelectorAll(".recipe-gallery-card");
-  var details = document.querySelectorAll(".recipe-detail");
+  var details = document.querySelectorAll("#recipe-detail-inline .recipe-detail");
+  var recipeGrid = document.querySelector(".recipe-grid");
+  var activeCardSlug = null;
+
+  // Gallery / expanded view toggle
+  var galleryView = document.querySelector(".cooking-recipes-view");
+  var expandedView = document.querySelector(".expanded-recipes-view");
+  var expandedCards = document.querySelectorAll(".expanded-recipe-card");
+  var modeBtns = document.querySelectorAll(".recipe-mode-btn");
+
+  modeBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      modeBtns.forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      var mode = btn.dataset.mode;
+
+      if (mode === "gallery") {
+        if (galleryView) galleryView.hidden = false;
+        if (expandedView) expandedView.hidden = true;
+        closeRecipeDetail();
+      } else {
+        if (galleryView) galleryView.hidden = true;
+        if (expandedView) { expandedView.hidden = false; fadeIn(expandedView); }
+        closeRecipeDetail();
+      }
+    });
+  });
 
   // Shuffle recipe grid on page load
-  var recipeGrid = document.querySelector(".recipe-grid");
   if (recipeGrid) {
     var cards = Array.from(recipeGrid.children);
     for (var i = cards.length - 1; i > 0; i--) {
@@ -31,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (view === "recipes") {
-        showRecipeGallery();
+        closeRecipeDetail();
       }
       if (view === "restaurants") {
         cuisinePills.forEach(function (p) { p.classList.remove("active"); });
@@ -46,36 +70,89 @@ document.addEventListener("DOMContentLoaded", function () {
   function fadeIn(el) {
     if (!el) return;
     el.classList.remove("cooking-fade-in");
-    void el.offsetWidth; // reflow to restart animation
+    void el.offsetWidth;
     el.classList.add("cooking-fade-in");
   }
 
-  // Show recipe gallery (default recipes view)
-  function showRecipeGallery() {
-    if (recipesView) { recipesView.hidden = false; fadeIn(recipesView); }
-    if (recipeDetailsContainer) recipeDetailsContainer.hidden = true;
+  // Close recipe detail and restore card in grid
+  function closeRecipeDetail() {
+    if (detailInline) detailInline.hidden = true;
     details.forEach(function (d) { d.hidden = true; });
+    if (activeCardSlug) {
+      var card = document.querySelector('.recipe-gallery-card[data-recipe="' + activeCardSlug + '"]');
+      if (card) card.classList.remove("hidden-active");
+      activeCardSlug = null;
+    }
   }
 
-  // Show recipe detail
-  function showRecipeDetail(slug) {
-    if (recipesView) recipesView.hidden = true;
-    if (recipeDetailsContainer) { recipeDetailsContainer.hidden = false; fadeIn(recipeDetailsContainer); }
-    details.forEach(function (d) {
-      d.hidden = d.id !== "recipe-" + slug;
+  // Get the number of grid columns from the computed style
+  function getGridColumns() {
+    if (!recipeGrid) return 3;
+    // Temporarily remove the detail from the grid so it doesn't affect column count
+    var detailWasInGrid = detailInline && detailInline.parentNode === recipeGrid;
+    if (detailWasInGrid) detailInline.hidden = true;
+    var style = getComputedStyle(recipeGrid);
+    var cols = style.gridTemplateColumns.split(" ").length;
+    if (detailWasInGrid) detailInline.hidden = false;
+    return cols;
+  }
+
+  // Show recipe detail inline
+  function showRecipeDetail(slug, clickedCard) {
+    // Restore previously hidden card first
+    if (activeCardSlug && activeCardSlug !== slug) {
+      var prevCard = document.querySelector('.recipe-gallery-card[data-recipe="' + activeCardSlug + '"]');
+      if (prevCard) prevCard.classList.remove("hidden-active");
+    }
+
+    // Hide detail temporarily so it doesn't interfere with position calculations
+    if (detailInline) detailInline.hidden = true;
+
+    // Get visible cards in current DOM order (before hiding clicked card)
+    var visibleCards = Array.from(recipeGrid.querySelectorAll(".recipe-gallery-card")).filter(function (c) {
+      return !c.classList.contains("filtered-out") && !c.classList.contains("hidden-active");
     });
+
+    var cols = getGridColumns();
+    var clickedPos = visibleCards.indexOf(clickedCard);
+
+    // After removing the clicked card, we want complete rows above the detail.
+    // Cards before clicked: clickedPos cards. Round down to nearest multiple of cols.
+    var cardsBefore = Math.floor(clickedPos / cols) * cols;
+
+    activeCardSlug = slug;
+
+    // Hide clicked card from grid
+    if (clickedCard) clickedCard.classList.add("hidden-active");
+
+    // Insert detail into the grid after the last card of the complete row block
+    if (recipeGrid && detailInline) {
+      if (cardsBefore === 0) {
+        recipeGrid.prepend(detailInline);
+      } else {
+        // visibleCards[cardsBefore - 1] is the last card completing the rows above
+        visibleCards[cardsBefore - 1].after(detailInline);
+      }
+    }
+
+    // Show detail hidden first to measure position, then scroll, then fade in
+    details.forEach(function (d) { d.hidden = d.id !== "recipe-" + slug; });
+    if (detailInline) {
+      detailInline.hidden = false;
+      fadeIn(detailInline);
+    }
   }
 
   // Recipe gallery card clicks
   recipeGalleryCards.forEach(function (card) {
     card.addEventListener("click", function () {
-      showRecipeDetail(card.dataset.recipe);
+      showRecipeDetail(card.dataset.recipe, card);
     });
   });
 
   // Recipe close buttons
   document.querySelectorAll(".recipe-close").forEach(function (btn) {
-    btn.addEventListener("click", showRecipeGallery);
+    btn.addEventListener("click", closeRecipeDetail);
   });
 
   // Recipe cuisine pill filters
@@ -86,6 +163,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var match = filterValue === "all" || card.dataset.cuisine === filterValue;
       card.classList.toggle("filtered-out", !match);
     });
+    expandedCards.forEach(function (card) {
+      var match = filterValue === "all" || card.dataset.cuisine === filterValue;
+      card.classList.toggle("filtered-out", !match);
+    });
   }
 
   recipePills.forEach(function (pill) {
@@ -93,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
       recipePills.forEach(function (p) { p.classList.remove("active"); });
       pill.classList.add("active");
       applyFilter(pill.dataset.value);
-      showRecipeGallery();
+      closeRecipeDetail();
     });
   });
 

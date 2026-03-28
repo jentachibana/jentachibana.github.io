@@ -5,6 +5,7 @@ image: "butter chicken.jpeg"
 cuisine: "indian"
 image_position: "center 75%"
 image_scale: ""
+blurb: "YES. replace the butter with blended nuts"
 ---
 
 ## Ingredients

@@ -5,6 +5,7 @@ image: "orange chiffon cake.jpeg"
 cuisine: "snack"
 image_position: ""
 image_scale: "1.2"
+blurb: "i think i cut the sugar on this one but the texture came out great"
 ---
 
 ## Ingredients

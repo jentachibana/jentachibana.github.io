@@ -5,6 +5,7 @@ image: "soba.jpeg"
 cuisine: "japanese"
 image_position: ""
 image_scale: "1.1"
+blurb: "sesame seeds make everything look pretty"
 ---
 
 ## Ingredients

@@ -28,13 +28,17 @@ layout: base
         <button class="category-pill" data-filter="cuisine" data-value="{{ cuisine }}">{{ cuisine | downcase }}</button>
         {% endfor %}
       </div>
+      <div class="recipe-view-mode-toggle">
+        <button class="recipe-mode-btn active" data-mode="gallery">gallery</button>
+        <button class="recipe-mode-btn" data-mode="expanded">expanded</button>
+      </div>
     </div>
   </div>
 
   <!-- Recipes: grid layout -->
   <div class="cooking-recipes-layout" data-view-panel="recipes">
 
-    <!-- Recipe gallery view -->
+    <!-- Recipe gallery view with inline details -->
     <div class="cooking-recipes-view">
       <div class="recipe-grid">
         {% for recipe in site.recipes %}
@@ -48,31 +52,76 @@ layout: base
         </div>
         {% endfor %}
       </div>
+
+      <!-- Detail element (moved inline into grid via JS) -->
+      <div class="recipe-detail-inline" id="recipe-detail-inline" hidden>
+        {% for recipe in site.recipes %}
+        <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
+          <button class="recipe-close" aria-label="Close">&times;</button>
+          <div class="recipe-detail-layout">
+            <div class="recipe-detail-left">
+              {% if recipe.image != "" %}
+              <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+              {% endif %}
+            </div>
+            <div class="recipe-detail-right">
+              <div class="recipe-detail-header">
+                <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
+                {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}</span>{% endif %}
+              </div>
+              {% if recipe.blurb != "" %}
+              <p class="recipe-blurb">{{ recipe.blurb }}</p>
+              {% endif %}
+              {% assign parts = recipe.content | split: '<h2 id="instructions">Instructions</h2>' %}
+              <div class="recipe-panels">
+                <div class="recipe-panel recipe-panel-ingredients">
+                  {{ parts[0] | markdownify }}
+                </div>
+                {% if parts[1] %}
+                <div class="recipe-panel recipe-panel-instructions">
+                  <h2>Instructions</h2>
+                  {{ parts[1] | markdownify }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
 
-    <!-- Recipe detail views (inside layout, replaces grid) -->
-    <div class="cooking-recipe-details" hidden>
+    <!-- Expanded view: all recipe details stacked -->
+    <div class="expanded-recipes-view" hidden>
       {% for recipe in site.recipes %}
-      <div class="recipe-detail" id="recipe-{{ recipe.slug }}" hidden>
-        <button class="recipe-close" aria-label="Close">&times;</button>
-        <div class="recipe-detail-header">
-          <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
-          {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}</span>{% endif %}
-        </div>
-        {% if recipe.image != "" %}
-        <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
-        {% endif %}
-        {% assign parts = recipe.content | split: '<h2 id="instructions">Instructions</h2>' %}
-        <div class="recipe-panels">
-          <div class="recipe-panel recipe-panel-ingredients">
-            {{ parts[0] | markdownify }}
+      <div class="recipe-detail expanded-recipe-card" data-cuisine="{{ recipe.cuisine }}">
+        <div class="recipe-detail-layout">
+          <div class="recipe-detail-left">
+            {% if recipe.image != "" %}
+            <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+            {% endif %}
           </div>
-          {% if parts[1] %}
-          <div class="recipe-panel recipe-panel-instructions">
-            <h2>Instructions</h2>
-            {{ parts[1] | markdownify }}
+          <div class="recipe-detail-right">
+            <div class="recipe-detail-header">
+              <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
+              {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}</span>{% endif %}
+            </div>
+            {% if recipe.blurb != "" %}
+            <p class="recipe-blurb">{{ recipe.blurb }}</p>
+            {% endif %}
+            {% assign parts = recipe.content | split: '<h2 id="instructions">Instructions</h2>' %}
+            <div class="recipe-panels">
+              <div class="recipe-panel recipe-panel-ingredients">
+                {{ parts[0] | markdownify }}
+              </div>
+              {% if parts[1] %}
+              <div class="recipe-panel recipe-panel-instructions">
+                <h2>Instructions</h2>
+                {{ parts[1] | markdownify }}
+              </div>
+              {% endif %}
+            </div>
           </div>
-          {% endif %}
         </div>
       </div>
       {% endfor %}
@@ -102,16 +151,16 @@ layout: base
     <!-- Restaurant gallery view -->
     <div class="cooking-restaurants-view">
       <div class="recipe-grid restaurant-grid">
-        {% for restaurant in site.data.restaurants %}
-        <div class="photo-card restaurant-card" data-cuisine="{{ restaurant.cuisine }}" data-price="{{ restaurant.price }}" data-restaurant="{{ restaurant.name | slugify }}">
-          {% if restaurant.image %}
-          <img src="/assets/images/restaurants/{{ restaurant.image }}" alt="{{ restaurant.name }}">
+        {% for restaurant in site.restaurants %}
+        <div class="photo-card restaurant-card" data-cuisine="{{ restaurant.cuisine }}" data-price="{{ restaurant.price }}" data-restaurant="{{ restaurant.title | slugify }}">
+          {% if restaurant.image != "" %}
+          <img src="/assets/images/restaurants/{{ restaurant.image }}" alt="{{ restaurant.title }}"{% if restaurant.image_position or restaurant.image_scale %} style="{% if restaurant.image_position %}object-position: {{ restaurant.image_position }};{% endif %}{% if restaurant.image_scale %}transform: scale({{ restaurant.image_scale }});{% endif %}"{% endif %}>
           {% else %}
-          <div class="photo-placeholder">{{ restaurant.name | downcase }}</div>
+          <div class="photo-placeholder">{{ restaurant.title | downcase }}</div>
           {% endif %}
           <div class="restaurant-info">
-            <span class="restaurant-name">{{ restaurant.name | downcase }}</span>
-            <span class="restaurant-location">{{ restaurant.location }}{% if restaurant.price %} · {{ restaurant.price }}{% endif %}</span>
+            <span class="restaurant-name">{{ restaurant.title | downcase }}</span>
+            <span class="restaurant-location">{% if restaurant.price %}{{ restaurant.price }}{% endif %}</span>
           </div>
         </div>
         {% endfor %}
@@ -120,26 +169,29 @@ layout: base
 
     <!-- Restaurant detail views -->
     <div class="cooking-restaurant-details" hidden>
-      {% for restaurant in site.data.restaurants %}
-      <div class="recipe-detail restaurant-detail" id="restaurant-{{ restaurant.name | slugify }}" hidden>
+      {% for restaurant in site.restaurants %}
+      <div class="recipe-detail restaurant-detail" id="restaurant-{{ restaurant.title | slugify }}" hidden>
         <button class="recipe-close restaurant-close" aria-label="Close">&times;</button>
-        <h2 class="recipe-detail-title">{{ restaurant.name | downcase }}</h2>
+        <h2 class="recipe-detail-title">{{ restaurant.title | downcase }}</h2>
         <hr class="recipe-divider">
         <div class="recipe-body">
-          {% if restaurant.image %}
-          <img class="recipe-hero" src="/assets/images/restaurants/{{ restaurant.image }}" alt="{{ restaurant.name }}">
+          {% if restaurant.image != "" %}
+          <img class="recipe-hero" src="/assets/images/restaurants/{{ restaurant.image }}" alt="{{ restaurant.title }}">
           {% endif %}
           <div class="recipe-content">
             <div class="restaurant-links">
+              {% if restaurant.website != "" %}
               <a href="{{ restaurant.website }}" target="_blank" rel="noopener">website</a>
-              {% if restaurant.menu %}
+              {% endif %}
+              {% if restaurant.menu != "" %}
               <a href="{{ restaurant.menu }}" target="_blank" rel="noopener">menu</a>
               {% endif %}
-              {% if restaurant.price %}
+              {% if restaurant.price != "" %}
               <span class="restaurant-price">{{ restaurant.price }}</span>
               {% endif %}
             </div>
-            <p>{{ restaurant.description }}</p>
+            {{ restaurant.content }}
+            {% if restaurant.address != "" %}
             <div class="restaurant-map">
               <iframe
                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{ restaurant.address | url_encode }}"
@@ -151,6 +203,7 @@ layout: base
                 referrerpolicy="no-referrer-when-downgrade">
               </iframe>
             </div>
+            {% endif %}
           </div>
         </div>
       </div>

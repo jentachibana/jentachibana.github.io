@@ -70,7 +70,32 @@
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+}
 
+.recipe-view-mode-toggle {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.recipe-mode-btn {
+  font-family: "Karla", sans-serif;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid #a0816c;
+  border-radius: 20px;
+  background: transparent;
+  color: #6b5544;
+  cursor: pointer;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  transition: all 0.15s ease;
+
+  &:hover, &.active {
+    background: #a0816c;
+    color: #fff;
+  }
 }
 
 .category-pill {
@@ -104,10 +129,10 @@
 // Recipes layout: grid
 .cooking-recipes-layout {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: stretch;
   padding: 1.5rem 4rem 2rem;
   gap: 2rem;
-  overflow: hidden;
 
   &[hidden] {
     display: none;
@@ -140,9 +165,12 @@
 
 // Recipe gallery grid
 .cooking-recipes-view {
-  flex: 1 1 0%;
+  width: 100%;
   min-width: 0;
-  overflow: hidden;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .recipe-grid {
@@ -161,15 +189,34 @@
   }
 }
 
-// Recipe detail container (inside sidebar layout)
-.cooking-recipe-details {
-  flex: 1;
-  min-width: 0;
-  max-width: 100%;
+// Expanded view: all details stacked
+.expanded-recipes-view {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
 
   &[hidden] {
     display: none;
   }
+}
+
+.expanded-recipe-card.filtered-out {
+  display: none;
+}
+
+// Recipe detail inline (inserted into grid, spans full width)
+.recipe-detail-inline {
+  grid-column: 1 / -1;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+// Hide the active card from the grid (grid reflows to fill gap)
+.recipe-gallery-card.hidden-active {
+  display: none;
 }
 
 // Restaurant gallery view
@@ -375,17 +422,27 @@
   opacity: 1;
 }
 
+@media (hover: none) {
+  .photo-card .photo-label {
+    opacity: 1;
+  }
+}
+
 .recipe-detail {
   width: 100%;
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
   box-sizing: border-box;
   position: relative;
   align-self: flex-start;
   padding: 2rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 16px;
+  transform-origin: top center;
+  will-change: transform, opacity;
+
+  background: #faf6ef;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 3px 0 #e0d5c4, 4px 5px 0 #d4c9b8, 0 0 0 1px #e8dfd2;
 
   &[hidden] {
     display: none;
@@ -395,11 +452,16 @@
 .recipe-detail-header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    align-items: center;
+    text-align: center;
+  }
   gap: 0.3rem;
-  padding-bottom: 1.25rem;
-  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 
   &::after {
     content: "";
@@ -407,7 +469,7 @@
     width: 3rem;
     height: 2px;
     background: #d4a843;
-    margin-top: 0.75rem;
+    margin-top: 0.4rem;
     border-radius: 1px;
   }
 }
@@ -426,6 +488,14 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: rgba(0, 0, 0, 0.35);
+}
+
+.recipe-blurb {
+  font-family: "Karla", sans-serif;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0.5rem 0 0.75rem;
+  line-height: 1.5;
 }
 
 .recipe-divider {
@@ -451,12 +521,35 @@
   }
 }
 
+.recipe-detail-layout {
+  display: flex;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.recipe-detail-left {
+  flex: 0 0 340px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex: none;
+  }
+}
+
+.recipe-detail-right {
+  flex: 1;
+  min-width: 0;
+}
+
 .recipe-hero {
   width: 100%;
-  max-height: 280px;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 1.5rem;
 }
 
 .recipe-panels {
@@ -516,12 +609,12 @@
 }
 
 @keyframes cookingFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 .cooking-fade-in {
-  animation: cookingFadeIn 0.3s ease both;
+  animation: cookingFadeIn 0.6s ease both;
 }
 
 

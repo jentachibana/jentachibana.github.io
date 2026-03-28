@@ -5,6 +5,7 @@ image: "palak paneer.jpeg"
 cuisine: "indian"
 image_position: "center 75%"
 image_scale: "1.3"
+blurb: "MMMmmm so yum and keeps great in the fridge"
 ---
 
 ## Ingredients
