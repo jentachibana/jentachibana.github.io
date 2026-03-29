@@ -67,9 +67,49 @@
 
 .cooking-category-pills {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cooking-top-filters {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.top-filter-btn {
+  font-family: "Karla", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.45rem 1.3rem;
+  border: 2px solid #6b5544;
+  border-radius: 20px;
+  background: transparent;
+  color: #6b5544;
+  cursor: pointer;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: rgba(107, 85, 68, 0.08);
+  }
+
+  &.active {
+    background: #6b5544;
+    color: #fff;
+  }
+}
+
+.cooking-sub-filters {
+  display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.6rem;
   justify-content: center;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .recipe-view-mode-toggle {
@@ -316,6 +356,20 @@
 .restaurant-price {
   font-size: 0.85rem;
   color: rgba(0, 0, 0, 0.5);
+}
+
+.restaurant-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 8px;
+  }
 }
 
 .restaurant-map {

@@ -23,18 +23,32 @@ for file in "$VAULT_PATH/restaurants/"*.md; do
     title="$filename"
   fi
 
-  # Extract image filename from markdown or Obsidian embed syntax
-  # Standard: ![alt](../assets/image.jpg)
-  # Obsidian: ![[image.jpg|size]]
-  image="$(sed -n 's/.*!\[.*\](\.\.\/assets\/\(.*\))/\1/p' "$file" | head -1)"
-  if [ -z "$image" ]; then
-    image="$(sed -n 's/.*!\[\[\(.*\)\]\]/\1/p' "$file" | sed 's/|.*//' | head -1)"
+  # Extract all image filenames from Obsidian embed syntax (![[file.jpg|size]])
+  # Falls back to standard markdown syntax (![alt](../assets/file.jpg))
+  images=()
+  while IFS= read -r img; do
+    [ -n "$img" ] && images+=("$img")
+  done < <(sed -n 's/.*!\[\[\(.*\)\]\]/\1/p' "$file" | sed 's/|.*//')
+
+  if [ ${#images[@]} -eq 0 ]; then
+    while IFS= read -r img; do
+      [ -n "$img" ] && images+=("$img")
+    done < <(sed -n 's/.*!\[.*\](\.\.\/assets\/\(.*\))/\1/p' "$file")
   fi
 
-  # Copy image if it exists
-  if [ -n "$image" ] && [ -f "$VAULT_PATH/restaurant_assets/$image" ]; then
-    cp "$VAULT_PATH/restaurant_assets/$image" "$IMAGES_DIR/$image"
-  fi
+  # Copy all images
+  for img in "${images[@]}"; do
+    if [ -f "$VAULT_PATH/restaurant_assets/$img" ]; then
+      cp "$VAULT_PATH/restaurant_assets/$img" "$IMAGES_DIR/$img"
+    fi
+  done
+
+  # Build YAML list for front matter
+  images_yaml=""
+  for img in "${images[@]}"; do
+    images_yaml="$images_yaml
+  - \"$img\""
+  done
 
   # Extract fields (first non-empty line between ## Header and next ##)
   cuisine="$(awk '/^## Cuisine/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
@@ -52,7 +66,7 @@ for file in "$VAULT_PATH/restaurants/"*.md; do
 ---
 title: "$title"
 slug: "$slug"
-image: "$image"
+images:$images_yaml
 cuisine: "$cuisine"
 price: "$price"
 image_position: "$image_position"

@@ -155,32 +155,61 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", closeRecipeDetail);
   });
 
-  // Recipe cuisine pill filters
-  var recipePills = document.querySelectorAll(".cooking-recipes-header .category-pill");
+  // Two-tier recipe filters: top-level (all/cuisine/type) + sub-filters
+  var topFilterBtns = document.querySelectorAll(".top-filter-btn");
+  var subFilterRows = document.querySelectorAll(".cooking-sub-filters");
 
-  function applyFilter(filterValue) {
+  function applyFilter(filterType, filterValue) {
     recipeGalleryCards.forEach(function (card) {
-      var match = filterValue === "all" || card.dataset.cuisine === filterValue;
-      card.classList.toggle("filtered-out", !match);
+      if (!filterType || filterValue === "all") {
+        card.classList.remove("filtered-out");
+      } else {
+        card.classList.toggle("filtered-out", card.dataset[filterType] !== filterValue);
+      }
     });
     expandedCards.forEach(function (card) {
-      var match = filterValue === "all" || card.dataset.cuisine === filterValue;
-      card.classList.toggle("filtered-out", !match);
+      if (!filterType || filterValue === "all") {
+        card.classList.remove("filtered-out");
+      } else {
+        card.classList.toggle("filtered-out", card.dataset[filterType] !== filterValue);
+      }
     });
   }
 
-  recipePills.forEach(function (pill) {
-    pill.addEventListener("click", function () {
-      recipePills.forEach(function (p) { p.classList.remove("active"); });
-      pill.classList.add("active");
-      applyFilter(pill.dataset.value);
+  topFilterBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      topFilterBtns.forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      var category = btn.dataset.category;
+
+      subFilterRows.forEach(function (row) {
+        row.hidden = true;
+        row.querySelectorAll(".category-pill").forEach(function (p) { p.classList.remove("active"); });
+        var allPill = row.querySelector('.category-pill[data-value="all"]');
+        if (allPill) allPill.classList.add("active");
+      });
+
+      if (category !== "all") {
+        var targetRow = document.querySelector('.cooking-sub-filters[data-sub="' + category + '"]');
+        if (targetRow) targetRow.hidden = false;
+      }
+
+      applyFilter(null, "all");
       closeRecipeDetail();
     });
   });
 
-  // Apply initial filter from the default active pill
-  var activePill = document.querySelector(".cooking-recipes-header .category-pill.active");
-  if (activePill) applyFilter(activePill.dataset.value);
+  subFilterRows.forEach(function (row) {
+    var pills = row.querySelectorAll(".category-pill");
+    pills.forEach(function (pill) {
+      pill.addEventListener("click", function () {
+        pills.forEach(function (p) { p.classList.remove("active"); });
+        pill.classList.add("active");
+        applyFilter(pill.dataset.filter, pill.dataset.value);
+        closeRecipeDetail();
+      });
+    });
+  });
 
   // Restaurant gallery elements
   var restaurantsView = document.querySelector(".cooking-restaurants-view");
