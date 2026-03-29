@@ -45,6 +45,9 @@ for file in "$VAULT_PATH/recipes/"*.md; do
   # Extract image scale (first non-empty line between ## Image Scale and next ##)
   image_scale="$(awk '/^## Image Scale/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
 
+  # Extract type (first non-empty line between ## Type and next ##)
+  type="$(awk '/^## Type/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+
   # Extract blurb (first non-empty line between ## Blurb and next ##)
   blurb="$(awk '/^## Blurb/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1)"
 
@@ -60,6 +63,7 @@ title: "$title"
 slug: "$slug"
 image: "$image"
 cuisine: "$cuisine"
+type: "$type"
 image_position: "$image_position"
 image_scale: "$image_scale"
 blurb: "$blurb"

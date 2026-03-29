@@ -18,6 +18,63 @@
   align-items: center;
   padding: 2rem 6rem 1rem;
   flex-shrink: 0;
+  background: transparent;
+  transition: background-color 0.3s ease;
+}
+
+// Color themes for the header
+.cooking.theme-olive .cooking-header {
+  background: #4a5a3a;
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
+  .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
+}
+
+.cooking.theme-navy .cooking-header {
+  background: #2c3e50;
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
+  .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
+}
+
+.cooking.theme-rust .cooking-header {
+  background: #8b4513;
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
+  .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
+}
+
+.cooking.theme-plum .cooking-header {
+  background: #5b3256;
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
+  .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
+}
+
+.cooking.theme-charcoal .cooking-header {
+  background: #333;
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
+  .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
+}
+
+.color-theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.35);
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #333;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .cooking-content {
@@ -256,6 +313,35 @@
 
 // Hide the active card from the grid (grid reflows to fill gap)
 .recipe-gallery-card.hidden-active {
+  display: none;
+}
+
+// Restaurant detail inline (inserted into grid, spans full width)
+.restaurant-detail-inline {
+  grid-column: 1 / -1;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.restaurant-card.hidden-active {
+  display: none;
+}
+
+// Expanded restaurant view
+.expanded-restaurants-view {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.expanded-restaurant-card.filtered-out {
   display: none;
 }
 

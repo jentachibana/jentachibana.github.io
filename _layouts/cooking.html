@@ -12,6 +12,10 @@ layout: base
       <button class="view-toggle active" data-view="recipes">home cooking</button>
       <button class="view-toggle" data-view="restaurants">out on the town</button>
     </div>
+
+    <button class="color-theme-toggle" aria-label="Change color theme">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;display:block;"><circle cx="12" cy="12" r="8"/></svg>
+    </button>
   </div>
 
   <div class="cooking-content">
@@ -154,6 +158,10 @@ layout: base
         <button class="category-pill cuisine-pill" data-value="{{ cuisine }}">{{ cuisine }}</button>
         {% endfor %}
       </div>
+      <div class="recipe-view-mode-toggle">
+        <button class="recipe-mode-btn restaurant-mode-btn active" data-mode="gallery">gallery</button>
+        <button class="recipe-mode-btn restaurant-mode-btn" data-mode="expanded">expanded</button>
+      </div>
     </div>
 
   </div>
@@ -161,7 +169,7 @@ layout: base
   <!-- Restaurants: grid layout -->
   <div class="cooking-restaurants-layout" data-view-panel="restaurants" hidden>
 
-    <!-- Restaurant gallery view -->
+    <!-- Restaurant gallery view with inline details -->
     <div class="cooking-restaurants-view">
       <div class="recipe-grid restaurant-grid">
         {% for restaurant in site.restaurants %}
@@ -178,24 +186,78 @@ layout: base
         </div>
         {% endfor %}
       </div>
+
+      <!-- Detail element (moved inline into grid via JS) -->
+      <div class="restaurant-detail-inline" id="restaurant-detail-inline" hidden>
+        {% for restaurant in site.restaurants %}
+        <div class="recipe-detail" id="restaurant-{{ restaurant.title | slugify }}" hidden>
+          <button class="recipe-close restaurant-close" aria-label="Close">&times;</button>
+          <div class="recipe-detail-layout">
+            <div class="recipe-detail-left">
+              {% if restaurant.images.size > 0 %}
+              <div class="restaurant-gallery">
+                {% for img in restaurant.images %}
+                <img src="/assets/images/restaurants/{{ img }}" alt="{{ restaurant.title }}">
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            <div class="recipe-detail-right">
+              <div class="recipe-detail-header">
+                <h2 class="recipe-detail-title">{{ restaurant.title | downcase }}</h2>
+                {% if restaurant.cuisine %}<span class="recipe-cuisine">{{ restaurant.cuisine }}</span>{% endif %}
+              </div>
+              <div class="restaurant-links">
+                {% if restaurant.website != "" %}
+                <a href="{{ restaurant.website }}" target="_blank" rel="noopener">website</a>
+                {% endif %}
+                {% if restaurant.menu != "" %}
+                <a href="{{ restaurant.menu }}" target="_blank" rel="noopener">menu</a>
+                {% endif %}
+                {% if restaurant.price != "" %}
+                <span class="restaurant-price">{{ restaurant.price }}</span>
+                {% endif %}
+              </div>
+              {{ restaurant.content }}
+              {% if restaurant.address != "" %}
+              <div class="restaurant-map">
+                <iframe
+                  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q={{ restaurant.address | url_encode }}"
+                  width="100%"
+                  height="300"
+                  style="border:0; border-radius: 8px;"
+                  allowfullscreen
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
 
-    <!-- Restaurant detail views -->
-    <div class="cooking-restaurant-details" hidden>
+    <!-- Expanded view: all restaurant details stacked -->
+    <div class="expanded-restaurants-view" hidden>
       {% for restaurant in site.restaurants %}
-      <div class="recipe-detail restaurant-detail" id="restaurant-{{ restaurant.title | slugify }}" hidden>
-        <button class="recipe-close restaurant-close" aria-label="Close">&times;</button>
-        <h2 class="recipe-detail-title">{{ restaurant.title | downcase }}</h2>
-        <hr class="recipe-divider">
-        <div class="recipe-body">
-          {% if restaurant.images.size > 0 %}
-          <div class="restaurant-gallery">
-            {% for img in restaurant.images %}
-            <img src="/assets/images/restaurants/{{ img }}" alt="{{ restaurant.title }}">
-            {% endfor %}
+      <div class="recipe-detail expanded-restaurant-card" data-cuisine="{{ restaurant.cuisine }}">
+        <div class="recipe-detail-layout">
+          <div class="recipe-detail-left">
+            {% if restaurant.images.size > 0 %}
+            <div class="restaurant-gallery">
+              {% for img in restaurant.images %}
+              <img src="/assets/images/restaurants/{{ img }}" alt="{{ restaurant.title }}">
+              {% endfor %}
+            </div>
+            {% endif %}
           </div>
-          {% endif %}
-          <div class="recipe-content">
+          <div class="recipe-detail-right">
+            <div class="recipe-detail-header">
+              <h2 class="recipe-detail-title">{{ restaurant.title | downcase }}</h2>
+              {% if restaurant.cuisine %}<span class="recipe-cuisine">{{ restaurant.cuisine }}</span>{% endif %}
+            </div>
             <div class="restaurant-links">
               {% if restaurant.website != "" %}
               <a href="{{ restaurant.website }}" target="_blank" rel="noopener">website</a>

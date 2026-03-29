@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         var allPill = document.querySelector('.cuisine-pill[data-value="all"]');
         if (allPill) allPill.classList.add("active");
         applyCuisineFilter("all");
-        showRestaurantGrid();
       }
     });
   });
@@ -213,32 +212,98 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Restaurant gallery elements
   var restaurantsView = document.querySelector(".cooking-restaurants-view");
-  var restaurantDetailsContainer = document.querySelector(".cooking-restaurant-details");
-  var restaurantDetails = document.querySelectorAll(".restaurant-detail");
+  var expandedRestaurantsView = document.querySelector(".expanded-restaurants-view");
+  var expandedRestaurantCards = document.querySelectorAll(".expanded-restaurant-card");
   var restaurantCardElements = document.querySelectorAll(".restaurant-card");
+  var restaurantGrid = document.querySelector(".restaurant-grid");
+  var restaurantDetailInline = document.getElementById("restaurant-detail-inline");
+  var restaurantDetails = document.querySelectorAll("#restaurant-detail-inline .recipe-detail");
+  var activeRestaurantSlug = null;
 
-  function showRestaurantGrid() {
-    if (restaurantsView) { restaurantsView.hidden = false; fadeIn(restaurantsView); }
-    if (restaurantDetailsContainer) restaurantDetailsContainer.hidden = true;
-    restaurantDetails.forEach(function (d) { d.hidden = true; });
+  // Restaurant gallery/expanded toggle
+  var restaurantModeBtns = document.querySelectorAll(".restaurant-mode-btn");
+
+  restaurantModeBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      restaurantModeBtns.forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      var mode = btn.dataset.mode;
+
+      if (mode === "gallery") {
+        if (restaurantsView) restaurantsView.hidden = false;
+        if (expandedRestaurantsView) expandedRestaurantsView.hidden = true;
+        closeRestaurantDetail();
+      } else {
+        if (restaurantsView) restaurantsView.hidden = true;
+        if (expandedRestaurantsView) { expandedRestaurantsView.hidden = false; fadeIn(expandedRestaurantsView); }
+        closeRestaurantDetail();
+      }
+    });
+  });
+
+  function getRestaurantGridColumns() {
+    if (!restaurantGrid) return 3;
+    var detailWasInGrid = restaurantDetailInline && restaurantDetailInline.parentNode === restaurantGrid;
+    if (detailWasInGrid) restaurantDetailInline.hidden = true;
+    var style = getComputedStyle(restaurantGrid);
+    var cols = style.gridTemplateColumns.split(" ").length;
+    if (detailWasInGrid) restaurantDetailInline.hidden = false;
+    return cols;
   }
 
-  function showRestaurant(slug) {
-    if (restaurantsView) restaurantsView.hidden = true;
-    if (restaurantDetailsContainer) { restaurantDetailsContainer.hidden = false; fadeIn(restaurantDetailsContainer); }
-    restaurantDetails.forEach(function (d) {
-      d.hidden = d.id !== "restaurant-" + slug;
+  function closeRestaurantDetail() {
+    if (restaurantDetailInline) restaurantDetailInline.hidden = true;
+    restaurantDetails.forEach(function (d) { d.hidden = true; });
+    if (activeRestaurantSlug) {
+      var card = document.querySelector('.restaurant-card[data-restaurant="' + activeRestaurantSlug + '"]');
+      if (card) card.classList.remove("hidden-active");
+      activeRestaurantSlug = null;
+    }
+  }
+
+  function showRestaurantDetail(slug, clickedCard) {
+    if (activeRestaurantSlug && activeRestaurantSlug !== slug) {
+      var prevCard = document.querySelector('.restaurant-card[data-restaurant="' + activeRestaurantSlug + '"]');
+      if (prevCard) prevCard.classList.remove("hidden-active");
+    }
+
+    if (restaurantDetailInline) restaurantDetailInline.hidden = true;
+
+    var visibleCards = Array.from(restaurantGrid.querySelectorAll(".restaurant-card")).filter(function (c) {
+      return !c.classList.contains("filtered-out") && !c.classList.contains("hidden-active");
     });
+
+    var cols = getRestaurantGridColumns();
+    var clickedPos = visibleCards.indexOf(clickedCard);
+    var cardsBefore = Math.floor(clickedPos / cols) * cols;
+
+    activeRestaurantSlug = slug;
+
+    if (clickedCard) clickedCard.classList.add("hidden-active");
+
+    if (restaurantGrid && restaurantDetailInline) {
+      if (cardsBefore === 0) {
+        restaurantGrid.prepend(restaurantDetailInline);
+      } else {
+        visibleCards[cardsBefore - 1].after(restaurantDetailInline);
+      }
+    }
+
+    restaurantDetails.forEach(function (d) { d.hidden = d.id !== "restaurant-" + slug; });
+    if (restaurantDetailInline) {
+      restaurantDetailInline.hidden = false;
+      fadeIn(restaurantDetailInline);
+    }
   }
 
   restaurantCardElements.forEach(function (card) {
     card.addEventListener("click", function () {
-      showRestaurant(card.dataset.restaurant);
+      showRestaurantDetail(card.dataset.restaurant, card);
     });
   });
 
   document.querySelectorAll(".restaurant-close").forEach(function (btn) {
-    btn.addEventListener("click", showRestaurantGrid);
+    btn.addEventListener("click", closeRestaurantDetail);
   });
 
   // Cuisine pill filters
@@ -249,6 +314,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var match = filterValue === "all" || card.dataset.cuisine === filterValue;
       card.classList.toggle("filtered-out", !match);
     });
+    expandedRestaurantCards.forEach(function (card) {
+      var match = filterValue === "all" || card.dataset.cuisine === filterValue;
+      card.classList.toggle("filtered-out", !match);
+    });
   }
 
   cuisinePills.forEach(function (pill) {
@@ -256,11 +325,25 @@ document.addEventListener("DOMContentLoaded", function () {
       cuisinePills.forEach(function (p) { p.classList.remove("active"); });
       pill.classList.add("active");
       applyCuisineFilter(pill.dataset.value);
-      showRestaurantGrid();
+      closeRestaurantDetail();
     });
   });
 
   var activeCuisinePill = document.querySelector(".cuisine-pill.active");
   if (activeCuisinePill) applyCuisineFilter(activeCuisinePill.dataset.value);
+
+  // Color theme toggle
+  var themes = ["", "theme-olive", "theme-navy", "theme-rust", "theme-plum", "theme-charcoal"];
+  var themeIndex = 0;
+  var cookingEl = document.querySelector(".cooking");
+  var themeBtn = document.querySelector(".color-theme-toggle");
+
+  if (themeBtn && cookingEl) {
+    themeBtn.addEventListener("click", function () {
+      if (themes[themeIndex]) cookingEl.classList.remove(themes[themeIndex]);
+      themeIndex = (themeIndex + 1) % themes.length;
+      if (themes[themeIndex]) cookingEl.classList.add(themes[themeIndex]);
+    });
+  }
 
 });
