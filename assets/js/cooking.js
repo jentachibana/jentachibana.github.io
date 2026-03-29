@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
           fadeIn(expandedRestaurantsView);
           setTimeout(function () {
             expandedRestaurantsView.querySelectorAll(".restaurant-gallery").forEach(function (g) {
-              if (g._slideToIndex) g._slideToIndex(g._currentIndex());
+              if (g._slideToIndex) g._slideToIndex(g._currentIndex(), false);
             });
           }, 50);
         }
@@ -327,12 +327,12 @@ document.addEventListener("DOMContentLoaded", function () {
       restaurantDetailInline.hidden = false;
       fadeIn(restaurantDetailInline);
 
-      // Initialize gallery slideshow once visible
+      // Initialize gallery slideshow once visible (no animation on first position)
       setTimeout(function () {
         var detail = document.getElementById("restaurant-" + slug);
         if (detail) {
           detail.querySelectorAll(".restaurant-gallery").forEach(function (g) {
-            if (g._slideToIndex) g._slideToIndex(g._currentIndex());
+            if (g._slideToIndex) g._slideToIndex(g._currentIndex(), false);
           });
         }
       }, 50);
