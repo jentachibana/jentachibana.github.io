@@ -1,4 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Sticky header: visible while sticky, hides after scrolling past bar height
+  var topBar = document.querySelector(".cooking-top-bar");
+  if (topBar) {
+    var barHeight = topBar.offsetHeight;
+    var lastScrollY = 0;
+    window.addEventListener("scroll", function () {
+      var currentY = window.scrollY;
+      if (currentY > barHeight) {
+        topBar.classList.add("bar-hidden");
+      } else {
+        topBar.classList.remove("bar-hidden");
+      }
+      lastScrollY = currentY;
+    });
+  }
+
   // View toggle (recipes / out on the town)
   var viewToggles = document.querySelectorAll(".view-toggle");
   var viewPanels = document.querySelectorAll("[data-view-panel]");
@@ -44,11 +60,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // Set theme based on active view
+  var cookingEl = document.querySelector(".cooking");
+  function setViewTheme(view) {
+    if (!cookingEl) return;
+    cookingEl.classList.remove("theme-olive", "theme-navy", "theme-rust", "theme-plum", "theme-charcoal");
+    if (view === "recipes") cookingEl.classList.add("theme-olive");
+    if (view === "restaurants") cookingEl.classList.add("theme-rust");
+  }
+  setViewTheme("recipes");
+
   viewToggles.forEach(function (toggle) {
     toggle.addEventListener("click", function () {
       var view = this.dataset.view;
       viewToggles.forEach(function (t) { t.classList.remove("active"); });
       this.classList.add("active");
+      setViewTheme(view);
 
       viewPanels.forEach(function (p) {
         p.hidden = p.dataset.viewPanel !== view;
@@ -184,8 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
       subFilterRows.forEach(function (row) {
         row.hidden = true;
         row.querySelectorAll(".category-pill").forEach(function (p) { p.classList.remove("active"); });
-        var allPill = row.querySelector('.category-pill[data-value="all"]');
-        if (allPill) allPill.classList.add("active");
       });
 
       if (category !== "all") {
@@ -332,18 +357,5 @@ document.addEventListener("DOMContentLoaded", function () {
   var activeCuisinePill = document.querySelector(".cuisine-pill.active");
   if (activeCuisinePill) applyCuisineFilter(activeCuisinePill.dataset.value);
 
-  // Color theme toggle
-  var themes = ["", "theme-olive", "theme-navy", "theme-rust", "theme-plum", "theme-charcoal"];
-  var themeIndex = 0;
-  var cookingEl = document.querySelector(".cooking");
-  var themeBtn = document.querySelector(".color-theme-toggle");
-
-  if (themeBtn && cookingEl) {
-    themeBtn.addEventListener("click", function () {
-      if (themes[themeIndex]) cookingEl.classList.remove(themes[themeIndex]);
-      themeIndex = (themeIndex + 1) % themes.length;
-      if (themes[themeIndex]) cookingEl.classList.add(themes[themeIndex]);
-    });
-  }
 
 });

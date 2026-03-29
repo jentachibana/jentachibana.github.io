@@ -32,8 +32,8 @@ for file in "$VAULT_PATH/recipes/"*.md; do
   fi
 
   # Copy image if it exists
-  if [ -n "$image" ] && [ -f "$VAULT_PATH/assets/$image" ]; then
-    cp "$VAULT_PATH/assets/$image" "$IMAGES_DIR/$image"
+  if [ -n "$image" ] && [ -f "$VAULT_PATH/recipe_assets/$image" ]; then
+    cp "$VAULT_PATH/recipe_assets/$image" "$IMAGES_DIR/$image"
   fi
 
   # Extract cuisine (first non-empty line between ## Cuisine and next ##)

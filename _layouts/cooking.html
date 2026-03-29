@@ -3,52 +3,55 @@ layout: base
 ---
 
 <div class="cooking">
-  <div class="cooking-header">
-    <a class="cooking-back" href="/">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    </a>
+  <div class="cooking-top-bar">
+    <div class="cooking-header">
+      <a class="cooking-back" href="/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </a>
 
-    <div class="cooking-view-toggle">
-      <button class="view-toggle active" data-view="recipes">home cooking</button>
-      <button class="view-toggle" data-view="restaurants">out on the town</button>
+      <div class="cooking-view-toggle">
+        <button class="view-toggle active" data-view="recipes">home cooking</button>
+        <button class="view-toggle" data-view="restaurants">out on the town</button>
+      </div>
+
     </div>
 
-    <button class="color-theme-toggle" aria-label="Change color theme">
-      <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;display:block;"><circle cx="12" cy="12" r="8"/></svg>
-    </button>
+    <div class="cooking-subheader">
+      <h2 class="cooking-title" data-view-panel="recipes">cooking with jen: <em>recipes on rotation!</em></h2>
+      <h2 class="cooking-title" data-view-panel="restaurants" hidden>out on the town: <em>yummy food i didnt make</em></h2>
+    </div>
   </div>
 
   <div class="cooking-content">
 
   <!-- Recipes browse label + filters -->
   <div class="cooking-recipes-header" data-view-panel="recipes">
-    <h2 class="cooking-title">cooking with jen: <em>recipes on rotation!</em></h2>
 
     <div class="cooking-category-bar">
       <div class="cooking-category-pills">
-        <div class="cooking-top-filters">
-          <button class="top-filter-btn active" data-category="cuisine">cuisine</button>
-          <button class="top-filter-btn" data-category="type">type</button>
+        <div class="cooking-filter-row">
+          <div class="cooking-top-filters">
+            <button class="top-filter-btn active" data-category="all">all</button>
+            <button class="top-filter-btn" data-category="cuisine">cuisine</button>
+            <button class="top-filter-btn" data-category="type">type</button>
+          </div>
+          <div class="recipe-view-mode-toggle">
+            <button class="recipe-mode-btn active" data-mode="gallery">gallery</button>
+            <button class="recipe-mode-btn" data-mode="expanded">expanded</button>
+          </div>
         </div>
-        <div class="cooking-sub-filters" data-sub="cuisine">
-          <button class="category-pill active" data-filter="cuisine" data-value="all">all</button>
+        <div class="cooking-sub-filters" data-sub="cuisine" hidden>
           {% assign cuisines = site.recipes | map: "cuisine" | compact | uniq | sort %}
           {% for cuisine in cuisines %}
           <button class="category-pill" data-filter="cuisine" data-value="{{ cuisine }}">{{ cuisine | downcase }}</button>
           {% endfor %}
         </div>
         <div class="cooking-sub-filters" data-sub="type" hidden>
-          <button class="category-pill active" data-filter="type" data-value="all">all</button>
           {% assign types = site.recipes | map: "type" | compact | uniq | sort %}
           {% for type in types %}
           <button class="category-pill" data-filter="type" data-value="{{ type }}">{{ type | downcase }}</button>
           {% endfor %}
         </div>
-      </div>
-      <div class="recipe-view-mode-toggle">
-        <button class="recipe-mode-btn active" data-mode="gallery">gallery</button>
-        <button class="recipe-mode-btn" data-mode="expanded">expanded</button>
-      </div>
     </div>
   </div>
 
@@ -148,12 +151,10 @@ layout: base
 
   <!-- Restaurants browse label + filters -->
   <div class="cooking-restaurants-header" data-view-panel="restaurants" hidden>
-    <h2 class="cooking-title">out on the town: <em>yummy food i didnt make</em></h2>
-
     <div class="cooking-category-bar">
       <div class="cooking-category-pills">
         <button class="category-pill cuisine-pill active" data-value="all">all</button>
-        {% assign cuisines = site.data.restaurants | map: "cuisine" | uniq | sort %}
+        {% assign cuisines = site.restaurants | map: "cuisine" | uniq | sort %}
         {% for cuisine in cuisines %}
         <button class="category-pill cuisine-pill" data-value="{{ cuisine }}">{{ cuisine }}</button>
         {% endfor %}

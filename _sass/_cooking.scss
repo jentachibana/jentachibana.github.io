@@ -13,10 +13,22 @@
   }
 }
 
+.cooking-top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #f5f0e8;
+  transition: transform 0.4s ease;
+
+  &.bar-hidden {
+    transform: translateY(-100%);
+  }
+}
+
 .cooking-header {
   display: flex;
   align-items: center;
-  padding: 2rem 6rem 1rem;
+  padding: 2rem 6rem 0.5rem;
   flex-shrink: 0;
   background: transparent;
   transition: background-color 0.3s ease;
@@ -25,35 +37,35 @@
 // Color themes for the header
 .cooking.theme-olive .cooking-header {
   background: #4a5a3a;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
 .cooking.theme-navy .cooking-header {
   background: #2c3e50;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
 .cooking.theme-rust .cooking-header {
   background: #8b4513;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
 .cooking.theme-plum .cooking-header {
   background: #5b3256;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
 .cooking.theme-charcoal .cooking-header {
   background: #333;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: rgba(255, 255, 255, 0.3); } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
@@ -75,6 +87,42 @@
     width: 18px;
     height: 18px;
   }
+}
+
+.cooking-subheader {
+  padding: 0.75rem 4rem 1.25rem;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  .cooking-title {
+    margin: 0;
+  }
+
+  [hidden] {
+    display: none;
+  }
+}
+
+// Extend color themes to subheader
+.cooking.theme-olive .cooking-top-bar { background: #4a5a3a; }
+.cooking.theme-olive .cooking-subheader {
+  .cooking-title, .cooking-title em { color: rgba(255, 255, 255, 0.9); }
+}
+.cooking.theme-navy .cooking-top-bar { background: #2c3e50; }
+.cooking.theme-navy .cooking-subheader {
+  .cooking-title, .cooking-title em { color: rgba(255, 255, 255, 0.9); }
+}
+.cooking.theme-rust .cooking-top-bar { background: #8b4513; }
+.cooking.theme-rust .cooking-subheader {
+  .cooking-title, .cooking-title em { color: rgba(255, 255, 255, 0.9); }
+}
+.cooking.theme-plum .cooking-top-bar { background: #5b3256; }
+.cooking.theme-plum .cooking-subheader {
+  .cooking-title, .cooking-title em { color: rgba(255, 255, 255, 0.9); }
+}
+.cooking.theme-charcoal .cooking-top-bar { background: #333; }
+.cooking.theme-charcoal .cooking-subheader {
+  .cooking-title, .cooking-title em { color: rgba(255, 255, 255, 0.9); }
 }
 
 .cooking-content {
@@ -129,9 +177,41 @@
   gap: 0.75rem;
 }
 
+.cooking-filter-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+.cooking-filter-row .cooking-top-filters {
+  margin: 0 auto;
+}
+
+.cooking-filter-row .recipe-view-mode-toggle {
+  position: absolute;
+  right: 0;
+
+  @media (max-width: 768px) {
+    position: static;
+  }
+}
+
 .cooking-top-filters {
   display: flex;
   gap: 0.5rem;
+}
+
+// Button color palettes
+.cooking-recipes-header {
+  --btn-color: #4a5a3a;
+  --btn-active-bg: #4a5a3a;
+  --btn-active-text: #fff;
 }
 
 .top-filter-btn {
@@ -139,22 +219,22 @@
   font-size: 0.9rem;
   font-weight: 600;
   padding: 0.45rem 1.3rem;
-  border: 2px solid #6b5544;
+  border: 2px solid var(--btn-color, #6b5544);
   border-radius: 20px;
   background: transparent;
-  color: #6b5544;
+  color: var(--btn-color, #6b5544);
   cursor: pointer;
   text-transform: lowercase;
   letter-spacing: 0.04em;
   transition: all 0.15s ease;
 
   &:hover {
-    background: rgba(107, 85, 68, 0.08);
+    background: rgba(0, 0, 0, 0.04);
   }
 
   &.active {
-    background: #6b5544;
-    color: #fff;
+    background: var(--btn-active-bg, #6b5544);
+    color: var(--btn-active-text, #fff);
   }
 }
 
@@ -172,26 +252,24 @@
 .recipe-view-mode-toggle {
   display: flex;
   gap: 0.5rem;
-  justify-content: center;
-  margin-top: 0.75rem;
 }
 
 .recipe-mode-btn {
   font-family: "Karla", sans-serif;
   font-size: 0.7rem;
   padding: 0.3rem 0.75rem;
-  border: 1px solid #a0816c;
+  border: 1px solid var(--btn-color, #a0816c);
   border-radius: 20px;
   background: transparent;
-  color: #6b5544;
+  color: var(--btn-color, #6b5544);
   cursor: pointer;
   text-transform: lowercase;
   letter-spacing: 0.05em;
   transition: all 0.15s ease;
 
   &:hover, &.active {
-    background: #a0816c;
-    color: #fff;
+    background: var(--btn-active-bg, #a0816c);
+    color: var(--btn-active-text, #fff);
   }
 }
 
@@ -248,10 +326,10 @@
 // Restaurants layout: grid
 .cooking-restaurants-layout {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: stretch;
   padding: 1.5rem 4rem 2rem;
   gap: 2rem;
-  overflow: hidden;
 
   &[hidden] {
     display: none;
@@ -347,9 +425,12 @@
 
 // Restaurant gallery view
 .cooking-restaurants-view {
-  flex: 1 1 0%;
+  width: 100%;
   min-width: 0;
-  overflow: hidden;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .cooking-restaurant-details {
