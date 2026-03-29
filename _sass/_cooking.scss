@@ -35,37 +35,42 @@
 }
 
 // Color themes for the header
-.cooking.theme-olive .cooking-header {
+.cooking.theme-olive .cooking-top-bar {
   background: #4a5a3a;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } }
+  .view-toggle + .view-toggle::before { color: rgba(255, 255, 255, 0.7); }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
-.cooking.theme-navy .cooking-header {
+.cooking.theme-navy .cooking-top-bar {
   background: #2c3e50;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } }
+  .view-toggle + .view-toggle::before { color: rgba(255, 255, 255, 0.7); }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
-.cooking.theme-rust .cooking-header {
+.cooking.theme-rust .cooking-top-bar {
   background: #8b4513;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } }
+  .view-toggle + .view-toggle::before { color: rgba(255, 255, 255, 0.7); }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
-.cooking.theme-plum .cooking-header {
+.cooking.theme-plum .cooking-top-bar {
   background: #5b3256;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } }
+  .view-toggle + .view-toggle::before { color: rgba(255, 255, 255, 0.7); }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }
 
-.cooking.theme-charcoal .cooking-header {
+.cooking.theme-charcoal .cooking-top-bar {
   background: #333;
-  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } & + &::before { color: #fff; } }
+  .view-toggle { color: rgba(255, 255, 255, 0.45); &:hover, &.active { color: #fff; } }
+  .view-toggle + .view-toggle::before { color: rgba(255, 255, 255, 0.7); }
   .cooking-back svg { color: rgba(255, 255, 255, 0.5); }
   .color-theme-toggle { color: rgba(255, 255, 255, 0.5); &:hover { color: #fff; } }
 }

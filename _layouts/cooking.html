@@ -176,7 +176,7 @@ layout: base
         {% for restaurant in site.restaurants %}
         <div class="photo-card restaurant-card" data-cuisine="{{ restaurant.cuisine }}" data-price="{{ restaurant.price }}" data-restaurant="{{ restaurant.title | slugify }}">
           {% if restaurant.images.size > 0 %}
-          <img src="/assets/images/restaurants/{{ restaurant.images.first }}" alt="{{ restaurant.title }}"{% if restaurant.image_position or restaurant.image_scale %} style="{% if restaurant.image_position %}object-position: {{ restaurant.image_position }};{% endif %}{% if restaurant.image_scale %}transform: scale({{ restaurant.image_scale }});{% endif %}"{% endif %}>
+          <img src="/assets/images/restaurants/{{ restaurant.images.first }}" alt="{{ restaurant.title }}"{% if restaurant.image_position != "" or restaurant.image_scale != "" %} style="{% if restaurant.image_position != "" %}object-position: {{ restaurant.image_position }};{% endif %}{% if restaurant.image_scale != "" %}transform: scale({{ restaurant.image_scale }});{% endif %}"{% endif %}>
           {% else %}
           <div class="photo-placeholder">{{ restaurant.title | downcase }}</div>
           {% endif %}
