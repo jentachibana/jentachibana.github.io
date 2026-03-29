@@ -16,8 +16,13 @@ body {
     text-align: center;
     width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     background: rgb(41,77,74) url('/assets/images/hero-bg.jpg') center/cover no-repeat;
     background-attachment: fixed;
+
+    @media (max-width: 768px) {
+      background-attachment: scroll;
+    }
     font-family: 'DM Sans', sans-serif;
 
 }
