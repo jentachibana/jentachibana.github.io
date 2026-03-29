@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VAULT_PATH="${1:-$HOME/Sync/Recipes}"
+SITE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+RESTAURANTS_DIR="$SITE_DIR/_restaurants"
+IMAGES_DIR="$SITE_DIR/assets/images/restaurants"
+
+mkdir -p "$RESTAURANTS_DIR" "$IMAGES_DIR"
+
+# Clean old synced restaurants
+rm -f "$RESTAURANTS_DIR"/*.md
+
+for file in "$VAULT_PATH/restaurants/"*.md; do
+  [ -f "$file" ] || continue
+
+  filename="$(basename "$file" .md)"
+  slug="$filename"
+
+  # Extract title from first H1, fall back to filename
+  title="$(grep -m1 '^# ' "$file" | sed 's/^# //' || true)"
+  if [ -z "$title" ]; then
+    title="$filename"
+  fi
+
+  # Extract all image filenames from Obsidian embed syntax (![[file.jpg|size]])
+  # Falls back to standard markdown syntax (![alt](../assets/file.jpg))
+  images=()
+  while IFS= read -r img; do
+    [ -n "$img" ] && images+=("$img")
+  done < <(sed -n 's/.*!\[\[\(.*\)\]\]/\1/p' "$file" | sed 's/|.*//')
+
+  if [ ${#images[@]} -eq 0 ]; then
+    while IFS= read -r img; do
+      [ -n "$img" ] && images+=("$img")
+    done < <(sed -n 's/.*!\[.*\](\.\.\/assets\/\(.*\))/\1/p' "$file")
+  fi
+
+  # Copy all images
+  for img in "${images[@]}"; do
+    if [ -f "$VAULT_PATH/restaurant_assets/$img" ]; then
+      cp "$VAULT_PATH/restaurant_assets/$img" "$IMAGES_DIR/$img"
+    fi
+  done
+
+  # Build YAML list for front matter
+  images_yaml=""
+  for img in "${images[@]}"; do
+    images_yaml="$images_yaml
+  - \"$img\""
+  done
+
+  # Extract fields (first non-empty line between ## Header and next ##)
+  cuisine="$(awk '/^## Cuisine/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  price="$(awk '/^## Price/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  image_position="$(awk '/^## Image Position/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  image_scale="$(awk '/^## Image Scale/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  website="$(awk '/^## Website/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  menu="$(awk '/^## Menu/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  location="$(awk '/^## Location/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  address="$(awk '/^## Address/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+
+  # Extract description (lines between ## Description and next ##)
+  description="$(awk '/^## Description/{flag=1; next} /^## /{flag=0} flag' "$file")"
+
+  cat > "$RESTAURANTS_DIR/$slug.md" <<FRONTMATTER
+---
+title: "$title"
+slug: "$slug"
+images:$images_yaml
+cuisine: "$cuisine"
+price: "$price"
+location: "$location"
+image_position: "$image_position"
+image_scale: "$image_scale"
+website: "$website"
+menu: "$menu"
+address: "$address"
+---
+
+$description
+FRONTMATTER
+
+  echo "Synced: $title"
+done
+
+echo "Done. $(ls "$RESTAURANTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ') restaurants synced."

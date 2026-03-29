@@ -31,6 +31,8 @@ github_username:  jekyll
 collections:
   recipes:
     output: false
+  restaurants:
+    output: false
 
 # Build settings
 theme: minima

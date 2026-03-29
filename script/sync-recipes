@@ -32,8 +32,8 @@ for file in "$VAULT_PATH/recipes/"*.md; do
   fi
 
   # Copy image if it exists
-  if [ -n "$image" ] && [ -f "$VAULT_PATH/assets/$image" ]; then
-    cp "$VAULT_PATH/assets/$image" "$IMAGES_DIR/$image"
+  if [ -n "$image" ] && [ -f "$VAULT_PATH/recipe_assets/$image" ]; then
+    cp "$VAULT_PATH/recipe_assets/$image" "$IMAGES_DIR/$image"
   fi
 
   # Extract cuisine (first non-empty line between ## Cuisine and next ##)
@@ -44,6 +44,12 @@ for file in "$VAULT_PATH/recipes/"*.md; do
 
   # Extract image scale (first non-empty line between ## Image Scale and next ##)
   image_scale="$(awk '/^## Image Scale/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+
+  # Extract type (first non-empty line between ## Type and next ##)
+  type="$(awk '/^## Type/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+
+  # Extract blurb (first non-empty line between ## Blurb and next ##)
+  blurb="$(awk '/^## Blurb/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1)"
 
   # Extract ingredients (lines between ## Ingredients and next ##), formatted as bullet list
   ingredients="$(awk '/^## Ingredients/{flag=1; next} /^## /{flag=0} flag' "$file" | awk 'NF{print "- "$0} !NF{print}')"
@@ -57,8 +63,10 @@ title: "$title"
 slug: "$slug"
 image: "$image"
 cuisine: "$cuisine"
+type: "$type"
 image_position: "$image_position"
 image_scale: "$image_scale"
+blurb: "$blurb"
 ---
 
 ## Ingredients

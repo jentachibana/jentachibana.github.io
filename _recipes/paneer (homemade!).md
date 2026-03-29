@@ -3,8 +3,10 @@ title: "paneer (homemade!)"
 slug: "paneer (homemade!)"
 image: "paneer (homemade!).jpeg"
 cuisine: "indian"
+type: "curry"
 image_position: "center 75%"
 image_scale: "1.2"
+blurb: "the paneer tasted legit but it took a whole galon of milk to make all 20 cubes"
 ---
 
 ## Ingredients

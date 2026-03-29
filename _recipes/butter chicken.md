@@ -3,8 +3,10 @@ title: "butter chicken"
 slug: "butter chicken"
 image: "butter chicken.jpeg"
 cuisine: "indian"
+type: "curry"
 image_position: "center 75%"
 image_scale: ""
+blurb: "YES. replace the butter with blended nuts"
 ---
 
 ## Ingredients

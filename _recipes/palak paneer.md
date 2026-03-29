@@ -3,8 +3,10 @@ title: "palak paneer"
 slug: "palak paneer"
 image: "palak paneer.jpeg"
 cuisine: "indian"
+type: "curry"
 image_position: "center 75%"
 image_scale: "1.3"
+blurb: "MMMmmm so yum and keeps great in the fridge"
 ---
 
 ## Ingredients
