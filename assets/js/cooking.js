@@ -375,7 +375,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var activeCuisinePill = document.querySelector(".cuisine-pill.active");
   if (activeCuisinePill) applyCuisineFilter(activeCuisinePill.dataset.value);
 
-  // Restaurant photo gallery carousel
+  // Restaurant photo gallery carousel (skip on mobile — uses stacked layout)
+  if (!window.matchMedia("(max-width: 768px)").matches) {
   document.querySelectorAll(".restaurant-gallery").forEach(function (gallery) {
     var imgs = Array.from(gallery.querySelectorAll("img"));
     if (imgs.length === 0) return;
@@ -449,5 +450,6 @@ document.addEventListener("DOMContentLoaded", function () {
     gallery._slideToIndex = slideToIndex;
     gallery._currentIndex = function () { return currentIndex; };
   });
+  } // end mobile check
 
 });
