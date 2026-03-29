@@ -7,6 +7,7 @@ images:
   - "Kiraku_3.jpeg"
 cuisine: "japanese"
 price: "$$$"
+location: "Berkeley"
 image_position: ""
 image_scale: ""
 website: ""

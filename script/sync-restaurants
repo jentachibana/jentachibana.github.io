@@ -57,6 +57,7 @@ for file in "$VAULT_PATH/restaurants/"*.md; do
   image_scale="$(awk '/^## Image Scale/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
   website="$(awk '/^## Website/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
   menu="$(awk '/^## Menu/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  location="$(awk '/^## Location/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
   address="$(awk '/^## Address/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
 
   # Extract description (lines between ## Description and next ##)
@@ -69,6 +70,7 @@ slug: "$slug"
 images:$images_yaml
 cuisine: "$cuisine"
 price: "$price"
+location: "$location"
 image_position: "$image_position"
 image_scale: "$image_scale"
 website: "$website"

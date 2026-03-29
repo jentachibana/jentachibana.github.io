@@ -260,7 +260,15 @@ document.addEventListener("DOMContentLoaded", function () {
         closeRestaurantDetail();
       } else {
         if (restaurantsView) restaurantsView.hidden = true;
-        if (expandedRestaurantsView) { expandedRestaurantsView.hidden = false; fadeIn(expandedRestaurantsView); }
+        if (expandedRestaurantsView) {
+          expandedRestaurantsView.hidden = false;
+          fadeIn(expandedRestaurantsView);
+          setTimeout(function () {
+            expandedRestaurantsView.querySelectorAll(".restaurant-gallery").forEach(function (g) {
+              if (g._slideToIndex) g._slideToIndex(g._currentIndex());
+            });
+          }, 50);
+        }
         closeRestaurantDetail();
       }
     });
@@ -318,6 +326,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (restaurantDetailInline) {
       restaurantDetailInline.hidden = false;
       fadeIn(restaurantDetailInline);
+
+      // Initialize gallery slideshow once visible
+      setTimeout(function () {
+        var detail = document.getElementById("restaurant-" + slug);
+        if (detail) {
+          detail.querySelectorAll(".restaurant-gallery").forEach(function (g) {
+            if (g._slideToIndex) g._slideToIndex(g._currentIndex());
+          });
+        }
+      }, 50);
     }
   }
 
@@ -357,5 +375,79 @@ document.addEventListener("DOMContentLoaded", function () {
   var activeCuisinePill = document.querySelector(".cuisine-pill.active");
   if (activeCuisinePill) applyCuisineFilter(activeCuisinePill.dataset.value);
 
+  // Restaurant photo gallery carousel
+  document.querySelectorAll(".restaurant-gallery").forEach(function (gallery) {
+    var imgs = Array.from(gallery.querySelectorAll("img"));
+    if (imgs.length === 0) return;
+
+    var wrapper = gallery.closest(".restaurant-gallery-wrapper");
+    var totalOriginal = imgs.length;
+    if (totalOriginal === 0) return;
+
+    // Clone images enough times to fill both sides for infinite scroll
+    var cloneSets = 3;
+    for (var c = 0; c < cloneSets; c++) {
+      imgs.forEach(function (img) {
+        var clone = img.cloneNode(true);
+        gallery.appendChild(clone);
+      });
+    }
+    // Also prepend clones
+    for (var c = 0; c < cloneSets; c++) {
+      for (var j = totalOriginal - 1; j >= 0; j--) {
+        var clone = imgs[j].cloneNode(true);
+        gallery.insertBefore(clone, gallery.firstChild);
+      }
+    }
+
+    var allImgs = Array.from(gallery.querySelectorAll("img"));
+    // The originals start at index (cloneSets * totalOriginal)
+    var centerOffset = cloneSets * totalOriginal;
+    var currentIndex = centerOffset; // start on first original image
+
+    function slideToIndex(idx, animate) {
+      currentIndex = idx;
+      allImgs.forEach(function (img) { img.classList.remove("focused"); });
+      allImgs[currentIndex].classList.add("focused");
+
+      var wrapperWidth = wrapper ? wrapper.offsetWidth : gallery.parentElement.offsetWidth;
+      var imgEl = allImgs[0];
+      var imgWidth = imgEl.offsetWidth;
+      var gap = parseFloat(getComputedStyle(gallery).gap) || 12;
+      var focusedLeft = currentIndex * (imgWidth + gap);
+      var offset = (wrapperWidth / 2) - (imgWidth / 2) - focusedLeft;
+
+      if (animate === false) {
+        gallery.style.transition = "none";
+        gallery.style.transform = "translateX(" + offset + "px)";
+        void gallery.offsetWidth;
+        gallery.style.transition = "";
+      } else {
+        gallery.style.transform = "translateX(" + offset + "px)";
+      }
+
+      // After transition, silently reset to center range if near edges
+      if (animate !== false) {
+        setTimeout(function () {
+          var posInOriginal = currentIndex % totalOriginal;
+          var centerEquivalent = centerOffset + posInOriginal;
+          if (currentIndex !== centerEquivalent) {
+            slideToIndex(centerEquivalent, false);
+          }
+        }, 1100);
+      }
+    }
+
+    // Click on any image to focus it
+    allImgs.forEach(function (img, i) {
+      img.addEventListener("click", function () {
+        slideToIndex(i);
+      });
+    });
+
+    // Store slideToIndex on the gallery element so we can call it when detail opens
+    gallery._slideToIndex = slideToIndex;
+    gallery._currentIndex = function () { return currentIndex; };
+  });
 
 });

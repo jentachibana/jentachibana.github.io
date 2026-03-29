@@ -7,6 +7,7 @@ images:
   - "MENSHO_3.jpeg"
 cuisine: "japanese"
 price: "$$"
+location: "Piedmont"
 image_position: ""
 image_scale: ""
 website: ""
