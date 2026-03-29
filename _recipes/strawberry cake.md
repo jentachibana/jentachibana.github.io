@@ -2,7 +2,7 @@
 title: "strawberry cake"
 slug: "strawberry cake"
 image: "strawberry cake.jpeg"
-cuisine: "snack"
+cuisine: "american"
 type: "dessert"
 image_position: "center 75%"
 image_scale: "1.2"
