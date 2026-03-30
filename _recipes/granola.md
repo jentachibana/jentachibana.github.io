@@ -7,6 +7,7 @@ type: "breakfast"
 image_position: ""
 image_scale: ""
 blurb: "chunky nuts"
+link: ""
 ---
 
 ## Ingredients

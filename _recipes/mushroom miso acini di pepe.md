@@ -7,6 +7,7 @@ type: "pasta"
 image_position: ""
 image_scale: ""
 blurb: "a tristan creation 10/10 pickled ginger with this is so good"
+link: ""
 ---
 
 ## Ingredients

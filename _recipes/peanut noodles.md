@@ -7,6 +7,7 @@ type: "noodle"
 image_position: ""
 image_scale: ""
 blurb: "peanut + chili is a killer combo"
+link: ""
 ---
 
 ## Ingredients

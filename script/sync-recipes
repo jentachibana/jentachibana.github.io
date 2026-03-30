@@ -51,11 +51,14 @@ for file in "$VAULT_PATH/recipes/"*.md; do
   # Extract blurb (first non-empty line between ## Blurb and next ##)
   blurb="$(awk '/^## Blurb/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1)"
 
+  # Extract link (first non-empty line between ## Link and next ##)
+  link="$(awk '/^## Link/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+
   # Extract ingredients (lines between ## Ingredients and next ##), formatted as bullet list
   ingredients="$(awk '/^## Ingredients/{flag=1; next} /^## /{flag=0} flag' "$file" | awk 'NF{print "- "$0} !NF{print}')"
 
-  # Extract instructions (lines after ## Instructions), formatted as numbered list
-  instructions="$(awk '/^## Instructions/{flag=1; next} flag' "$file" | awk 'NF{n++; print n". "$0} !NF{print}')"
+  # Extract instructions (lines after ## Instructions until ## Link or EOF), formatted as numbered list
+  instructions="$(awk '/^## Instructions/{flag=1; next} /^## Link/{flag=0} flag' "$file" | awk 'NF{n++; print n". "$0} !NF{print}')"
 
   cat > "$RECIPES_DIR/$slug.md" <<FRONTMATTER
 ---
@@ -67,6 +70,7 @@ type: "$type"
 image_position: "$image_position"
 image_scale: "$image_scale"
 blurb: "$blurb"
+link: "$link"
 ---
 
 ## Ingredients

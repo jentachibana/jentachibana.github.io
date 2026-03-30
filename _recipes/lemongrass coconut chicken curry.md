@@ -7,6 +7,7 @@ type: "curry"
 image_position: ""
 image_scale: ""
 blurb: "can't go too wrong with curry"
+link: ""
 ---
 
 ## Ingredients

@@ -7,6 +7,7 @@ type: "side dish"
 image_position: ""
 image_scale: ""
 blurb: "butter is gross but these potatoes are great"
+link: ""
 ---
 
 ## Ingredients

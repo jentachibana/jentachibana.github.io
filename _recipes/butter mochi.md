@@ -7,6 +7,7 @@ type: "dessert"
 image_position: ""
 image_scale: ""
 blurb: "butter is gross but this was really good"
+link: "https://www.thekitchn.com/hawaiian-butter-mochi-recipe-23147549"
 ---
 
 ## Ingredients

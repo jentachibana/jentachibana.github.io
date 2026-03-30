@@ -7,6 +7,7 @@ type: "snack"
 image_position: ""
 image_scale: ""
 blurb: "a little naughty"
+link: ""
 ---
 
 ## Ingredients

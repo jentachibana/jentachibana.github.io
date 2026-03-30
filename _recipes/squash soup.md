@@ -7,6 +7,7 @@ type: "soup"
 image_position: ""
 image_scale: "1.2"
 blurb: "so wholesome, and the peanuts bring it altogether. also the graza drizzling olive oil"
+link: ""
 ---
 
 ## Ingredients

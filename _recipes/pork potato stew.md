@@ -7,6 +7,7 @@ type: "stew"
 image_position: ""
 image_scale: ""
 blurb: "maybe my favourite tristan dish. absolutely divine"
+link: ""
 ---
 
 ## Ingredients
