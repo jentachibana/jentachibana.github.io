@@ -765,13 +765,8 @@ html {
 .recipe-detail-header {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-
-  @media (max-width: 768px) {
-    align-items: center;
-    text-align: center;
-  }
+  align-items: center;
+  text-align: center;
   gap: 0.3rem;
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
@@ -801,6 +796,10 @@ html {
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: rgba(0, 0, 0, 0.35);
+
+  a {
+    color: #4a5a3a;
+  }
 }
 
 .recipe-blurb {
@@ -809,6 +808,7 @@ html {
   color: rgba(0, 0, 0, 0.55);
   margin: 0.5rem 0 0.75rem;
   line-height: 1.5;
+  text-align: center;
 }
 
 .recipe-divider {
@@ -863,6 +863,29 @@ html {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 8px;
+}
+
+// JS-toggled class when card height > 75% of viewport
+.recipe-detail-layout.recipe-detail-stacked {
+  .recipe-panels {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .recipe-panel-ingredients {
+    border-right: none;
+    border-bottom: 1px solid #e0d5c7;
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .recipe-panel {
+    ul, ol {
+      columns: 2;
+      column-gap: 2rem;
+    }
+  }
 }
 
 .recipe-panels {

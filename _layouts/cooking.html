@@ -88,7 +88,7 @@ layout: base
             <div class="recipe-detail-right">
               <div class="recipe-detail-header">
                 <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
-                {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}</span>{% endif %}
+                {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}{% if recipe.link != "" %} · <a href="{{ recipe.link }}" target="_blank" rel="noopener">original recipe</a>{% endif %}</span>{% endif %}
               </div>
               {% if recipe.blurb != "" %}
               <p class="recipe-blurb">{{ recipe.blurb }}</p>
@@ -125,7 +125,7 @@ layout: base
           <div class="recipe-detail-right">
             <div class="recipe-detail-header">
               <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
-              {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}</span>{% endif %}
+              {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}{% if recipe.link != "" %} · <a href="{{ recipe.link }}" target="_blank" rel="noopener">original recipe</a>{% endif %}</span>{% endif %}
             </div>
             {% if recipe.blurb != "" %}
             <p class="recipe-blurb">{{ recipe.blurb }}</p>

@@ -7,6 +7,7 @@ type: "side dish"
 image_position: ""
 image_scale: ""
 blurb: "still tryna figure out how to get it smooth on top"
+link: ""
 ---
 
 ## Ingredients

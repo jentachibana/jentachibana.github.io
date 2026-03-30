@@ -19,6 +19,20 @@ document.addEventListener("DOMContentLoaded", function () {
   var viewToggles = document.querySelectorAll(".view-toggle");
   var viewPanels = document.querySelectorAll("[data-view-panel]");
 
+  // Check if a recipe detail card is too tall and stack its layout
+  function checkRecipeDetailHeight(detail) {
+    var layout = detail.querySelector(".recipe-detail-layout");
+    if (!layout) return;
+    layout.classList.remove("recipe-detail-stacked");
+    if (detail.offsetHeight > window.innerHeight * 0.75) {
+      layout.classList.add("recipe-detail-stacked");
+    }
+  }
+
+  window.addEventListener("resize", function () {
+    document.querySelectorAll(".recipe-detail:not([hidden])").forEach(checkRecipeDetailHeight);
+  });
+
   // Recipe gallery elements
   var detailInline = document.getElementById("recipe-detail-inline");
   var recipeGalleryCards = document.querySelectorAll(".recipe-gallery-card");
@@ -44,7 +58,13 @@ document.addEventListener("DOMContentLoaded", function () {
         closeRecipeDetail();
       } else {
         if (galleryView) galleryView.hidden = true;
-        if (expandedView) { expandedView.hidden = false; fadeIn(expandedView); }
+        if (expandedView) {
+          expandedView.hidden = false;
+          requestAnimationFrame(function () {
+            expandedView.querySelectorAll(".expanded-recipe-card").forEach(checkRecipeDetailHeight);
+          });
+          fadeIn(expandedView);
+        }
         closeRecipeDetail();
       }
     });
@@ -165,6 +185,8 @@ document.addEventListener("DOMContentLoaded", function () {
     details.forEach(function (d) { d.hidden = d.id !== "recipe-" + slug; });
     if (detailInline) {
       detailInline.hidden = false;
+      var activeDetail = document.getElementById("recipe-" + slug);
+      if (activeDetail) checkRecipeDetailHeight(activeDetail);
       fadeIn(detailInline);
     }
   }

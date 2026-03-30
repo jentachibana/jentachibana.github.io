@@ -43,17 +43,32 @@ var tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/iframe_api';
 document.head.appendChild(tag);
 
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 function onYouTubeIframeAPIReady() {
+  var players = [];
   var iframes = document.querySelectorAll('.video-embed iframe');
   iframes.forEach(function(iframe) {
-    new YT.Player(iframe, {
+    var player = new YT.Player(iframe, {
       events: {
         onReady: function(event) {
-          var duration = event.target.getDuration();
-          if (duration > 0) {
-            event.target.seekTo(Math.floor(Math.random() * duration), true);
-          }
-          event.target.playVideo();
+          var el = event.target.getIframe();
+          // Use IntersectionObserver to play only when visible
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                var duration = event.target.getDuration();
+                if (duration > 0) {
+                  event.target.seekTo(Math.floor(Math.random() * duration), true);
+                }
+                event.target.mute();
+                event.target.playVideo();
+              } else {
+                event.target.pauseVideo();
+              }
+            });
+          }, { threshold: 0.3 });
+          observer.observe(el.closest('.video-card') || el);
         },
         onStateChange: function(event) {
           if (event.data === YT.PlayerState.ENDED) {
@@ -63,6 +78,29 @@ function onYouTubeIframeAPIReady() {
         }
       }
     });
+    players.push(player);
   });
+
+  // Mobile: add tap-to-activate overlay since autoplay is blocked
+  if (isMobile) {
+    document.querySelectorAll('.video-embed').forEach(function(embed) {
+      var overlay = document.createElement('div');
+      overlay.className = 'video-tap-overlay';
+      overlay.textContent = 'tap to play';
+      embed.appendChild(overlay);
+    });
+
+    document.addEventListener('touchstart', function mobileActivate() {
+      players.forEach(function(player) {
+        try {
+          player.mute();
+          player.playVideo();
+        } catch(e) {}
+      });
+      document.querySelectorAll('.video-tap-overlay').forEach(function(el) {
+        el.remove();
+      });
+    }, { once: true });
+  }
 }
 </script>
