@@ -14,7 +14,8 @@ link: "https://www.thekitchn.com/hawaiian-butter-mochi-recipe-23147549"
 
 - glutinous rice flour
 - butter
+- 250g sugar
 
 ## Instructions
 
-1. could have used a bit more bite, a little soft on the inside
+1. could have used a bit more bite, a little soft on the inside. perfect after setting in fridge

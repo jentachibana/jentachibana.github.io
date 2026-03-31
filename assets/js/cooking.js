@@ -188,6 +188,15 @@ document.addEventListener("DOMContentLoaded", function () {
       var activeDetail = document.getElementById("recipe-" + slug);
       if (activeDetail) checkRecipeDetailHeight(activeDetail);
       fadeIn(detailInline);
+      // Jump to center detail in viewport instantly
+      var rect = detailInline.getBoundingClientRect();
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      var viewportHeight = window.innerHeight;
+      var targetY = scrollTop + rect.top - (viewportHeight - rect.height) / 2;
+      if (rect.height >= viewportHeight) {
+        targetY = scrollTop + rect.top - 20;
+      }
+      window.scrollTo(0, Math.max(0, targetY));
     }
   }
 

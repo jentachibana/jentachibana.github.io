@@ -412,7 +412,7 @@ html {
   }
 
   @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -435,6 +435,7 @@ html {
 // Recipe detail inline (inserted into grid, spans full width)
 .recipe-detail-inline {
   grid-column: 1 / -1;
+  margin-top: -0.5rem;
 
   &[hidden] {
     display: none;
@@ -850,6 +851,8 @@ html {
 
   @media (max-width: 768px) {
     flex: none;
+    max-width: 280px;
+    margin: 0 auto;
   }
 }
 
@@ -867,6 +870,14 @@ html {
 
 // JS-toggled class when card height > 75% of viewport
 .recipe-detail-layout.recipe-detail-stacked {
+  flex-direction: column;
+
+  .recipe-detail-left {
+    flex: none;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
   .recipe-panels {
     flex-direction: column;
     gap: 1.5rem;
@@ -906,6 +917,7 @@ html {
     letter-spacing: 0;
     color: #333;
     margin: 0 0 0.75rem;
+    text-align: center;
   }
 
   ul, ol {

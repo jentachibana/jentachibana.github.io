@@ -4,3 +4,4 @@ _site
 .jekyll-metadata
 .env
 vendor
+video-server/__pycache__/

@@ -9,6 +9,10 @@ layout: base
     <a class="movement-back" href="/">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     </a>
+    <a class="movement-upload-link" href="http://localhost:5555" target="_blank">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      upload
+    </a>
   </div>
 
   {% assign activities = "lindy-hop,fusion,gym,swimming,hiking,acro-yoga,rollerskating,tennis" | split: "," %}
@@ -16,15 +20,6 @@ layout: base
   {% assign colors = "#c4623a,#d4944a,#a8503a,#e0b878,#8a4028,#d4784a,#b86830,#c89858" | split: "," %}
 
   <div class="movement-body">
-    <div class="movement-grid">
-      {% for activity in activities %}
-        {% assign idx = forloop.index0 %}
-        <div class="movement-card" data-activity="{{ activity }}" style="background: {{ colors[idx] }};">
-          <span class="movement-card-label">{{ labels[idx] }}</span>
-        </div>
-      {% endfor %}
-    </div>
-
     <div class="movement-weekly-calendar">
       <h2 class="calendar-title">dance socials</h2>
       {% assign days = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" | split: "," %}
@@ -48,6 +43,186 @@ layout: base
       </div>
     </div>
 
+    <div class="movement-video-gallery" id="movement-videos" style="display:none;">
+      <h2 class="video-gallery-title">videos</h2>
+      <div class="video-filter-pills" id="video-filter-pills"></div>
+      <div class="video-gallery-grid" id="video-gallery-grid"></div>
+    </div>
+
+    <div class="video-tap-overlay" id="mobile-tap-overlay" style="display:none;">tap to play</div>
+
   </div>
 
 </div>
+
+<script>
+(function() {
+  const VIDEO_API = "http://localhost:5555";
+  const gallery = document.getElementById("movement-videos");
+  const pillsContainer = document.getElementById("video-filter-pills");
+  const grid = document.getElementById("video-gallery-grid");
+
+  const ACTIVITY_COLORS = {
+    "lindy-hop": "#c4623a",
+    "fusion": "#d4944a",
+    "gym": "#a8503a",
+    "swimming": "#e0b878",
+    "hiking": "#8a4028",
+    "acro-yoga": "#d4784a",
+    "rollerskating": "#b86830",
+    "tennis": "#c89858",
+  };
+
+  const ACTIVITY_LABELS = {
+    "lindy-hop": "lindy hop",
+    "fusion": "fusion",
+    "gym": "gym",
+    "swimming": "swimming",
+    "hiking": "hiking",
+    "acro-yoga": "acro yoga",
+    "rollerskating": "rollerskating",
+    "tennis": "tennis",
+  };
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  let allVideos = [];
+  let activeFilter = "all";
+  let observer = null;
+
+  async function init() {
+    try {
+      const resp = await fetch(`${VIDEO_API}/api/videos`);
+      if (!resp.ok) return;
+      const data = await resp.json();
+      allVideos = data.videos.filter(v => v.status === "ready" && v.preview);
+      if (!allVideos.length) return;
+      gallery.style.display = "block";
+      renderPills();
+      renderGrid();
+      setupObserver();
+
+      if (isMobile) setupMobileTap();
+    } catch {
+      // Video server not running — gallery stays hidden
+    }
+  }
+
+  function renderPills() {
+    const activities = [...new Set(allVideos.map(v => v.activity))];
+    const pills = [`<button class="video-pill active" data-filter="all">all</button>`];
+    activities.forEach(a => {
+      pills.push(
+        `<button class="video-pill" data-filter="${a}" style="--pill-color:${ACTIVITY_COLORS[a] || '#999'}">${ACTIVITY_LABELS[a] || a}</button>`
+      );
+    });
+    pillsContainer.innerHTML = pills.join("");
+    pillsContainer.addEventListener("click", (e) => {
+      const btn = e.target.closest(".video-pill");
+      if (!btn) return;
+      pillsContainer.querySelectorAll(".video-pill").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.dataset.filter;
+      renderGrid();
+      setupObserver();
+    });
+  }
+
+  function formatDuration(seconds) {
+    if (!seconds) return "";
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    return `${m}:${String(s).padStart(2, "0")}`;
+  }
+
+  function renderGrid() {
+    const filtered = activeFilter === "all"
+      ? allVideos
+      : allVideos.filter(v => v.activity === activeFilter);
+
+    grid.innerHTML = filtered.map(v => `
+      <div class="video-gallery-card" data-id="${v.id}">
+        <div class="video-card-wrap">
+          <video class="video-preview"
+            src="${VIDEO_API}/previews/${v.preview}"
+            muted loop playsinline preload="metadata"
+          ></video>
+          ${v.duration_seconds ? `<span class="video-card-duration">${formatDuration(v.duration_seconds)}</span>` : ""}
+        </div>
+        <div class="video-card-meta">
+          <span class="video-card-activity" style="background:${ACTIVITY_COLORS[v.activity] || '#999'}">${ACTIVITY_LABELS[v.activity] || v.activity}</span>
+        </div>
+      </div>
+    `).join("");
+
+    grid.querySelectorAll(".video-gallery-card").forEach(card => {
+      card.addEventListener("click", () => toggleFullVideo(card));
+    });
+  }
+
+  function toggleFullVideo(card) {
+    const preview = card.querySelector(".video-preview");
+    const existing = card.querySelector(".video-full");
+
+    // If full video is playing, revert to preview
+    if (existing) {
+      existing.pause();
+      existing.remove();
+      preview.style.display = "";
+      preview.play().catch(() => {});
+      card.classList.remove("is-expanded");
+      return;
+    }
+
+    // Swap to full video
+    const id = card.dataset.id;
+    const video = allVideos.find(v => v.id === id);
+    if (!video) return;
+
+    preview.pause();
+    preview.style.display = "none";
+
+    const el = document.createElement("video");
+    el.className = "video-full";
+    el.src = `${VIDEO_API}/videos/${video.filename}`;
+    el.controls = true;
+    el.autoplay = true;
+    el.playsInline = true;
+    card.querySelector(".video-card-wrap").appendChild(el);
+    card.classList.add("is-expanded");
+  }
+
+  function setupObserver() {
+    if (observer) observer.disconnect();
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const preview = entry.target.querySelector(".video-preview");
+        if (!preview || preview.style.display === "none") return;
+        if (entry.isIntersecting) {
+          preview.play().catch(() => {});
+        } else {
+          preview.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    grid.querySelectorAll(".video-gallery-card").forEach(card => {
+      observer.observe(card);
+    });
+  }
+
+  function setupMobileTap() {
+    const overlay = document.getElementById("mobile-tap-overlay");
+    overlay.style.display = "flex";
+
+    document.addEventListener("touchstart", function activate() {
+      grid.querySelectorAll(".video-preview").forEach(v => {
+        v.play().catch(() => {});
+      });
+      overlay.style.display = "none";
+    }, { once: true });
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>

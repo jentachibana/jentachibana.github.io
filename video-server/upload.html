@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>upload videos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #e8ddd0;
+      color: #3a2a1a;
+      font-family: "Karla", sans-serif;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-family: "Libre Baskerville", serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+
+    h2 {
+      font-family: "Libre Baskerville", serif;
+      font-weight: 400;
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem;
+      opacity: 0.7;
+    }
+
+    .upload-area {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .activity-select {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid rgba(58, 42, 26, 0.15);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      font-family: "Karla", sans-serif;
+      font-size: 0.9rem;
+      color: #3a2a1a;
+      margin-bottom: 1rem;
+      appearance: none;
+    }
+
+    .drop-zone {
+      border: 2px dashed rgba(58, 42, 26, 0.25);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .drop-zone.dragover {
+      border-color: #c4623a;
+      background: rgba(196, 98, 58, 0.08);
+    }
+
+    .drop-zone p {
+      font-size: 0.9rem;
+      opacity: 0.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .drop-zone .browse-btn {
+      display: inline-block;
+      padding: 0.5rem 1.2rem;
+      background: #c4623a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: "Karla", sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .drop-zone .browse-btn:hover {
+      background: #a8503a;
+    }
+
+    .progress-bar {
+      display: none;
+      margin-top: 1rem;
+      height: 6px;
+      background: rgba(58, 42, 26, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar .fill {
+      height: 100%;
+      background: #c4623a;
+      width: 0%;
+      transition: width 0.3s;
+      border-radius: 3px;
+    }
+
+    .upload-status {
+      display: none;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    .video-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .video-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
+    }
+
+    .video-item img {
+      width: 80px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: rgba(58, 42, 26, 0.1);
+    }
+
+    .video-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .video-info .name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .video-info .meta {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      margin-top: 0.15rem;
+    }
+
+    .status-badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    .status-badge.ready { background: rgba(100, 160, 80, 0.2); color: #4a7a30; }
+    .status-badge.processing { background: rgba(200, 152, 88, 0.2); color: #8a6020; }
+    .status-badge.error { background: rgba(196, 98, 58, 0.2); color: #a8503a; }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      opacity: 0.3;
+      font-size: 1.1rem;
+      padding: 0.25rem;
+      transition: opacity 0.15s;
+      flex-shrink: 0;
+    }
+
+    .delete-btn:hover { opacity: 0.8; }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      opacity: 0.4;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-area">
+    <h1>upload videos</h1>
+
+    <select class="activity-select" id="activity-select">
+      <option value="" disabled selected>select activity type</option>
+      <option value="lindy-hop">lindy hop</option>
+      <option value="fusion">fusion</option>
+      <option value="gym">gym</option>
+      <option value="swimming">swimming</option>
+      <option value="hiking">hiking</option>
+      <option value="acro-yoga">acro yoga</option>
+      <option value="rollerskating">rollerskating</option>
+      <option value="tennis">tennis</option>
+    </select>
+
+    <div class="drop-zone" id="drop-zone">
+      <p>drag and drop a video here</p>
+      <button class="browse-btn" type="button">browse files</button>
+      <input type="file" id="file-input" accept=".mp4,.mov,.avi,.webm,.mkv,.m4v" hidden>
+    </div>
+
+    <div class="progress-bar" id="progress-bar">
+      <div class="fill" id="progress-fill"></div>
+    </div>
+    <div class="upload-status" id="upload-status"></div>
+
+    <h2>your videos</h2>
+    <ul class="video-list" id="video-list"></ul>
+  </div>
+
+  <script>
+    const API = window.location.origin;
+
+    const dropZone = document.getElementById("drop-zone");
+    const fileInput = document.getElementById("file-input");
+    const activitySelect = document.getElementById("activity-select");
+    const progressBar = document.getElementById("progress-bar");
+    const progressFill = document.getElementById("progress-fill");
+    const uploadStatus = document.getElementById("upload-status");
+    const videoList = document.getElementById("video-list");
+
+    // Drag and drop
+    dropZone.addEventListener("click", () => fileInput.click());
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+      if (e.dataTransfer.files.length) uploadFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length) uploadFile(fileInput.files[0]);
+    });
+
+    function uploadFile(file) {
+      const activity = activitySelect.value;
+      if (!activity) {
+        alert("Please select an activity type first.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("activity", activity);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${API}/api/videos`);
+
+      progressBar.style.display = "block";
+      uploadStatus.style.display = "block";
+      uploadStatus.textContent = "uploading...";
+      progressFill.style.width = "0%";
+
+      xhr.upload.addEventListener("progress", (e) => {
+        if (e.lengthComputable) {
+          const pct = Math.round((e.loaded / e.total) * 100);
+          progressFill.style.width = pct + "%";
+          uploadStatus.textContent = `uploading... ${pct}%`;
+        }
+      });
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          uploadStatus.textContent = "uploaded! transcoding in progress...";
+          progressFill.style.width = "100%";
+          fileInput.value = "";
+          loadVideos();
+          pollProcessing();
+        } else {
+          uploadStatus.textContent = "upload failed: " + xhr.responseText;
+        }
+      });
+
+      xhr.addEventListener("error", () => {
+        uploadStatus.textContent = "upload failed — check server connection";
+      });
+
+      xhr.send(formData);
+    }
+
+    // Poll for processing status
+    let pollTimer = null;
+    function pollProcessing() {
+      if (pollTimer) return;
+      pollTimer = setInterval(async () => {
+        const resp = await fetch(`${API}/api/videos`);
+        const data = await resp.json();
+        const stillProcessing = data.videos.some(v => v.status === "processing");
+        renderVideos(data.videos);
+        if (!stillProcessing) {
+          clearInterval(pollTimer);
+          pollTimer = null;
+          uploadStatus.textContent = "all done!";
+          setTimeout(() => {
+            progressBar.style.display = "none";
+            uploadStatus.style.display = "none";
+          }, 2000);
+        }
+      }, 3000);
+    }
+
+    async function loadVideos() {
+      try {
+        const resp = await fetch(`${API}/api/videos`);
+        const data = await resp.json();
+        renderVideos(data.videos);
+        if (data.videos.some(v => v.status === "processing")) pollProcessing();
+      } catch {
+        videoList.innerHTML = '<li class="empty-state">could not connect to server</li>';
+      }
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds) return "";
+      const m = Math.floor(seconds / 60);
+      const s = Math.round(seconds % 60);
+      return `${m}:${String(s).padStart(2, "0")}`;
+    }
+
+    function renderVideos(videos) {
+      if (!videos.length) {
+        videoList.innerHTML = '<li class="empty-state">no videos yet</li>';
+        return;
+      }
+      videoList.innerHTML = videos.map(v => `
+        <li class="video-item">
+          ${v.thumbnail
+            ? `<img src="${API}/thumbnails/${v.thumbnail}" alt="">`
+            : `<img src="" alt="" style="visibility:hidden">`
+          }
+          <div class="video-info">
+            <div class="name">${v.original_name || "untitled"}</div>
+            <div class="meta">${v.activity}${v.duration_seconds ? " &middot; " + formatDuration(v.duration_seconds) : ""}</div>
+          </div>
+          <span class="status-badge ${v.status}">${v.status}</span>
+          <button class="delete-btn" onclick="deleteVideo('${v.id}')" title="delete">&times;</button>
+        </li>
+      `).join("");
+    }
+
+    async function deleteVideo(id) {
+      if (!confirm("Delete this video?")) return;
+      await fetch(`${API}/api/videos/${id}`, { method: "DELETE" });
+      loadVideos();
+    }
+
+    loadVideos();
+  </script>
+</body>
+</html>
