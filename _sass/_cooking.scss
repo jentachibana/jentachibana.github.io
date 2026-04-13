@@ -215,9 +215,19 @@ html {
   margin: 0 auto;
 }
 
+.cooking-filter-row .recipe-sort-toggle,
 .cooking-filter-row .recipe-view-mode-toggle {
   position: absolute;
   right: 0;
+
+  @media (max-width: 768px) {
+    position: static;
+  }
+}
+
+.cooking-filter-row .recipe-sort-toggle {
+  right: auto;
+  left: 0;
 
   @media (max-width: 768px) {
     position: static;
@@ -270,6 +280,30 @@ html {
 
   &[hidden] {
     display: none;
+  }
+}
+
+.recipe-sort-toggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.recipe-sort-btn {
+  font-family: "Karla", sans-serif;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--btn-color, #a0816c);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--btn-color, #6b5544);
+  cursor: pointer;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  transition: all 0.15s ease;
+
+  &:hover, &.active {
+    background: var(--btn-active-bg, #a0816c);
+    color: var(--btn-active-text, #fff);
   }
 }
 

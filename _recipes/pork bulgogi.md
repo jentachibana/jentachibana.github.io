@@ -8,6 +8,7 @@ image_position: ""
 image_scale: ""
 blurb: "always in the meal rotation"
 link: ""
+date_added: "2026-03-28"
 ---
 
 ## Ingredients

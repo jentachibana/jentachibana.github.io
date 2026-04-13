@@ -70,14 +70,48 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Shuffle recipe grid on page load
-  if (recipeGrid) {
-    var cards = Array.from(recipeGrid.children);
+  // Shuffle helper
+  function shuffleGrid(grid) {
+    var cards = Array.from(grid.children);
     for (var i = cards.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
-      recipeGrid.appendChild(cards[j]);
+      grid.appendChild(cards[j]);
       cards.splice(j, 1, cards[i]);
     }
+  }
+
+  // Sort by date descending helper
+  function sortGridByDate(grid, cardSelector) {
+    var cards = Array.from(grid.querySelectorAll(cardSelector));
+    cards.sort(function (a, b) {
+      return (b.dataset.date || "").localeCompare(a.dataset.date || "");
+    });
+    cards.forEach(function (card) { grid.appendChild(card); });
+  }
+
+  // Shuffle recipe grid on page load
+  if (recipeGrid) {
+    shuffleGrid(recipeGrid);
+  }
+
+  // Sort toggle (newest / shuffle)
+  var sortBtn = document.querySelector(".recipe-sort-btn");
+  var isSortedNewest = false;
+
+  if (sortBtn) {
+    sortBtn.addEventListener("click", function () {
+      isSortedNewest = !isSortedNewest;
+      sortBtn.classList.toggle("active", isSortedNewest);
+      closeRecipeDetail();
+
+      if (isSortedNewest) {
+        if (recipeGrid) sortGridByDate(recipeGrid, ".recipe-gallery-card");
+        if (expandedView) sortGridByDate(expandedView, ".expanded-recipe-card");
+      } else {
+        if (recipeGrid) shuffleGrid(recipeGrid);
+        if (expandedView) shuffleGrid(expandedView);
+      }
+    });
   }
 
   // Set theme based on active view

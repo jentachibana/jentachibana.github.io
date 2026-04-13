@@ -54,6 +54,9 @@ for file in "$VAULT_PATH/recipes/"*.md; do
   # Extract link (first non-empty line between ## Link and next ##)
   link="$(awk '/^## Link/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
 
+  # Extract file creation date (birth time) as YYYY-MM-DD
+  date_added="$(date -r "$(stat -f '%B' "$file")" '+%Y-%m-%d')"
+
   # Extract ingredients (lines between ## Ingredients and next ##), formatted as bullet list
   ingredients="$(awk '/^## Ingredients/{flag=1; next} /^## /{flag=0} flag' "$file" | awk 'NF{print "- "$0} !NF{print}')"
 
@@ -71,6 +74,7 @@ image_position: "$image_position"
 image_scale: "$image_scale"
 blurb: "$blurb"
 link: "$link"
+date_added: "$date_added"
 ---
 
 ## Ingredients

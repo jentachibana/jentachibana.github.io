@@ -35,6 +35,9 @@ layout: base
             <button class="top-filter-btn" data-category="cuisine">cuisine</button>
             <button class="top-filter-btn" data-category="type">type</button>
           </div>
+          <div class="recipe-sort-toggle">
+            <button class="recipe-sort-btn" data-sort="newest">newest</button>
+          </div>
           <div class="recipe-view-mode-toggle">
             <button class="recipe-mode-btn active" data-mode="gallery">gallery</button>
             <button class="recipe-mode-btn" data-mode="expanded">expand</button>
@@ -63,7 +66,7 @@ layout: base
     <div class="cooking-recipes-view">
       <div class="recipe-grid">
         {% for recipe in site.recipes %}
-        <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-course="{{ recipe.course }}">
+        <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-course="{{ recipe.course }}" data-date="{{ recipe.date_added }}">
           {% if recipe.image != "" %}
           <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}"{% if recipe.image_position or recipe.image_scale %} style="{% if recipe.image_position %}object-position: {{ recipe.image_position }};{% endif %}{% if recipe.image_scale %}transform: scale({{ recipe.image_scale }});{% endif %}"{% endif %}>
           {% else %}
@@ -115,7 +118,7 @@ layout: base
     <!-- Expanded view: all recipe details stacked -->
     <div class="expanded-recipes-view" hidden>
       {% for recipe in site.recipes %}
-      <div class="recipe-detail expanded-recipe-card" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}">
+      <div class="recipe-detail expanded-recipe-card" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-date="{{ recipe.date_added }}">
         <div class="recipe-detail-layout">
           <div class="recipe-detail-left">
             {% if recipe.image != "" %}

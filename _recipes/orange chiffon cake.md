@@ -8,6 +8,7 @@ image_position: ""
 image_scale: "1.2"
 blurb: "i think i cut the sugar on this one but the texture came out great"
 link: "https://www.justonecookbook.com/orange-chiffon-cake/"
+date_added: "2026-03-28"
 ---
 
 ## Ingredients

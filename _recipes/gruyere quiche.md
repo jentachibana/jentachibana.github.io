@@ -8,6 +8,7 @@ image_position: ""
 image_scale: ""
 blurb: "made this on christmas! and it was so good. froze well too"
 link: "https://www.onceuponachef.com/recipes/spinach-quiche.html#recipediv"
+date_added: "2026-03-28"
 ---
 
 ## Ingredients

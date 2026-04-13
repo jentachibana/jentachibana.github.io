@@ -8,6 +8,7 @@ image_position: ""
 image_scale: "1.1"
 blurb: "sesame seeds make everything look pretty"
 link: ""
+date_added: "2026-03-28"
 ---
 
 ## Ingredients

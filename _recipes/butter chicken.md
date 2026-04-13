@@ -8,6 +8,7 @@ image_position: "center 75%"
 image_scale: ""
 blurb: "YES. replace the butter with blended nuts"
 link: ""
+date_added: "2026-03-28"
 ---
 
 ## Ingredients

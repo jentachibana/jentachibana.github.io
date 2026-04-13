@@ -8,6 +8,7 @@ image_position: ""
 image_scale: ""
 blurb: "peanut + chili is a killer combo"
 link: ""
+date_added: "2026-03-28"
 ---
 
 ## Ingredients
