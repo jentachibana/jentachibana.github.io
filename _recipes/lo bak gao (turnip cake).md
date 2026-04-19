@@ -8,7 +8,7 @@ image_position: ""
 image_scale: ""
 blurb: "super fun to make, would recommend a steamer basket "
 link: "https://thewoksoflife.com/turnip-cake-lo-bak-go/"
-date_added: "2026-03-28"
+date_added: "2026-04-18"
 ---
 
 ## Ingredients
@@ -23,7 +23,7 @@ date_added: "2026-03-28"
 - 155g rice flour
 - 8g cornstarch
 - salt
-- sugar
+- 1/2 tsp sugar
 - white pepper
 
 ## Instructions

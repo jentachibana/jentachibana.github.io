@@ -89,30 +89,14 @@ document.addEventListener("DOMContentLoaded", function () {
     cards.forEach(function (card) { grid.appendChild(card); });
   }
 
-  // Shuffle recipe grid on page load
+  // Sort recipe grid by date on page load
   if (recipeGrid) {
-    shuffleGrid(recipeGrid);
+    sortGridByDate(recipeGrid, ".recipe-gallery-card");
+  }
+  if (expandedView) {
+    sortGridByDate(expandedView, ".expanded-recipe-card");
   }
 
-  // Sort toggle (newest / shuffle)
-  var sortBtn = document.querySelector(".recipe-sort-btn");
-  var isSortedNewest = false;
-
-  if (sortBtn) {
-    sortBtn.addEventListener("click", function () {
-      isSortedNewest = !isSortedNewest;
-      sortBtn.classList.toggle("active", isSortedNewest);
-      closeRecipeDetail();
-
-      if (isSortedNewest) {
-        if (recipeGrid) sortGridByDate(recipeGrid, ".recipe-gallery-card");
-        if (expandedView) sortGridByDate(expandedView, ".expanded-recipe-card");
-      } else {
-        if (recipeGrid) shuffleGrid(recipeGrid);
-        if (expandedView) shuffleGrid(expandedView);
-      }
-    });
-  }
 
   // Set theme based on active view
   var cookingEl = document.querySelector(".cooking");
