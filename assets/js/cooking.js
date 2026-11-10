@@ -45,6 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var expandedView = document.querySelector(".expanded-recipes-view");
   var expandedCards = document.querySelectorAll(".expanded-recipe-card");
   var modeBtns = document.querySelectorAll(".recipe-mode-btn");
+  var recipeSearch = document.querySelector(".recipe-search");
+  var recipeSearchToggle = document.querySelector(".recipe-search-toggle");
+  var recipeSearchInput = document.querySelector(".recipe-search-input");
+  var recipeSearchEmpty = document.getElementById("recipe-search-empty");
 
   modeBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -233,20 +237,67 @@ document.addEventListener("DOMContentLoaded", function () {
   // Two-tier recipe filters: top-level (all/cuisine/type) + sub-filters
   var topFilterBtns = document.querySelectorAll(".top-filter-btn");
   var subFilterRows = document.querySelectorAll(".cooking-sub-filters");
+  var activeFilterType = null;
+  var activeFilterValue = "all";
+  var activeSearchQuery = "";
 
-  function applyFilter(filterType, filterValue) {
+  function normalizeSearchText(value) {
+    return (value || "").toLocaleLowerCase().replace(/\s+/g, " ").trim();
+  }
+
+  function recipeMatches(card) {
+    var matchesFilter = !activeFilterType || activeFilterValue === "all" || card.dataset[activeFilterType] === activeFilterValue;
+    var matchesSearch = !activeSearchQuery || normalizeSearchText(card.dataset.search).indexOf(activeSearchQuery) !== -1;
+    return matchesFilter && matchesSearch;
+  }
+
+  function applyRecipeFilters() {
+    var visibleCount = 0;
     recipeGalleryCards.forEach(function (card) {
-      if (!filterType || filterValue === "all") {
-        card.classList.remove("filtered-out");
-      } else {
-        card.classList.toggle("filtered-out", card.dataset[filterType] !== filterValue);
-      }
+      var matches = recipeMatches(card);
+      card.classList.toggle("filtered-out", !matches);
+      if (matches) visibleCount += 1;
     });
     expandedCards.forEach(function (card) {
-      if (!filterType || filterValue === "all") {
-        card.classList.remove("filtered-out");
-      } else {
-        card.classList.toggle("filtered-out", card.dataset[filterType] !== filterValue);
+      card.classList.toggle("filtered-out", !recipeMatches(card));
+    });
+    if (recipeSearchEmpty) recipeSearchEmpty.hidden = visibleCount !== 0;
+  }
+
+  function applyFilter(filterType, filterValue) {
+    activeFilterType = filterType;
+    activeFilterValue = filterValue;
+    applyRecipeFilters();
+  }
+
+  if (recipeSearchToggle && recipeSearchInput && recipeSearch) {
+    recipeSearchToggle.addEventListener("click", function () {
+      recipeSearch.classList.add("is-open");
+      recipeSearchToggle.setAttribute("aria-expanded", "true");
+      recipeSearchInput.focus();
+    });
+
+    recipeSearchInput.addEventListener("input", function () {
+      activeSearchQuery = normalizeSearchText(recipeSearchInput.value);
+      closeRecipeDetail();
+      applyRecipeFilters();
+    });
+
+    recipeSearchInput.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        recipeSearchInput.value = "";
+        activeSearchQuery = "";
+        applyRecipeFilters();
+        recipeSearch.classList.remove("is-open");
+        recipeSearchToggle.setAttribute("aria-expanded", "false");
+        recipeSearchToggle.focus();
+      }
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!recipeSearch.contains(event.target) && !recipeSearchInput.value) {
+        recipeSearch.classList.remove("is-open");
+        recipeSearchToggle.setAttribute("aria-expanded", "false");
       }
     });
   }

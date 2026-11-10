@@ -9,7 +9,8 @@ image_position: ''
 image_scale: ''
 date_added: '2026-04-18'
 blurb: super fun to make, would recommend a steamer basket
-link: https://thewoksoflife.com/turnip-cake-lo-bak-go/
+links:
+- https://thewoksoflife.com/turnip-cake-lo-bak-go/
 ---
 
 ## Ingredients

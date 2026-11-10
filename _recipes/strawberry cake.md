@@ -9,7 +9,8 @@ image_position: center 75%
 image_scale: '1.2'
 date_added: '2026-03-28'
 blurb: looks to me like the cake the hagrid made for harry's 11th birthday
-link: https://sallysbakingaddiction.com/strawberry-cake/
+links:
+- https://sallysbakingaddiction.com/strawberry-cake/
 ---
 
 ## Ingredients

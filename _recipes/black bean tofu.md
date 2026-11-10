@@ -9,7 +9,6 @@ image_position: ''
 image_scale: ''
 date_added: '2026-03-28'
 blurb: still experimenting with this one, will try with corn starch next time
-link: ''
 ---
 
 ## Ingredients

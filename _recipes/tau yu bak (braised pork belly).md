@@ -9,7 +9,6 @@ image_position: center 82.5%
 image_scale: '1.2'
 date_added: '2026-03-28'
 blurb: another incredible yummyness:effort ratio
-link: ''
 ---
 
 ## Ingredients

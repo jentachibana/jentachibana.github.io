@@ -9,7 +9,6 @@ image_position: ''
 image_scale: ''
 date_added: '2026-04-18'
 blurb: yummy
-link: ''
 ---
 
 ## Ingredients

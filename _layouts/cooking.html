@@ -30,6 +30,12 @@ layout: base
     <div class="cooking-category-bar">
       <div class="cooking-category-pills">
         <div class="cooking-filter-row">
+          <div class="recipe-search" role="search">
+            <button class="recipe-search-toggle" type="button" aria-label="Search recipes" aria-expanded="false" aria-controls="recipe-search-input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+            </button>
+            <input id="recipe-search-input" class="recipe-search-input" type="search" placeholder="search recipes" aria-label="Search recipes" autocomplete="off">
+          </div>
           <div class="cooking-top-filters">
             <button class="top-filter-btn active" data-category="all">all</button>
             <button class="top-filter-btn" data-category="cuisine">cuisine</button>
@@ -58,12 +64,13 @@ layout: base
 
   <!-- Recipes: grid layout -->
   <div class="cooking-recipes-layout" data-view-panel="recipes">
+    <p class="recipe-search-empty" id="recipe-search-empty" hidden>no recipes found</p>
 
     <!-- Recipe gallery view with inline details -->
     <div class="cooking-recipes-view">
       <div class="recipe-grid">
         {% for recipe in site.recipes %}
-        <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-course="{{ recipe.course }}" data-date="{{ recipe.date_added }}">
+        <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-course="{{ recipe.course }}" data-date="{{ recipe.date_added }}" data-search="{{ recipe.title }} {{ recipe.cuisine }} {{ recipe.type }} {{ recipe.blurb }} {{ recipe.content | strip_html | strip_newlines | escape }}">
           {% if recipe.images.size > 0 %}
           <img src="/assets/images/recipes/{{ recipe.images.first }}" alt="{{ recipe.title }}"{% if recipe.image_position != "" or recipe.image_scale != "" %} style="{% if recipe.image_position != "" %}object-position: {{ recipe.image_position }};{% endif %}{% if recipe.image_scale != "" %}transform: scale({{ recipe.image_scale }});{% endif %}"{% endif %}>
           {% else %}
@@ -88,7 +95,9 @@ layout: base
             <div class="recipe-detail-right">
               <div class="recipe-detail-header">
                 <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
-                {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}{% if recipe.link != "" %} · <a href="{{ recipe.link }}" target="_blank" rel="noopener">original recipe</a>{% endif %}</span>{% endif %}
+                {% if recipe.cuisine != "" or recipe.links.size > 0 %}
+                <span class="recipe-cuisine">{% if recipe.cuisine != "" %}{{ recipe.cuisine }}{% endif %}{% for link in recipe.links %}{% if recipe.cuisine != "" or forloop.index > 1 %} · {% endif %}<a href="{{ link }}" target="_blank" rel="noopener">original recipe{% if recipe.links.size > 1 %} {{ forloop.index }}{% endif %}</a>{% endfor %}</span>
+                {% endif %}
               </div>
               {% if recipe.blurb != "" %}
               <p class="recipe-blurb">{{ recipe.blurb }}</p>
@@ -115,7 +124,7 @@ layout: base
     <!-- Expanded view: all recipe details stacked -->
     <div class="expanded-recipes-view" hidden>
       {% for recipe in site.recipes %}
-      <div class="recipe-detail expanded-recipe-card" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-date="{{ recipe.date_added }}">
+      <div class="recipe-detail expanded-recipe-card" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-date="{{ recipe.date_added }}" data-search="{{ recipe.title }} {{ recipe.cuisine }} {{ recipe.type }} {{ recipe.blurb }} {{ recipe.content | strip_html | strip_newlines | escape }}">
         <div class="recipe-detail-layout">
           <div class="recipe-detail-left">
             {% if recipe.images.size > 0 %}
@@ -125,7 +134,9 @@ layout: base
           <div class="recipe-detail-right">
             <div class="recipe-detail-header">
               <h2 class="recipe-detail-title">{{ recipe.title | downcase }}</h2>
-              {% if recipe.cuisine %}<span class="recipe-cuisine">{{ recipe.cuisine }}{% if recipe.link != "" %} · <a href="{{ recipe.link }}" target="_blank" rel="noopener">original recipe</a>{% endif %}</span>{% endif %}
+              {% if recipe.cuisine != "" or recipe.links.size > 0 %}
+              <span class="recipe-cuisine">{% if recipe.cuisine != "" %}{{ recipe.cuisine }}{% endif %}{% for link in recipe.links %}{% if recipe.cuisine != "" or forloop.index > 1 %} · {% endif %}<a href="{{ link }}" target="_blank" rel="noopener">original recipe{% if recipe.links.size > 1 %} {{ forloop.index }}{% endif %}</a>{% endfor %}</span>
+              {% endif %}
             </div>
             {% if recipe.blurb != "" %}
             <p class="recipe-blurb">{{ recipe.blurb }}</p>

@@ -9,7 +9,8 @@ image_position: ''
 image_scale: ''
 date_added: '2026-03-28'
 blurb: butter is gross but this was really good
-link: https://www.thekitchn.com/hawaiian-butter-mochi-recipe-23147549
+links:
+- https://www.thekitchn.com/hawaiian-butter-mochi-recipe-23147549
 ---
 
 ## Ingredients

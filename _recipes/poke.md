@@ -9,7 +9,6 @@ image_position: center 67%
 image_scale: '1.18'
 date_added: '2026-03-28'
 blurb: hit up KP for $4.99 tune poke
-link: ''
 ---
 
 ## Ingredients

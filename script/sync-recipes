@@ -50,9 +50,10 @@ Dir.glob(File.join(vault, "recipes", "*.md")).sort.each do |path|
     "image_position" => metadata["image_position"].to_s,
     "image_scale" => metadata["image_scale"].to_s,
     "date_added" => metadata["date_added"].to_s,
-    "blurb" => section(body, "Blurb"),
-    "link" => section(body, "Link")
+    "blurb" => section(body, "Blurb")
   }
+  links = Array(metadata["links"]).map(&:to_s).reject(&:empty?)
+  output_metadata["links"] = links unless links.empty?
 
   recipe_body = <<~MARKDOWN
     ## Ingredients

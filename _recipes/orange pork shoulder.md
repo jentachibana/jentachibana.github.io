@@ -9,7 +9,6 @@ image_position: ''
 image_scale: ''
 date_added: '2026-03-28'
 blurb: i <3 safeway $1.99/lb meats
-link: ''
 ---
 
 ## Ingredients

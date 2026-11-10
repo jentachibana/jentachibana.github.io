@@ -9,7 +9,6 @@ image_position: ''
 image_scale: ''
 date_added: '2026-03-28'
 blurb: don't forget the sesame oil!
-link: ''
 ---
 
 ## Ingredients

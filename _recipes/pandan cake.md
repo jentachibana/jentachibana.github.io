@@ -9,7 +9,6 @@ image_position: ''
 image_scale: ''
 date_added: '2026-04-06'
 blurb: a little sweet and a little too dense.
-link: ''
 ---
 
 ## Ingredients

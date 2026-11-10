@@ -215,6 +215,87 @@ html {
   margin: 0 auto;
 }
 
+.recipe-search {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--btn-color, #4a5a3a);
+  border-radius: 20px;
+  color: var(--btn-color, #4a5a3a);
+  background: #f5f0e8;
+  overflow: hidden;
+  transition: width 0.25s ease;
+  z-index: 1;
+
+  &.is-open,
+  &:focus-within {
+    width: 220px;
+  }
+
+  @media (max-width: 768px) {
+    position: static;
+    align-self: flex-start;
+
+    &.is-open,
+    &:focus-within {
+      width: calc(100vw - 2rem);
+      max-width: 280px;
+    }
+  }
+}
+
+.recipe-search-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.recipe-search-input {
+  min-width: 0;
+  width: 100%;
+  padding: 0 0.85rem 0 0.15rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #333;
+  font: 600 0.85rem "Karla", sans-serif;
+
+  &::placeholder {
+    color: rgba(51, 51, 51, 0.5);
+  }
+
+  &::-webkit-search-cancel-button {
+    cursor: pointer;
+  }
+}
+
+.recipe-search-empty {
+  margin: 2rem auto;
+  color: rgba(51, 51, 51, 0.55);
+  font-family: "Libre Baskerville", serif;
+  font-style: italic;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
 .cooking-filter-row .recipe-view-mode-toggle {
   position: absolute;
   right: 0;
@@ -964,6 +1045,4 @@ html {
 .cooking-fade-in {
   animation: cookingFadeIn 0.6s ease both;
 }
-
-
 
