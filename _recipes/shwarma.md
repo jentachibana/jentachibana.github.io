@@ -1,14 +1,15 @@
 ---
-title: "shwarma"
-slug: "shwarma"
-image: "shwarma.jpeg"
-cuisine: "mediterranean"
-type: "meat"
-image_position: ""
-image_scale: ""
-blurb: "tangy"
-link: ""
-date_added: "2026-03-28"
+title: shwarma
+slug: shwarma
+images:
+- shwarma.jpeg
+cuisine: mediterranean
+type: meat
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: tangy
+link: ''
 ---
 
 ## Ingredients

@@ -1,20 +1,21 @@
 ---
-title: "corn bread"
-slug: "corn bread"
-image: "corn bread.jpeg"
-cuisine: "american"
-type: "snack"
-image_position: ""
-image_scale: ""
-blurb: "a little naughty"
-link: ""
-date_added: "2026-03-28"
+title: corn bread
+slug: corn bread
+images:
+- corn bread.jpeg
+cuisine: american
+type: snack
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: a little naughty
+link: ''
 ---
 
 ## Ingredients
 
 - 240g flour
-- 150g cornmeal 
+- 150g cornmeal
 - 100g sugar
 - 18g baking powder
 - 6g salt

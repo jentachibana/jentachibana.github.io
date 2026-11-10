@@ -1,22 +1,23 @@
 ---
-title: "lo bak gao (turnip cake)"
-slug: "lo bak gao (turnip cake)"
-image: "lo bak gao (turnip cake).jpeg"
-cuisine: "chinese"
-type: "dim sum"
-image_position: ""
-image_scale: ""
-blurb: "super fun to make, would recommend a steamer basket "
-link: "https://thewoksoflife.com/turnip-cake-lo-bak-go/"
-date_added: "2026-04-18"
+title: lo bak gao (turnip cake)
+slug: lo bak gao (turnip cake)
+images:
+- lo bak gao (turnip cake).jpeg
+cuisine: chinese
+type: dim sum
+image_position: ''
+image_scale: ''
+date_added: '2026-04-18'
+blurb: super fun to make, would recommend a steamer basket
+link: https://thewoksoflife.com/turnip-cake-lo-bak-go/
 ---
 
 ## Ingredients
 
-- 30ml neutral oil 
-- 6g dried shrimp 
+- 30ml neutral oil
+- 6g dried shrimp
 - 3-5 dried shiitake mushrooms
-- 1 chinese sausage 
+- 1 chinese sausage
 - 1 green onion/scallion
 - 570g daikon radish
 - 235-355 ml water

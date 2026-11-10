@@ -1,14 +1,15 @@
 ---
-title: "chicken biryani"
-slug: "chicken biryani"
-image: "chicken biryani.jpeg"
-cuisine: "indian"
-type: "meat"
-image_position: ""
-image_scale: ""
-blurb: "high effort high reward"
-link: ""
-date_added: "2026-04-18"
+title: chicken biryani
+slug: chicken biryani
+images:
+- chicken biryani.jpeg
+cuisine: indian
+type: meat
+image_position: ''
+image_scale: ''
+date_added: '2026-04-18'
+blurb: high effort high reward
+link: ''
 ---
 
 ## Ingredients

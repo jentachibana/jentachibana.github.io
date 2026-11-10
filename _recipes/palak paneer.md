@@ -1,14 +1,15 @@
 ---
-title: "palak paneer"
-slug: "palak paneer"
-image: "palak paneer.jpeg"
-cuisine: "indian"
-type: "curry"
-image_position: "center 75%"
-image_scale: "1.3"
-blurb: "MMMmmm so yum and keeps great in the fridge"
-link: ""
-date_added: "2026-03-28"
+title: palak paneer
+slug: palak paneer
+images:
+- palak paneer.jpeg
+cuisine: indian
+type: curry
+image_position: center 75%
+image_scale: '1.3'
+date_added: '2026-03-28'
+blurb: MMMmmm so yum and keeps great in the fridge
+link: ''
 ---
 
 ## Ingredients
@@ -17,7 +18,7 @@ date_added: "2026-03-28"
 - cashew
 - paneer
 - canned tomato
-- garam masala 
+- garam masala
 
 ## Instructions
 

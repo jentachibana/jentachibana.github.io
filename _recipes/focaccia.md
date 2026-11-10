@@ -1,14 +1,15 @@
 ---
-title: "focaccia"
-slug: "focaccia"
-image: "focaccia.jpeg"
-cuisine: "italian"
-type: "italian"
-image_position: ""
-image_scale: ""
-blurb: "LOVE ive been making this every week. i <3 graza drizzling oil"
-link: ""
-date_added: "2026-03-28"
+title: focaccia
+slug: focaccia
+images:
+- focaccia.jpeg
+cuisine: italian
+type: italian
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: LOVE ive been making this every week. i <3 graza drizzling oil
+link: ''
 ---
 
 ## Ingredients

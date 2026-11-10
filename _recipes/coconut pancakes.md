@@ -1,14 +1,15 @@
 ---
-title: "coconut pancakes"
-slug: "coconut pancakes"
-image: "coconut pancakes.jpeg"
-cuisine: "american"
-type: "breakfast"
-image_position: ""
-image_scale: ""
-blurb: "i make these too often"
-link: ""
-date_added: "2026-03-28"
+title: coconut pancakes
+slug: coconut pancakes
+images:
+- coconut pancakes.jpeg
+cuisine: american
+type: breakfast
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: i make these too often
+link: ''
 ---
 
 ## Ingredients

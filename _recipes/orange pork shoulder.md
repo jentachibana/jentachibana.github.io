@@ -1,14 +1,15 @@
 ---
-title: "orange pork shoulder"
-slug: "orange pork shoulder"
-image: "orange pork shoulder.jpeg"
-cuisine: "american"
-type: "meat"
-image_position: ""
-image_scale: ""
-blurb: "i <3 safeway $1.99/lb meats"
-link: ""
-date_added: "2026-03-28"
+title: orange pork shoulder
+slug: orange pork shoulder
+images:
+- orange pork shoulder.jpeg
+cuisine: american
+type: meat
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: i <3 safeway $1.99/lb meats
+link: ''
 ---
 
 ## Ingredients

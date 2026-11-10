@@ -1,14 +1,15 @@
 ---
-title: "pork bulgogi"
-slug: "pork bulgogi"
-image: "pork bulgogi.jpeg"
-cuisine: "korean"
-type: "meat"
-image_position: ""
-image_scale: ""
-blurb: "always in the meal rotation"
-link: ""
-date_added: "2026-03-28"
+title: pork bulgogi
+slug: pork bulgogi
+images:
+- pork bulgogi.jpeg
+cuisine: korean
+type: meat
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: always in the meal rotation
+link: ''
 ---
 
 ## Ingredients

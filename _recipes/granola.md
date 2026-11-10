@@ -1,20 +1,21 @@
 ---
-title: "granola"
-slug: "granola"
-image: "granola.jpeg"
-cuisine: "american"
-type: "breakfast"
-image_position: ""
-image_scale: ""
-blurb: "chunky nuts"
-link: ""
-date_added: "2026-03-28"
+title: granola
+slug: granola
+images:
+- granola.jpeg
+cuisine: american
+type: breakfast
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: chunky nuts
+link: ''
 ---
 
 ## Ingredients
 
 - oats
-- maple syrup 
+- maple syrup
 - coconut oil
 - nuts
 - cinnamon

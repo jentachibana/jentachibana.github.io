@@ -1,14 +1,15 @@
 ---
-title: "pandan cake"
-slug: "pandan cake"
-image: "pandan cake.jpeg"
-cuisine: "chinese"
-type: "dessert"
-image_position: ""
-image_scale: ""
-blurb: "a little sweet and a little too dense."
-link: ""
-date_added: "2026-04-06"
+title: pandan cake
+slug: pandan cake
+images:
+- pandan cake.jpeg
+cuisine: chinese
+type: dessert
+image_position: ''
+image_scale: ''
+date_added: '2026-04-06'
+blurb: a little sweet and a little too dense.
+link: ''
 ---
 
 ## Ingredients
@@ -22,7 +23,6 @@ date_added: "2026-04-06"
 - Baking Powder 2 tsp (sift with the flour)
 - Salt 1/4
 - Vanilla essence 2 tsp
-
 - Egg whites 9 (270g)
 - Castor sugar 100g
 - )

@@ -1,14 +1,15 @@
 ---
-title: "pork potato stew"
-slug: "pork potato stew"
-image: "pork potato stew.jpeg"
-cuisine: "polish"
-type: "stew"
-image_position: ""
-image_scale: ""
-blurb: "maybe my favourite tristan dish. absolutely divine"
-link: ""
-date_added: "2026-03-28"
+title: pork potato stew
+slug: pork potato stew
+images:
+- pork potato stew.jpeg
+cuisine: polish
+type: stew
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: maybe my favourite tristan dish. absolutely divine
+link: ''
 ---
 
 ## Ingredients

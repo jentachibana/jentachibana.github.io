@@ -1,92 +1,72 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env ruby
+# frozen_string_literal: true
 
-VAULT_PATH="${1:-$HOME/Sync/Recipes}"
-SITE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-RECIPES_DIR="$SITE_DIR/_recipes"
-IMAGES_DIR="$SITE_DIR/assets/images/recipes"
+require "date"
+require "fileutils"
+require "yaml"
 
-mkdir -p "$RECIPES_DIR" "$IMAGES_DIR"
+vault = File.expand_path(ARGV.fetch(0, File.join(Dir.home, "Sync/Recipes")))
+site = File.expand_path("..", __dir__)
+recipes_dir = File.join(site, "_recipes")
+images_dir = File.join(site, "assets/images/recipes")
 
-# Clean old synced recipes
-rm -f "$RECIPES_DIR"/*.md
+FileUtils.mkdir_p([recipes_dir, images_dir])
+Dir.glob(File.join(recipes_dir, "*.md")).each { |path| File.delete(path) }
 
-for file in "$VAULT_PATH/recipes/"*.md; do
-  [ -f "$file" ] || continue
+def read_note(path)
+  parts = File.read(path).split(/^---\s*$\n/, 3)
+  raise "Missing frontmatter in #{path}" unless parts.length == 3
 
-  filename="$(basename "$file" .md)"
-  slug="$filename"
+  [YAML.safe_load(parts[1], permitted_classes: [Date], aliases: false) || {}, parts[2]]
+end
 
-  # Extract title from first H1, fall back to filename
-  title="$(grep -m1 '^# ' "$file" | sed 's/^# //' || true)"
-  if [ -z "$title" ]; then
-    title="$filename"
-  fi
+def section(body, name)
+  match = body.match(/^##\s+#{Regexp.escape(name)}\s*$\n(.*?)(?=^##\s+|\z)/mi)
+  match ? match[1].strip : ""
+end
 
-  # Extract image filename from markdown or Obsidian embed syntax
-  # Standard: ![alt](../assets/image.jpg)
-  # Obsidian: ![[image.jpg|size]]
-  image="$(sed -n 's/.*!\[.*\](\.\.\/assets\/\(.*\))/\1/p' "$file" | head -1)"
-  if [ -z "$image" ]; then
-    image="$(sed -n 's/.*!\[\[\(.*\)\]\]/\1/p' "$file" | sed 's/|.*//' | head -1)"
-  fi
+def markdown_list(text, ordered: false)
+  text.lines.map(&:strip).reject(&:empty?).each_with_index.map do |line, index|
+    "#{ordered ? "#{index + 1}." : "-"} #{line}"
+  end.join("\n")
+end
 
-  # Copy image if it exists
-  if [ -n "$image" ] && [ -f "$VAULT_PATH/recipe_assets/$image" ]; then
-    cp "$VAULT_PATH/recipe_assets/$image" "$IMAGES_DIR/$image"
-  fi
+Dir.glob(File.join(vault, "recipes", "*.md")).sort.each do |path|
+  metadata, body = read_note(path)
+  slug = File.basename(path, ".md")
+  images = body.scan(/!\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/).flatten.map { |image| File.basename(image) }.uniq
 
-  # Extract cuisine (first non-empty line between ## Cuisine and next ##)
-  cuisine="$(awk '/^## Cuisine/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  images.each do |image|
+    source = [File.join(vault, "photos", image), File.join(vault, "recipe_assets", image)].find { |candidate| File.file?(candidate) }
+    FileUtils.cp(source, File.join(images_dir, image)) if source
+  end
 
-  # Extract image position (first non-empty line between ## Image Position and next ##)
-  image_position="$(awk '/^## Image Position/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  output_metadata = {
+    "title" => metadata.fetch("title", slug),
+    "slug" => slug,
+    "images" => images,
+    "cuisine" => metadata["cuisine"].to_s,
+    "type" => metadata["type"].to_s,
+    "image_position" => metadata["image_position"].to_s,
+    "image_scale" => metadata["image_scale"].to_s,
+    "date_added" => metadata["date_added"].to_s,
+    "blurb" => section(body, "Blurb"),
+    "link" => section(body, "Link")
+  }
 
-  # Extract image scale (first non-empty line between ## Image Scale and next ##)
-  image_scale="$(awk '/^## Image Scale/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+  recipe_body = <<~MARKDOWN
+    ## Ingredients
 
-  # Extract type (first non-empty line between ## Type and next ##)
-  type="$(awk '/^## Type/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+    #{markdown_list(section(body, "Ingredients"))}
 
-  # Extract blurb (first non-empty line between ## Blurb and next ##)
-  blurb="$(awk '/^## Blurb/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1)"
+    ## Instructions
 
-  # Extract link (first non-empty line between ## Link and next ##)
-  link="$(awk '/^## Link/{flag=1; next} /^## /{flag=0} flag && NF' "$file" | head -1 | xargs)"
+    #{markdown_list(section(body, "Instructions"), ordered: true)}
+  MARKDOWN
 
-  # Extract file creation date (birth time) as YYYY-MM-DD
-  date_added="$(date -r "$(stat -f '%B' "$file")" '+%Y-%m-%d')"
+  yaml = YAML.dump(output_metadata, line_width: -1).sub(/\A---\s*\n/, "")
+  File.write(File.join(recipes_dir, "#{slug}.md"), "---\n#{yaml}---\n\n#{recipe_body}")
+  puts "Synced: #{output_metadata['title']}"
+end
 
-  # Extract ingredients (lines between ## Ingredients and next ##), formatted as bullet list
-  ingredients="$(awk '/^## Ingredients/{flag=1; next} /^## /{flag=0} flag' "$file" | awk 'NF{print "- "$0} !NF{print}')"
-
-  # Extract instructions (lines after ## Instructions until ## Link or EOF), formatted as numbered list
-  instructions="$(awk '/^## Instructions/{flag=1; next} /^## Link/{flag=0} flag' "$file" | awk 'NF{n++; print n". "$0} !NF{print}')"
-
-  cat > "$RECIPES_DIR/$slug.md" <<FRONTMATTER
----
-title: "$title"
-slug: "$slug"
-image: "$image"
-cuisine: "$cuisine"
-type: "$type"
-image_position: "$image_position"
-image_scale: "$image_scale"
-blurb: "$blurb"
-link: "$link"
-date_added: "$date_added"
----
-
-## Ingredients
-
-$ingredients
-
-## Instructions
-
-$instructions
-FRONTMATTER
-
-  echo "Synced: $title"
-done
-
-echo "Done. $(ls "$RECIPES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ') recipes synced."
+puts "Done. #{Dir.glob(File.join(recipes_dir, '*.md')).length} recipes synced."

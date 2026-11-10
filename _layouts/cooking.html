@@ -64,8 +64,8 @@ layout: base
       <div class="recipe-grid">
         {% for recipe in site.recipes %}
         <div class="photo-card recipe-gallery-card" data-recipe="{{ recipe.slug }}" data-category="{{ recipe.category }}" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-course="{{ recipe.course }}" data-date="{{ recipe.date_added }}">
-          {% if recipe.image != "" %}
-          <img src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}"{% if recipe.image_position or recipe.image_scale %} style="{% if recipe.image_position %}object-position: {{ recipe.image_position }};{% endif %}{% if recipe.image_scale %}transform: scale({{ recipe.image_scale }});{% endif %}"{% endif %}>
+          {% if recipe.images.size > 0 %}
+          <img src="/assets/images/recipes/{{ recipe.images.first }}" alt="{{ recipe.title }}"{% if recipe.image_position != "" or recipe.image_scale != "" %} style="{% if recipe.image_position != "" %}object-position: {{ recipe.image_position }};{% endif %}{% if recipe.image_scale != "" %}transform: scale({{ recipe.image_scale }});{% endif %}"{% endif %}>
           {% else %}
           <div class="photo-placeholder">{{ recipe.title | downcase }}</div>
           {% endif %}
@@ -81,8 +81,8 @@ layout: base
           <button class="recipe-close" aria-label="Close">&times;</button>
           <div class="recipe-detail-layout">
             <div class="recipe-detail-left">
-              {% if recipe.image != "" %}
-              <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+              {% if recipe.images.size > 0 %}
+              <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.images.first }}" alt="{{ recipe.title }}">
               {% endif %}
             </div>
             <div class="recipe-detail-right">
@@ -118,8 +118,8 @@ layout: base
       <div class="recipe-detail expanded-recipe-card" data-cuisine="{{ recipe.cuisine }}" data-type="{{ recipe.type }}" data-date="{{ recipe.date_added }}">
         <div class="recipe-detail-layout">
           <div class="recipe-detail-left">
-            {% if recipe.image != "" %}
-            <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.image }}" alt="{{ recipe.title }}">
+            {% if recipe.images.size > 0 %}
+            <img class="recipe-hero" src="/assets/images/recipes/{{ recipe.images.first }}" alt="{{ recipe.title }}">
             {% endif %}
           </div>
           <div class="recipe-detail-right">

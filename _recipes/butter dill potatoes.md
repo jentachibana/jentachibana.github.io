@@ -1,14 +1,15 @@
 ---
-title: "butter dill potatoes"
-slug: "butter dill potatoes"
-image: "butter dill potatoes.jpeg"
-cuisine: "swedish"
-type: "side dish"
-image_position: ""
-image_scale: ""
-blurb: "butter is gross but these potatoes are great"
-link: ""
-date_added: "2026-03-28"
+title: butter dill potatoes
+slug: butter dill potatoes
+images:
+- butter dill potatoes.jpeg
+cuisine: swedish
+type: side dish
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: butter is gross but these potatoes are great
+link: ''
 ---
 
 ## Ingredients
@@ -20,5 +21,5 @@ date_added: "2026-03-28"
 
 ## Instructions
 
-1. boil potatoes 
+1. boil potatoes
 2. mix in butter and dill

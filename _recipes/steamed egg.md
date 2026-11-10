@@ -1,14 +1,15 @@
 ---
-title: "steamed egg"
-slug: "steamed egg"
-image: "steamed egg.jpeg"
-cuisine: "chinese"
-type: "side dish"
-image_position: ""
-image_scale: ""
-blurb: "still tryna figure out how to get it smooth on top"
-link: ""
-date_added: "2026-03-28"
+title: steamed egg
+slug: steamed egg
+images:
+- steamed egg.jpeg
+cuisine: chinese
+type: side dish
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: still tryna figure out how to get it smooth on top
+link: ''
 ---
 
 ## Ingredients

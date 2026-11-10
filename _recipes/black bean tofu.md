@@ -1,19 +1,20 @@
 ---
-title: "black bean tofu"
-slug: "black bean tofu"
-image: "black bean tofu.jpeg"
-cuisine: "chinese"
-type: "side dish"
-image_position: ""
-image_scale: ""
-blurb: "still experimenting with this one, will try with corn starch next time"
-link: ""
-date_added: "2026-03-28"
+title: black bean tofu
+slug: black bean tofu
+images:
+- black bean tofu.jpeg
+cuisine: chinese
+type: side dish
+image_position: ''
+image_scale: ''
+date_added: '2026-03-28'
+blurb: still experimenting with this one, will try with corn starch next time
+link: ''
 ---
 
 ## Ingredients
 
-- tofu 
+- tofu
 - fermented black beans
 - green onion
 - white pepper

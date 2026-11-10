@@ -1,14 +1,15 @@
 ---
-title: "squash soup"
-slug: "squash soup"
-image: "squash soup.jpeg"
-cuisine: "californian"
-type: "soup"
-image_position: ""
-image_scale: "1.2"
-blurb: "so wholesome, and the peanuts bring it altogether. also the graza drizzling olive oil"
-link: ""
-date_added: "2026-03-28"
+title: squash soup
+slug: squash soup
+images:
+- squash soup.jpeg
+cuisine: californian
+type: soup
+image_position: ''
+image_scale: '1.2'
+date_added: '2026-03-28'
+blurb: so wholesome, and the peanuts bring it altogether. also the graza drizzling olive oil
+link: ''
 ---
 
 ## Ingredients
